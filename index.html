@@ -176,7 +176,23 @@
       
     <div class="article-entry" itemprop="articleBody">
        
-  有东西被加密了, 请输入密码查看. 
+  <p>以下代码是基于gcc的vscode编译器编写的。首先导入运行示例的必要库，并指定标准命名空间std。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;string&gt;</span> </span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br></pre></td></tr></table></figure>
+
+<h2 id="1-const-char-与-const-char"><a href="#1-const-char-与-const-char" class="headerlink" title="1. const char* 与 const char[ ]"></a>1. const char* 与 const char[ ]</h2><p>定义一个char型的指针p，指向字符串“now”；定义一个字符串数组p1，值为“now”。两者都属于<code>const</code>类型。 </p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">const</span> <span class="type">char</span> *p = <span class="string">&quot;now&quot;</span>;</span><br><span class="line"><span class="type">const</span> <span class="type">char</span> p1[<span class="number">4</span>] = <span class="string">&quot;now&quot;</span>;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>const char *  和 const char[ ] 都可以用于处理 C 风格的字符串。</p>
+<p>const char* 主要出现在早期旧版本的代码中。这个指针本身是可变的（即可以改变它所指向的位置），但通过这个指针不能修改所指向数组的内容。它比较灵活（可以重新指向其他位置），在某些情况下更为方便； const char[ ]更接近于 “准确” 的类型，因为它更明确地表示这是一个字符数组。但它没有const char* 灵活。</p>
+</blockquote>
+<p>数组有一个特性，在很多用到数组名字的地方，编译器都会自动地将其转换成一个指向该数组首元素的指针。所以const char p1[4] &#x3D; “now” 中p1也是一个指针。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">cout &lt;&lt; <span class="string">&quot;p: &quot;</span> &lt;&lt; p &lt;&lt; endl;        <span class="comment">// p: now</span></span><br><span class="line">cout &lt;&lt; <span class="string">&quot;p1: &quot;</span> &lt;&lt; p1 &lt;&lt; endl;      <span class="comment">// p1: now</span></span><br><span class="line">cout &lt;&lt; <span class="string">&quot;*p: &quot;</span> &lt;&lt; *p &lt;&lt; endl;      <span class="comment">// *p: n</span></span><br><span class="line">cout &lt;&lt; <span class="string">&quot;*p1: &quot;</span> &lt;&lt; *p1 &lt;&lt; endl;    <span class="comment">// *p1: n</span></span><br></pre></td></tr></table></figure>
+
+<p>但是，当我们打印指针p和p1时并没有输出地址值，输出的反而是它们指向的字符串数组。</p>
+<p>这是因为cout有一个特殊的<strong>重载</strong>，当它看到一个 <code>const char[ ]</code> 或 <code>const char *</code> 类型，它会假定这是一个以空字符（即 ‘\0’）结尾的 C 风格字符串，并逐字符输出，直到遇到空字符为止。</p>
+<p>后面两行就容易理解了，p 和 p1都是指向字符串数组首元素的指针，解引用后代表首元素。</p>
+<h2 id="2-其他类型数组-与-string"><a href="#2-其他类型数组-与-string" class="headerlink" title="2.其他类型数组 与 string"></a>2.其他类型数组 与 string</h2> 
       <a class="article-more-link" href="/2023/09/28/C-%E4%B8%AD%E7%9A%84const-char-%E3%80%81const-char-%E4%B8%8Estring/"
         >阅读更多...</a
       >
