@@ -1,128 +1,199 @@
 <!DOCTYPE html>
+<html lang="zh-CN" color-mode="light">
 
+  <head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  
+  <meta name="author" content="xluo" />
+  <meta name="description" content="" />
+  
+  
+  <title>
+    
+      用十年时间自学编程 
+      
+      
+      |
+    
+     Hello Blog
+  </title>
 
-<html lang="zh-CN">
+  
+    <link rel="apple-touch-icon" href="/images/favicon.png">
+    <link rel="icon" href="/images/favicon.png">
   
 
-    <head>
-      <meta charset="utf-8" />
-        
-      <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1, maximum-scale=1"
-      />
-      <title>用十年时间自学编程 |  Hello Blog</title>
-  <meta name="generator" content="hexo-theme-ayer">
+  <!-- Raleway-Font -->
+  <link href="https://fonts.googleapis.com/css?family=Raleway&display=swap" rel="stylesheet">
+
+  <!-- hexo site css -->
+  <link rel="stylesheet" href="/css/main.css" />
+  <link rel="stylesheet" href="//at.alicdn.com/t/font_1886449_67xjft27j1l.css" />
+  <!-- 代码块风格 -->
+  
+
+  <!-- jquery3.3.1 -->
+  
+    <script defer type="text/javascript" src="/plugins/jquery.min.js"></script>
+  
+
+  <!-- fancybox -->
+  
+    <link href="/plugins/jquery.fancybox.min.css" rel="stylesheet">
+    <script defer type="text/javascript" src="/plugins/jquery.fancybox.min.js"></script>
+  
+  
+<script src="/js/fancybox.js"></script>
+
+
+  
+
+  
+
+  <script>
+    var html = document.documentElement
+    const colorMode = localStorage.getItem('color-mode')
+    if (colorMode) {
+      document.documentElement.setAttribute('color-mode', colorMode)
+    }
+  </script>
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+  <body>
+    <div id="app">
+      <div class="header">
+  <div class="avatar">
+    <a href="/">
+      <!-- 头像取消懒加载，添加no-lazy -->
       
-      <link rel="shortcut icon" href="/favicon.ico" />
-       
-<link rel="stylesheet" href="/dist/main.css">
-
+        <img src="/images/self-image2.jpg" alt="">
       
-<link rel="stylesheet" href="/css/fonts/remixicon.css">
-
+    </a>
+    <div class="nickname"><a href="/">Xu Luo</a></div>
+  </div>
+  <div class="navbar">
+    <ul>
       
-<link rel="stylesheet" href="/css/custom.css">
- 
-      <script src="https://cdn.staticfile.org/pace/1.2.4/pace.min.js"></script>
-       
- 
-
-      <link
-        rel="stylesheet"
-        href="https://cdn.jsdelivr.net/npm/@sweetalert2/theme-bulma@5.0.1/bulma.min.css"
-      />
-      <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.19/dist/sweetalert2.min.js"></script>
-
-      <!-- mermaid -->
+        <li class="nav-item" data-path="/">
+          <a href="/">Home</a>
+        </li>
       
-      <style>
-        .swal2-styled.swal2-confirm {
-          font-size: 1.6rem;
-        }
-      </style>
-    </head>
-  </html>
-</html>
-
-
-<body>
-  <div id="app">
-    
+        <li class="nav-item" data-path="/archives/">
+          <a href="/archives/">Archives</a>
+        </li>
       
-    <main class="content on">
-      <section class="outer">
-  <article
-  id="post-用十年时间自学编程"
-  class="article article-type-post"
-  itemscope
-  itemprop="blogPost"
-  data-scroll-reveal
->
-  <div class="article-inner">
-    
-    <header class="article-header">
-       
-<h1 class="article-title sea-center" style="border-left:0" itemprop="name">
-  用十年时间自学编程
-</h1>
- 
-
+        <li class="nav-item" data-path="/tags/">
+          <a href="/tags/">Tags</a>
+        </li>
       
-    </header>
-     
-    <div class="article-meta">
-      <a href="/2023/09/28/%E7%94%A8%E5%8D%81%E5%B9%B4%E6%97%B6%E9%97%B4%E8%87%AA%E5%AD%A6%E7%BC%96%E7%A8%8B/" class="article-date">
-  <time datetime="2023-09-28T08:50:42.000Z" itemprop="datePublished">2023-09-28</time>
-</a>   
-<div class="word_count">
-    <span class="post-time">
-        <span class="post-meta-item-icon">
-            <i class="ri-quill-pen-line"></i>
-            <span class="post-meta-item-text"> 字数统计:</span>
-            <span class="post-count">2.8k</span>
-        </span>
-    </span>
-
-    <span class="post-time">
-        &nbsp; | &nbsp;
-        <span class="post-meta-item-icon">
-            <i class="ri-book-open-line"></i>
-            <span class="post-meta-item-text"> 阅读时长≈</span>
-            <span class="post-count">9 分钟</span>
-        </span>
-    </span>
+        <li class="nav-item" data-path="/friends/">
+          <a href="/friends/">Friends</a>
+        </li>
+      
+        <li class="nav-item" data-path="/about/">
+          <a href="/about/">About</a>
+        </li>
+      
+    </ul>
+  </div>
 </div>
- 
-    </div>
-      
-    <div class="tocbot"></div>
+
+
+<script src="/js/activeNav.js"></script>
+
+
+
+      <div class="flex-container">
+        <!-- 文章详情页，展示文章具体内容，url形式：https://yoursite/文章标题/ -->
+<!-- 同时为「标签tag」，「朋友friend」，「分类categories」，「关于about」页面的承载页面，具体展示取决于page.type -->
+
+
+  <!-- LaTex Display -->
+
+  
+    <script async type="text/javascript" src="/plugins/mathjax/tex-chtml.js"></script>
+  
+  <script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']]
+      }
+    }
+  </script>
+
+
+
+
+
+  <!-- clipboard -->
+
+  
+    <script async type="text/javascript" src="/plugins/clipboard.min.js"></script>
+  
+  
+<script src="/js/codeCopy.js"></script>
+
+
+
 
 
 
 
   
-    <div class="article-entry" itemprop="articleBody">
-       
-  <p>在网上找到了一篇关于编程心得交流分享的文章《Teach Yourself Programming in Ten Years》，<a target="_blank" rel="noopener" href="http://norvig.com/21-days.html#answers">原文链接</a>放到这里。下面是中文翻译版：</p>
+
+  
+
+  
+
+  
+  <!-- 文章内容页 url形式：https://yoursite/文章标题/ -->
+  <div class="container post-details" id="post-details">
+    <div class="post-content">
+      <div class="post-title">用十年时间自学编程</div>
+      <div class="post-attach">
+        <span class="post-pubtime">
+          <i class="iconfont icon-updatetime mr-10" title="更新时间"></i>
+          2023-09-28 17:14:36
+        </span>
+        
+              <span class="post-tags">
+                <i class="iconfont icon-tags mr-10" title="标签"></i>
+                
+                <span class="span--tag mr-8">
+                  <a href="/tags/%E7%BC%96%E7%A8%8B%E5%BB%BA%E8%AE%AE/" title="编程建议">
+                    #编程建议
+                  </a>
+                </span>
+                
+              </span>
+          
+      </div>
+      <div class="markdown-body">
+        <p>在网上找到了一篇关于编程心得交流分享的文章《Teach Yourself Programming in Ten Years》，<a target="_blank" rel="noopener" href="http://norvig.com/21-days.html#answers">原文链接</a>放到这里。下面是中文翻译版：</p>
 <center style="font-size: 27px; font-weight: bold;">
   Teach Yourself Programming in Ten Years
 </center>
 <center style="font-size: 20px; font-weight: bold;">
   Peter Norvig
 </center>
-
-<h4 id="为什么每个人都这么急切？"><a href="#为什么每个人都这么急切？" class="headerlink" title="为什么每个人都这么急切？"></a>为什么每个人都这么急切？</h4><p>走进任何一家书店，你都会看到《24小时自学Java》这样的书，以及无数教你几天或几小时内学会C、SQL、Ruby、算法等等。在亚马逊高级搜索中，搜索[title: teach, yourself, hours, since: 2000]，找到了512本这样的书。在前十名中，九本是编程书籍，另一本是关于记账的。用“learn”替换“teach yourself”或用“days”替换“hours”得到的结果也相似。</p>
-<p>这说明两种情况，要么大家都急着学编程，要么编程真的比其他技能容易得多。Felleisen等人在他们的书《如何设计程序》中也提到了这种现象，说：“写糟糕的代码很简单，21天就能学会，哪怕你是个门外汉。”还有一部Abtruse Goose的漫画也做了类似的描述。<br>那么，《24小时自学C++》这样的标题到底意味着什么呢？</p>
+<h4 id="为什么每个人都这么急切？">为什么每个人都这么急切？</h4>
+<p>走进任何一家书店，你都会看到《24小时自学Java》这样的书，以及无数教你几天或几小时内学会C、SQL、Ruby、算法等等。在亚马逊高级搜索中，搜索[title: teach, yourself, hours, since: 2000]，找到了512本这样的书。在前十名中，九本是编程书籍，另一本是关于记账的。用“learn”替换“teach yourself”或用“days”替换“hours”得到的结果也相似。</p>
+<p>这说明两种情况，要么大家都急着学编程，要么编程真的比其他技能容易得多。Felleisen等人在他们的书《如何设计程序》中也提到了这种现象，说：“写糟糕的代码很简单，21天就能学会，哪怕你是个门外汉。”还有一部Abtruse Goose的漫画也做了类似的描述。<br>
+那么，《24小时自学C++》这样的标题到底意味着什么呢？</p>
 <ul>
 <li>自学：在24小时里，你根本没办法写出几个有深度的程序，更别说从中吸取经验教训了。你也没机会与资深程序员合作，体验真正的C++编程是怎样的。简单说，你学不到多少。这本书只能教你一些皮毛，而不是真正的深入理解。就像亚历山大·教皇说的，浅尝辄止是很危险的（<strong>a little learning is a dangerous thing</strong>）。</li>
 <li>C++：你可能在24小时内学会一些C++的基础语法（如果你之前已经学过其他编程语言的话），但你真的了解C++吗？如果你只是一个初学者，你可能只能用C++的语法写出初级的程序，但你真的理解C++的精髓吗？Alan Perlis曾说：“一个不改变你编程思维的语言，是没必要学的（<strong>A language that doesn’t affect the way you think about programming, is not worth knowing</strong>）。”或许，你只是为了完成某个特定任务，需要学一点C++（或者是JavaScript或Processing）。但那样，你其实并没有真正学会编程，只是学会了如何完成那个任务。</li>
 <li>24小时：显然，这时间远远不够，下一部分会进一步说明。</li>
 </ul>
 <span id="more"></span>
-
-<h4 id="十年自学编程"><a href="#十年自学编程" class="headerlink" title="十年自学编程"></a>十年自学编程</h4><p>研究者（如Bloom (1985)、Bryan &amp; Harter (1899)、Hayes (1989)、Simmon &amp; Chase (1973)）已经证明，在许多领域，如下棋、音乐创作、电报操作、绘画、钢琴演奏、游泳、网球，以及神经心理学和拓扑学的研究中，要达到专家水平大约需要十年时间。关键是有目的的实践：不仅仅是重复做，而是给自己设定一个略超出当前能力的任务，尝试去做，做的时候和做完后分析自己的表现，并纠正错误。然后再重复。再重复。似乎没有真正的捷径：即使是4岁就展现出音乐天赋的莫扎特，也花了13年时间才开始创作世界级的音乐。披头士乐队似乎在1964年凭借一系列的热门歌曲和在Ed Sullivan秀上的表现一炮而红。但他们从1957年开始就在利物浦和汉堡的小俱乐部演出，尽管他们很早就受到大众的喜爱，但他们的第一个广受好评的作品，Sgt. Peppers，是在1967年发布的。  Malcolm Gladwell 推广了这个观点，尽管他更注重的是10,000小时，而不是10年。Henri Cartier-Bresson (1908-2004)有另一个标准：“你的前10,000张照片是最差的。”（他没想到在数字相机的时代，有些人一周内就能达到这个数字。）真正的专业水平可能需要一生的时间：Samuel Johnson (1709-1784)说：“任何领域的卓越都只能通过一生的努力来获得；它的价值不菲。”乔叟(1340-1400)抱怨说：“生命短暂，技艺学习之路漫长。”希波克拉底（公元前400年左右）因“ars longa, vita brevis”而著称，这是更长的引文“Ars longa, vita brevis”而著称，这是更长的引文“Ars longa, vita brevis, occasio praeceps, experimentum periculosum, iudicium difficile”的一部分，英文意为“生命短暂，技艺长久，机会稍纵即逝，实验充满风险，判断困难。”当然，没有一个固定的数字可以作为最终答案：认为所有技能（如编程、下棋、打跳棋和演奏音乐）都需要完全相同的时间来掌握，或者所有人都需要完全相同的时间，似乎都不合理。正如K. Anders Ericsson教授所说：“在大多数领域，即使是最有天赋的人也需要相当长的时间才能达到最高水平。10,000小时这个数字只是给你一个感觉，我们说的是每周10到20小时，连一些人认为最有天赋的人也需要这么长时间才能达到最高水平。”</p>
-<h4 id="你想成为一名程序员吗？"><a href="#你想成为一名程序员吗？" class="headerlink" title="你想成为一名程序员吗？"></a>你想成为一名程序员吗？</h4><p>以下是我为成功编程提供的建议：<br>对编程产生兴趣，并因为它有趣而去做。确保它始终足够有趣，这样你会愿意投入你的十年或10,000小时。<br>以下是我为成功编程提供的建议：</p>
+<h4 id="十年自学编程">十年自学编程</h4>
+<p>研究者（如Bloom (1985)、Bryan &amp; Harter (1899)、Hayes (1989)、Simmon &amp; Chase (1973)）已经证明，在许多领域，如下棋、音乐创作、电报操作、绘画、钢琴演奏、游泳、网球，以及神经心理学和拓扑学的研究中，要达到专家水平大约需要十年时间。关键是有目的的实践：不仅仅是重复做，而是给自己设定一个略超出当前能力的任务，尝试去做，做的时候和做完后分析自己的表现，并纠正错误。然后再重复。再重复。似乎没有真正的捷径：即使是4岁就展现出音乐天赋的莫扎特，也花了13年时间才开始创作世界级的音乐。披头士乐队似乎在1964年凭借一系列的热门歌曲和在Ed Sullivan秀上的表现一炮而红。但他们从1957年开始就在利物浦和汉堡的小俱乐部演出，尽管他们很早就受到大众的喜爱，但他们的第一个广受好评的作品，Sgt. Peppers，是在1967年发布的。  Malcolm Gladwell 推广了这个观点，尽管他更注重的是10,000小时，而不是10年。Henri Cartier-Bresson (1908-2004)有另一个标准：“你的前10,000张照片是最差的。”（他没想到在数字相机的时代，有些人一周内就能达到这个数字。）真正的专业水平可能需要一生的时间：Samuel Johnson (1709-1784)说：“任何领域的卓越都只能通过一生的努力来获得；它的价值不菲。”乔叟(1340-1400)抱怨说：“生命短暂，技艺学习之路漫长。”希波克拉底（公元前400年左右）因“ars longa, vita brevis”而著称，这是更长的引文“Ars longa, vita brevis”而著称，这是更长的引文“Ars longa, vita brevis, occasio praeceps, experimentum periculosum, iudicium difficile”的一部分，英文意为“生命短暂，技艺长久，机会稍纵即逝，实验充满风险，判断困难。”当然，没有一个固定的数字可以作为最终答案：认为所有技能（如编程、下棋、打跳棋和演奏音乐）都需要完全相同的时间来掌握，或者所有人都需要完全相同的时间，似乎都不合理。正如K. Anders Ericsson教授所说：“在大多数领域，即使是最有天赋的人也需要相当长的时间才能达到最高水平。10,000小时这个数字只是给你一个感觉，我们说的是每周10到20小时，连一些人认为最有天赋的人也需要这么长时间才能达到最高水平。”</p>
+<h4 id="你想成为一名程序员吗？">你想成为一名程序员吗？</h4>
+<p>以下是我为成功编程提供的建议：<br>
+对编程产生兴趣，并因为它有趣而去做。确保它始终足够有趣，这样你会愿意投入你的十年或10,000小时。<br>
+以下是我为成功编程提供的建议：</p>
 <ol>
 <li>对编程产生兴趣，并因为它有趣而去做。兴趣是任何长期承诺的重要驱动力，编程也不例外。如果你对编程感到兴趣，你会更愿意投入时间和努力去学习和提高。编程本身有很多有趣和挑战性的方面，从解决复杂问题，到实现创新的算法，再到构建引人入胜的应用程序。</li>
 <li>动手编程。最好的学习方式是实践中学习。更专业地说，“个体在某一领域的最大性能水平并不是随着经验的增长而自动获得的，但即使是经验丰富的个体，也可以通过有意识地努力提高来提高性能水平。”以及“最有效的学习需要一个为特定个体设定的具有适当难度的明确定义任务、有益的反馈以及重复和纠正错误的机会。”《实践中的认知：日常生活中的心智、数学和文化》这本书是这种观点的一个有趣的参考。</li>
@@ -134,487 +205,367 @@
 <li>参与一项语言标准化工作。可以是ANSI C++委员会，也可以是决定你们本地编码风格是否采用2个或4个空格缩进。无论如何，你都可以了解其他人对语言的喜好，他们对此有多深的感情，甚至可能了解他们为什么有这样的感情。</li>
 <li>明智地尽快退出语言标准化工作。</li>
 </ol>
-<p>考虑到这些，仅仅通过书本学习能走多远还是一个疑问。在我第一个孩子出生之前，我读了所有的育儿书，但仍然感觉自己像个毫无经验的新手。30个月后，当我第二个孩子即将出生时，我是否回到书本上进行复习？没有。相反，我依赖于我的亲身经验，这比专家写的数千页书籍对我来说更有用、更令人放心。<br>Fred Brooks在他的文章《No Silver Bullets》(没有银弹)中，为找到优秀的软件设计师提出了一个三部分的计划：</p>
+<p>考虑到这些，仅仅通过书本学习能走多远还是一个疑问。在我第一个孩子出生之前，我读了所有的育儿书，但仍然感觉自己像个毫无经验的新手。30个月后，当我第二个孩子即将出生时，我是否回到书本上进行复习？没有。相反，我依赖于我的亲身经验，这比专家写的数千页书籍对我来说更有用、更令人放心。<br>
+Fred Brooks在他的文章《No Silver Bullets》(没有银弹)中，为找到优秀的软件设计师提出了一个三部分的计划：</p>
 <ul>
 <li>尽早系统地识别顶级设计师。</li>
 <li>指派一位职业导师负责潜在人才的发展，并仔细维护其职业档案。</li>
 <li>为成长中的设计师提供互动和激励彼此的机会。</li>
 </ul>
-<p>这意味着有些人已经具备成为优秀设计师的必要品质；任务是适当地引导他们。Alan Perlis更简洁地说：“每个人都可以被教会雕塑：但米开朗基罗则需要被教如何不这样做。对于伟大的程序员也是如此。”Perlis的意思是，伟大的人有一种超越他们培训的内在品质。但这种品质从哪里来？是与生俱来的吗？还是他们通过勤奋发展出来的？正如《美食总动员》中的虚构厨师Auguste Gusteau所说：“人人都可以做饭，但只有无畏的人才能成为伟大的厨师。”我更认为这是愿意为刻意练习投入生活的大部分时间。但也许“无畏”是一种总结这种状态的方式。或者，正如Gusteau的评论家Anton Ego所说：“并不是每个人都可以成为伟大的艺术家，但伟大的艺术家可以来自任何地方。”  所以，放心去买那本Java&#x2F;Ruby&#x2F;Javascript&#x2F;PHP的书；你可能会从中受益。但你的生活或你作为程序员的真正专业技能不会在24小时或21天内发生改变。如何努力在24个月内不断进步呢？好吧，现在你开始了。</p>
- 
-      <!-- reward -->
-      
-    </div>
-    
+<p>这意味着有些人已经具备成为优秀设计师的必要品质；任务是适当地引导他们。Alan Perlis更简洁地说：“每个人都可以被教会雕塑：但米开朗基罗则需要被教如何不这样做。对于伟大的程序员也是如此。”Perlis的意思是，伟大的人有一种超越他们培训的内在品质。但这种品质从哪里来？是与生俱来的吗？还是他们通过勤奋发展出来的？正如《美食总动员》中的虚构厨师Auguste Gusteau所说：“人人都可以做饭，但只有无畏的人才能成为伟大的厨师。”我更认为这是愿意为刻意练习投入生活的大部分时间。但也许“无畏”是一种总结这种状态的方式。或者，正如Gusteau的评论家Anton Ego所说：“并不是每个人都可以成为伟大的艺术家，但伟大的艺术家可以来自任何地方。”  所以，放心去买那本Java/Ruby/Javascript/PHP的书；你可能会从中受益。但你的生活或你作为程序员的真正专业技能不会在24小时或21天内发生改变。如何努力在24个月内不断进步呢？好吧，现在你开始了。</p>
 
-    <!-- copyright -->
-    
-    <div class="declare">
-      <ul class="post-copyright">
-        <li>
-          <i class="ri-copyright-line"></i>
-          <strong>版权声明： </strong>
-          
-          本博客所有文章除特别声明外，著作权归作者所有。转载请注明出处！
-          
-        </li>
-      </ul>
-    </div>
-    
-    <footer class="article-footer">
-       
-<div class="share-btn">
-      <span class="share-sns share-outer">
-        <i class="ri-share-forward-line"></i>
-        分享
-      </span>
-      <div class="share-wrap">
-        <i class="arrow"></i>
-        <div class="share-icons">
-          
-          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
-            <i class="ri-weibo-fill"></i>
-          </a>
-          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
-            <i class="ri-wechat-fill"></i>
-          </a>
-          <a class="qq share-sns" href="javascript:;" data-type="qq">
-            <i class="ri-qq-fill"></i>
-          </a>
-          <a class="douban share-sns" href="javascript:;" data-type="douban">
-            <i class="ri-douban-line"></i>
-          </a>
-          <!-- <a class="qzone share-sns" href="javascript:;" data-type="qzone">
-            <i class="icon icon-qzone"></i>
-          </a> -->
-          
-          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
-            <i class="ri-facebook-circle-fill"></i>
-          </a>
-          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
-            <i class="ri-twitter-fill"></i>
-          </a>
-          <a class="google share-sns" href="javascript:;" data-type="google">
-            <i class="ri-google-fill"></i>
-          </a>
-        </div>
       </div>
-</div>
-
-<div class="wx-share-modal">
-    <a class="modal-close" href="javascript:;"><i class="ri-close-circle-line"></i></a>
-    <p>扫一扫，分享到微信</p>
-    <div class="wx-qrcode">
-      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://zermatt-luo.github.io/2023/09/28/%E7%94%A8%E5%8D%81%E5%B9%B4%E6%97%B6%E9%97%B4%E8%87%AA%E5%AD%A6%E7%BC%96%E7%A8%8B/" alt="微信分享二维码">
-    </div>
-</div>
-
-<div id="share-mask"></div>  
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%BC%96%E7%A8%8B%E5%BB%BA%E8%AE%AE/" rel="tag">编程建议</a></li></ul>
-
-    </footer>
-  </div>
-
-   
-  <nav class="article-nav">
-    
-      <a href="/2023/09/28/C-%E4%B8%AD%E7%9A%84const-char-%E3%80%81const-char-%E4%B8%8Estring/" class="article-nav-link">
-        <strong class="article-nav-caption">上一篇</strong>
-        <div class="article-nav-title">
-          
-            C++中的const char*、const char[ ]与string
-          
+      
+        <div class="prev-or-next">
+          <div class="post-foot-next">
+            
+              <a href="/2023/09/26/%E6%88%91%E7%9A%84%E7%AC%AC%E4%B8%80%E7%AF%87%E5%8D%9A%E5%AE%A2/" target="_self">
+                <i class="iconfont icon-chevronleft"></i>
+                <span>上一页</span>
+              </a>
+            
+          </div>
+          <div class="post-attach">
+            <span class="post-pubtime">
+              <i class="iconfont icon-updatetime mr-10" title="更新时间"></i>
+              2023-09-28 17:14:36
+            </span>
+            
+                  <span class="post-tags">
+                    <i class="iconfont icon-tags mr-10" title="标签"></i>
+                    
+                    <span class="span--tag mr-8">
+                      <a href="/tags/%E7%BC%96%E7%A8%8B%E5%BB%BA%E8%AE%AE/" title="编程建议">
+                        #编程建议
+                      </a>
+                    </span>
+                    
+                  </span>
+              
+          </div>
+          <div class="post-foot-prev">
+            
+              <a href="/2023/09/28/C-%E4%B8%AD%E7%9A%84const-char-%E3%80%81const-char-%E4%B8%8Estring/" target="_self">
+                <span>下一页</span>
+                <i class="iconfont icon-chevronright"></i>
+              </a>
+            
+          </div>
         </div>
-      </a>
-    
-    
-      <a href="/2023/09/26/%E6%88%91%E7%9A%84%E7%AC%AC%E4%B8%80%E7%AF%87%E5%8D%9A%E5%AE%A2/" class="article-nav-link">
-        <strong class="article-nav-caption">下一篇</strong>
-        <div class="article-nav-title">我的第一篇博客</div>
-      </a>
-    
-  </nav>
-
-  
-   
-  
-   
-    <script src="https://cdn.staticfile.org/twikoo/1.4.18/twikoo.all.min.js"></script>
-    <div id="twikoo" class="twikoo"></div>
-    <script>
-        twikoo.init({
-            envId: ""
-        })
-    </script>
- 
-</article>
-
-</section>
-      <footer class="footer">
-  <div class="outer">
-    <ul>
-      <li>
-        Copyrights &copy;
-        2015-2023
-        <i class="ri-heart-fill heart_icon"></i> xluo
-      </li>
-    </ul>
-    <ul>
-      <li>
-        
-      </li>
-    </ul>
-    <ul>
-      <li>
-        
-        
-        <span>
-  <span><i class="ri-user-3-fill"></i>访问人数:<span id="busuanzi_value_site_uv"></span></span>
-  <span class="division">|</span>
-  <span><i class="ri-eye-fill"></i>浏览次数:<span id="busuanzi_value_page_pv"></span></span>
-</span>
-        
-      </li>
-    </ul>
-    <ul>
       
-    </ul>
-    <ul>
-      
-    </ul>
-    <ul>
-      <li>
-        <!-- cnzz统计 -->
-        
-        <script type="text/javascript" src='https://s9.cnzz.com/z_stat.php?id=1278069914&amp;web_id=1278069914'></script>
-        
-      </li>
-    </ul>
+    </div>
+    
+  <div id="btn-catalog" class="btn-catalog">
+    <i class="iconfont icon-catalog"></i>
   </div>
-</footer>    
-    </main>
-    <div class="float_btns">
-      <div class="totop" id="totop">
-  <i class="ri-arrow-up-line"></i>
-</div>
-
-<div class="todark" id="todark">
-  <i class="ri-moon-line"></i>
-</div>
-
+  <div class="post-catalog hidden" id="catalog">
+    <div class="title">目录</div>
+    <div class="catalog-content">
+      
+        <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E6%AF%8F%E4%B8%AA%E4%BA%BA%E9%83%BD%E8%BF%99%E4%B9%88%E6%80%A5%E5%88%87%EF%BC%9F"><span class="toc-text">为什么每个人都这么急切？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8D%81%E5%B9%B4%E8%87%AA%E5%AD%A6%E7%BC%96%E7%A8%8B"><span class="toc-text">十年自学编程</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BD%A0%E6%83%B3%E6%88%90%E4%B8%BA%E4%B8%80%E5%90%8D%E7%A8%8B%E5%BA%8F%E5%91%98%E5%90%97%EF%BC%9F"><span class="toc-text">你想成为一名程序员吗？</span></a></li></ol>
+      
     </div>
-    <aside class="sidebar on">
-      <button class="navbar-toggle"></button>
-<nav class="navbar">
-  
-  <div class="logo">
-    <a href="/"><img src="/images/ayer-side.svg" alt="Hello Blog"></a>
   </div>
-  
-  <ul class="nav nav-main">
-    
-    <li class="nav-item">
-      <a class="nav-item-link" href="/">主页</a>
-    </li>
-    
-    <li class="nav-item">
-      <a class="nav-item-link" href="/archives">归档</a>
-    </li>
-    
-    <li class="nav-item">
-      <a class="nav-item-link" href="/categories">分类</a>
-    </li>
-    
-    <li class="nav-item">
-      <a class="nav-item-link" href="/tags">标签</a>
-    </li>
-    
-    <li class="nav-item">
-      <a class="nav-item-link" href="/tags/%E6%97%85%E8%A1%8C/">旅行</a>
-    </li>
-    
-    <li class="nav-item">
-      <a class="nav-item-link" target="_blank" rel="noopener" href="http://shenyu-vip.lofter.com">摄影</a>
-    </li>
-    
-    <li class="nav-item">
-      <a class="nav-item-link" href="/friends">友链</a>
-    </li>
-    
-    <li class="nav-item">
-      <a class="nav-item-link" href="/2019/about">关于我</a>
-    </li>
-    
-  </ul>
-</nav>
-<nav class="navbar navbar-bottom">
-  <ul class="nav">
-    <li class="nav-item">
-      
-      <a class="nav-item-link nav-item-search"  title="搜索">
-        <i class="ri-search-line"></i>
-      </a>
-      
-      
-      <a class="nav-item-link" target="_blank" href="/atom.xml" title="RSS Feed">
-        <i class="ri-rss-line"></i>
-      </a>
-      
-    </li>
-  </ul>
-</nav>
-<div class="search-form-wrap">
-  <div class="local-search local-search-plugin">
-  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
-  <div id="local-search-result" class="local-search-result"></div>
-</div>
-</div>
-    </aside>
-    <div id="mask"></div>
 
-<!-- #reward -->
-<div id="reward">
-  <span class="close"><i class="ri-close-line"></i></span>
-  <p class="reward-p"><i class="ri-cup-line"></i>请我喝杯咖啡吧~</p>
-  <div class="reward-box">
+  
+<script src="/js/catalog.js"></script>
+
+
+
+
     
-    <div class="reward-item">
-      <img class="reward-img" src="/images/alipay.jpg">
-      <span class="reward-type">支付宝</span>
-    </div>
-    
-    
-    <div class="reward-item">
-      <img class="reward-img" src="/images/wechat.jpg">
-      <span class="reward-type">微信</span>
-    </div>
+      <div class="comments-container">
+        
+
+
+
+
+
+
+
+      </div>
     
   </div>
-</div>
+
+
+        
+<div class="footer">
+  <div class="social">
+    <ul>
+      
+        <li>
+          <a title="github" target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">
+            <i class="iconfont icon-github"></i>
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+  
     
-<script src="/js/jquery-3.6.0.min.js"></script>
- 
-<script src="/js/lazyload.min.js"></script>
-
-<!-- Tocbot -->
- 
-<script src="/js/tocbot.min.js"></script>
-
-<script>
-  tocbot.init({
-    tocSelector: ".tocbot",
-    contentSelector: ".article-entry",
-    headingSelector: "h1, h2, h3, h4, h5, h6",
-    hasInnerContainers: true,
-    scrollSmooth: true,
-    scrollContainer: "main",
-    positionFixedSelector: ".tocbot",
-    positionFixedClass: "is-position-fixed",
-    fixedSidebarOffset: "auto",
-  });
-</script>
-
-<script src="https://cdn.staticfile.org/jquery-modal/0.9.2/jquery.modal.min.js"></script>
-<link
-  rel="stylesheet"
-  href="https://cdn.staticfile.org/jquery-modal/0.9.2/jquery.modal.min.css"
-/>
-<script src="https://cdn.staticfile.org/justifiedGallery/3.8.1/js/jquery.justifiedGallery.min.js"></script>
-
-<script src="/dist/main.js"></script>
-
-<!-- ImageViewer -->
- <!-- Root element of PhotoSwipe. Must have class pswp. -->
-<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
-
-    <!-- Background of PhotoSwipe. 
-         It's a separate element as animating opacity is faster than rgba(). -->
-    <div class="pswp__bg"></div>
-
-    <!-- Slides wrapper with overflow:hidden. -->
-    <div class="pswp__scroll-wrap">
-
-        <!-- Container that holds slides. 
-            PhotoSwipe keeps only 3 of them in the DOM to save memory.
-            Don't modify these 3 pswp__item elements, data is added later on. -->
-        <div class="pswp__container">
-            <div class="pswp__item"></div>
-            <div class="pswp__item"></div>
-            <div class="pswp__item"></div>
-        </div>
-
-        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
-        <div class="pswp__ui pswp__ui--hidden">
-
-            <div class="pswp__top-bar">
-
-                <!--  Controls are self-explanatory. Order can be changed. -->
-
-                <div class="pswp__counter"></div>
-
-                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
-
-                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
-
-                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
-
-                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
-
-                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
-                <!-- element will get class pswp__preloader--active when preloader is running -->
-                <div class="pswp__preloader">
-                    <div class="pswp__preloader__icn">
-                        <div class="pswp__preloader__cut">
-                            <div class="pswp__preloader__donut"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
-                <div class="pswp__share-tooltip"></div>
-            </div>
-
-            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
-            </button>
-
-            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
-            </button>
-
-            <div class="pswp__caption">
-                <div class="pswp__caption__center"></div>
-            </div>
-
-        </div>
-
+    <div class="footer-more">
+      
+        <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">Copyright © 2023 Oranges</a>
+        
     </div>
-
+  
+    
+    <div class="footer-more">
+      
+        <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">Theme by Oranges | Powered by Hexo</a>
+        
+    </div>
+  
+  
 </div>
 
-<link rel="stylesheet" href="https://cdn.staticfile.org/photoswipe/4.1.3/photoswipe.min.css">
-<link rel="stylesheet" href="https://cdn.staticfile.org/photoswipe/4.1.3/default-skin/default-skin.min.css">
-<script src="https://cdn.staticfile.org/photoswipe/4.1.3/photoswipe.min.js"></script>
-<script src="https://cdn.staticfile.org/photoswipe/4.1.3/photoswipe-ui-default.min.js"></script>
+      </div>
 
-<script>
-    function viewer_init() {
-        let pswpElement = document.querySelectorAll('.pswp')[0];
-        let $imgArr = document.querySelectorAll(('.article-entry img:not(.reward-img)'))
+      <div class="tools-bar">
+        <div class="back-to-top tools-bar-item hidden">
+  <a href="javascript: void(0)">
+    <i class="iconfont icon-chevronup"></i>
+  </a>
+</div>
 
-        $imgArr.forEach(($em, i) => {
-            $em.onclick = () => {
-                // slider展开状态
-                // todo: 这样不好，后面改成状态
-                if (document.querySelector('.left-col.show')) return
-                let items = []
-                $imgArr.forEach(($em2, i2) => {
-                    let img = $em2.getAttribute('data-idx', i2)
-                    let src = $em2.getAttribute('data-target') || $em2.getAttribute('src')
-                    let title = $em2.getAttribute('alt')
-                    // 获得原图尺寸
-                    const image = new Image()
-                    image.src = src
-                    items.push({
-                        src: src,
-                        w: image.width || $em2.width,
-                        h: image.height || $em2.height,
-                        title: title
-                    })
-                })
-                var gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, items, {
-                    index: parseInt(i)
-                });
-                gallery.init()
-            }
-        })
+
+<script src="/js/backtotop.js"></script>
+
+
+
+        
+  <div class="search-icon tools-bar-item" id="search-icon">
+    <a href="javascript: void(0)">
+      <i class="iconfont icon-search"></i>
+    </a>
+  </div>
+
+  <div class="search-overlay hidden">
+    <div class="search-content" tabindex="0">
+      <div class="search-title">
+        <span class="search-icon-input">
+          <a href="javascript: void(0)">
+            <i class="iconfont icon-search"></i>
+          </a>
+        </span>
+        
+          <input type="text" class="search-input" id="search-input" placeholder="搜索...">
+        
+        <span class="search-close-icon" id="search-close-icon">
+          <a href="javascript: void(0)">
+            <i class="iconfont icon-close"></i>
+          </a>
+        </span>
+      </div>
+      <div class="search-result" id="search-result"></div>
+    </div>
+  </div>
+
+  <script type="text/javascript">
+    var inputArea = document.querySelector("#search-input")
+    var searchOverlayArea = document.querySelector(".search-overlay")
+
+    inputArea.onclick = function() {
+      getSearchFile()
+      this.onclick = null
     }
-    viewer_init()
-</script> 
-<!-- MathJax -->
 
-<!-- Katex -->
+    inputArea.onkeydown = function() {
+      if(event.keyCode == 13)
+        return false
+    }
 
-<!-- busuanzi  -->
- 
-<script src="/js/busuanzi-2.3.pure.min.js"></script>
- 
-<!-- ClickLove -->
+    function openOrHideSearchContent() {
+      let isHidden = searchOverlayArea.classList.contains('hidden')
+      if (isHidden) {
+        searchOverlayArea.classList.remove('hidden')
+        document.body.classList.add('hidden')
+        // inputArea.focus()
+      } else {
+        searchOverlayArea.classList.add('hidden')
+        document.body.classList.remove('hidden')
+      }
+    }
 
-<!-- ClickBoom1 -->
+    function blurSearchContent(e) {
+      if (e.target === searchOverlayArea) {
+        openOrHideSearchContent()
+      }
+    }
 
-<!-- ClickBoom2 -->
+    document.querySelector("#search-icon").addEventListener("click", openOrHideSearchContent, false)
+    document.querySelector("#search-close-icon").addEventListener("click", openOrHideSearchContent, false)
+    searchOverlayArea.addEventListener("click", blurSearchContent, false)
 
-<!-- CodeCopy -->
- 
-<link rel="stylesheet" href="/css/clipboard.css">
- <script src="https://cdn.staticfile.org/clipboard.js/2.0.10/clipboard.min.js"></script>
-<script>
-  function wait(callback, seconds) {
-    var timelag = null;
-    timelag = window.setTimeout(callback, seconds);
-  }
-  !function (e, t, a) {
-    var initCopyCode = function(){
-      var copyHtml = '';
-      copyHtml += '<button class="btn-copy" data-clipboard-snippet="">';
-      copyHtml += '<i class="ri-file-copy-2-line"></i><span>COPY</span>';
-      copyHtml += '</button>';
-      $(".highlight .code pre").before(copyHtml);
-      $(".article pre code").before(copyHtml);
-      var clipboard = new ClipboardJS('.btn-copy', {
-        target: function(trigger) {
-          return trigger.nextElementSibling;
+    var searchFunc = function (path, search_id, content_id) {
+      'use strict';
+      var $input = document.getElementById(search_id);
+      var $resultContent = document.getElementById(content_id);
+      $resultContent.innerHTML = "<ul><span class='local-search-empty'>首次搜索，正在载入索引文件，请稍后……<span></ul>";
+      $.ajax({
+        // 0x01. load xml file
+        url: path,
+        dataType: "xml",
+        success: function (xmlResponse) {
+          // 0x02. parse xml file
+          var datas = $("entry", xmlResponse).map(function () {
+            return {
+              title: $("title", this).text(),
+              content: $("content", this).text(),
+              url: $("url", this).text()
+            };
+          }).get();
+          $resultContent.innerHTML = "";
+
+          $input.addEventListener('input', function () {
+            // 0x03. parse query to keywords list
+            var str = '<ul class=\"search-result-list\">';
+            var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+            $resultContent.innerHTML = "";
+            if (this.value.trim().length <= 0) {
+              return;
+            }
+            // 0x04. perform local searching
+            datas.forEach(function (data) {
+              var isMatch = true;
+              var content_index = [];
+              if (!data.title || data.title.trim() === '') {
+                data.title = "Untitled";
+              }
+              var orig_data_title = data.title.trim();
+              var data_title = orig_data_title.toLowerCase();
+              var orig_data_content = data.content.trim().replace(/<[^>]+>/g, "");
+              var data_content = orig_data_content.toLowerCase();
+              var data_url = data.url;
+              var index_title = -1;
+              var index_content = -1;
+              var first_occur = -1;
+              // only match artiles with not empty contents
+              if (data_content !== '') {
+                keywords.forEach(function (keyword, i) {
+                  index_title = data_title.indexOf(keyword);
+                  index_content = data_content.indexOf(keyword);
+
+                  if (index_title < 0 && index_content < 0) {
+                    isMatch = false;
+                  } else {
+                    if (index_content < 0) {
+                      index_content = 0;
+                    }
+                    if (i == 0) {
+                      first_occur = index_content;
+                    }
+                    // content_index.push({index_content:index_content, keyword_len:keyword_len});
+                  }
+                });
+              } else {
+                isMatch = false;
+              }
+              // 0x05. show search results
+              if (isMatch) {
+                str += "<li><a href='" + data_url + "' class='search-result-title'>" + orig_data_title + "</a>";
+                var content = orig_data_content;
+                if (first_occur >= 0) {
+                  // cut out 100 characters
+                  var start = first_occur - 20;
+                  var end = first_occur + 80;
+
+                  if (start < 0) {
+                    start = 0;
+                  }
+
+                  if (start == 0) {
+                    end = 100;
+                  }
+
+                  if (end > content.length) {
+                    end = content.length;
+                  }
+
+                  var match_content = content.substr(start, end);
+
+                  // highlight all keywords
+                  keywords.forEach(function (keyword) {
+                    var regS = new RegExp(keyword, "gi");
+                    match_content = match_content.replace(regS, "<span class=\"search-keyword\">" + keyword + "</span>");
+                  });
+
+                  str += "<p class=\"search-result-abstract\">" + match_content + "...</p>"
+                }
+                str += "</li>";
+              }
+            });
+            str += "</ul>";
+            if (str.indexOf('<li>') === -1) {
+              return $resultContent.innerHTML = "<ul><span class='local-search-empty'>没有找到内容，请尝试更换检索词。<span></ul>";
+            }
+            $resultContent.innerHTML = str;
+          });
+        },
+        error: function(xhr, status, error) {
+          $resultContent.innerHTML = ""
+          if (xhr.status === 404) {
+            $resultContent.innerHTML = "<ul><span class='local-search-empty'>未找到search.xml文件，具体请参考：<a href='https://github.com/zchengsite/hexo-theme-oranges#configuration' target='_black'>configuration</a><span></ul>";
+          } else {
+            $resultContent.innerHTML = "<ul><span class='local-search-empty'>请求失败，尝试重新刷新页面或稍后重试。<span></ul>";
+          }
         }
       });
-      clipboard.on('success', function(e) {
-        let $btn = $(e.trigger);
-        $btn.addClass('copied');
-        let $icon = $($btn.find('i'));
-        $icon.removeClass('ri-file-copy-2-line');
-        $icon.addClass('ri-checkbox-circle-line');
-        let $span = $($btn.find('span'));
-        $span[0].innerText = 'COPIED';
-        
-        wait(function () { // 等待两秒钟后恢复
-          $icon.removeClass('ri-checkbox-circle-line');
-          $icon.addClass('ri-file-copy-2-line');
-          $span[0].innerText = 'COPY';
-        }, 2000);
-      });
-      clipboard.on('error', function(e) {
-        e.clearSelection();
-        let $btn = $(e.trigger);
-        $btn.addClass('copy-failed');
-        let $icon = $($btn.find('i'));
-        $icon.removeClass('ri-file-copy-2-line');
-        $icon.addClass('ri-time-line');
-        let $span = $($btn.find('span'));
-        $span[0].innerText = 'COPY FAILED';
-        
-        wait(function () { // 等待两秒钟后恢复
-          $icon.removeClass('ri-time-line');
-          $icon.addClass('ri-file-copy-2-line');
-          $span[0].innerText = 'COPY';
-        }, 2000);
+      $(document).on('click', '#search-close-icon', function() {
+        $('#search-input').val('');
+        $('#search-result').html('');
       });
     }
-    initCopyCode();
-  }(window, document);
-</script>
- 
-<!-- CanvasBackground -->
 
-<script>
-  if (window.mermaid) {
-    mermaid.initialize({ theme: "forest" });
-  }
-</script>
+    var getSearchFile = function() {
+        var path = "/search.xml";
+        searchFunc(path, 'search-input', 'search-result');
+    }
+  </script>
 
 
-    
-    
 
+
+        
+  <div class="tools-bar-item theme-icon" id="switch-color-scheme">
+    <a href="javascript: void(0)">
+      <i id="theme-icon" class="iconfont icon-moon"></i>
+    </a>
   </div>
-</body>
 
+  
+<script src="/js/colorscheme.js"></script>
+
+
+
+
+
+        
+  
+    <div class="share-icon tools-bar-item">
+      <a href="javascript: void(0)" id="share-icon">
+        <i class="iconfont iconshare"></i>
+      </a>
+      <div class="share-content hidden">
+        
+          <a class="share-item" href="https://twitter.com/intent/tweet?text=' + %E7%94%A8%E5%8D%81%E5%B9%B4%E6%97%B6%E9%97%B4%E8%87%AA%E5%AD%A6%E7%BC%96%E7%A8%8B + '&url=' + https%3A%2F%2Fzermatt-luo.github.io%2F2023%2F09%2F28%2F%25E7%2594%25A8%25E5%258D%2581%25E5%25B9%25B4%25E6%2597%25B6%25E9%2597%25B4%25E8%2587%25AA%25E5%25AD%25A6%25E7%25BC%2596%25E7%25A8%258B%2F + '" target="_blank" title="Twitter">
+            <i class="iconfont icon-twitter"></i>
+          </a>
+        
+        
+          <a class="share-item" href="https://www.facebook.com/sharer.php?u=https://zermatt-luo.github.io/2023/09/28/%E7%94%A8%E5%8D%81%E5%B9%B4%E6%97%B6%E9%97%B4%E8%87%AA%E5%AD%A6%E7%BC%96%E7%A8%8B/" target="_blank" title="Facebook">
+            <i class="iconfont icon-facebooksquare"></i>
+          </a>
+        
+      </div>
+    </div>
+  
+  
+<script src="/js/shares.js"></script>
+
+
+
+      </div>
+    </div>
+  </body>
 </html>

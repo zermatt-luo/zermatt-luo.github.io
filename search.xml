@@ -5,37 +5,32 @@
     <url>/2023/09/28/C-%E4%B8%AD%E7%9A%84const-char-%E3%80%81const-char-%E4%B8%8Estring/</url>
     <content><![CDATA[<p>以下代码是基于gcc的vscode编译器编写的。首先导入运行示例的必要库，并指定标准命名空间std。</p>
 <figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;string&gt;</span> </span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br></pre></td></tr></table></figure>
-
-<h2 id="1-const-char-与-const-char"><a href="#1-const-char-与-const-char" class="headerlink" title="1. const char* 与 const char[ ]"></a>1. const char* 与 const char[ ]</h2><p>定义一个char型的指针p，指向字符串“now”；定义一个字符串数组p1，值为“now”。两者都属于<code>const</code>类型。 </p>
+<h2 id="1-const char* 与 const char[ ]">1. const char* 与 const char[ ]</h2>
+<p>定义一个char型的指针p，指向字符串“now”；定义一个字符串数组p1，值为“now”。两者都属于<code>const</code>类型。</p>
 <figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="type">const</span> <span class="type">char</span> *p = <span class="string">&quot;now&quot;</span>;</span><br><span class="line"><span class="type">const</span> <span class="type">char</span> p1[<span class="number">4</span>] = <span class="string">&quot;now&quot;</span>;</span><br></pre></td></tr></table></figure>
-
 <blockquote>
 <p>const char *  和 const char[ ] 都可以用于处理 C 风格的字符串。</p>
 <p>const char* 主要出现在早期旧版本的代码中。这个指针本身是可变的（即可以改变它所指向的位置），但通过这个指针不能修改所指向数组的内容。它比较灵活（可以重新指向其他位置），在某些情况下更为方便； const char[ ]更接近于 “准确” 的类型，因为它更明确地表示这是一个字符数组。但它没有const char* 灵活。</p>
 </blockquote>
-<p>数组有一个特性，在很多用到数组名字的地方，编译器都会自动地将其转换成一个指向该数组首元素的指针。所以const char p1[4] &#x3D; “now” 中p1也是一个指针。</p>
+<p>数组有一个特性，在很多用到数组名字的地方，编译器都会自动地将其转换成一个指向该数组首元素的指针。所以const char p1[4] = “now” 中p1也是一个指针。</p>
 <figure class="highlight c++"><table><tr><td class="code"><pre><span class="line">cout &lt;&lt; <span class="string">&quot;p: &quot;</span> &lt;&lt; p &lt;&lt; endl;        <span class="comment">// p: now</span></span><br><span class="line">cout &lt;&lt; <span class="string">&quot;p1: &quot;</span> &lt;&lt; p1 &lt;&lt; endl;      <span class="comment">// p1: now</span></span><br><span class="line">cout &lt;&lt; <span class="string">&quot;*p: &quot;</span> &lt;&lt; *p &lt;&lt; endl;      <span class="comment">// *p: n</span></span><br><span class="line">cout &lt;&lt; <span class="string">&quot;*p1: &quot;</span> &lt;&lt; *p1 &lt;&lt; endl;    <span class="comment">// *p1: n</span></span><br></pre></td></tr></table></figure>
-
 <p>但是，当我们打印指针p和p1时并没有输出地址值，输出的反而是它们指向的字符串数组。</p>
 <p>这是因为cout有一个特殊的<strong>重载</strong>，当它看到一个 <code>const char[ ]</code> 或 <code>const char *</code> 类型，它会假定这是一个以空字符（即 ‘\0’）结尾的 C 风格字符串，并逐字符输出，直到遇到空字符为止。</p>
 <p>后面两行就容易理解了，p 和 p1都是指向字符串数组首元素的指针，解引用后代表首元素。</p>
-<h2 id="2-其他类型数组-与-string"><a href="#2-其他类型数组-与-string" class="headerlink" title="2.其他类型数组 与 string"></a>2.其他类型数组 与 string</h2><span id="more"></span>
-
+<h2 id="2其他类型数组-与 string">2.其他类型数组 与 string</h2>
+<span id="more"></span>
 <p>定义一个string对象s，它的内容是字符串字面值 “now”。</p>
 <p>为了说明其余类型的数组和const char类型的不同，我们这里定义一个int型数组，它有四个元素：0, 1, 2, 3。由上文，<code>int i[4] = &#123;0,1,2,3&#125;</code>中 i 也是一个指针，指向该数组的首元素0。</p>
 <figure class="highlight c++"><table><tr><td class="code"><pre><span class="line">string s = <span class="string">&quot;now&quot;</span>;</span><br><span class="line"><span class="type">int</span> i[<span class="number">4</span>] = &#123;<span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>&#125;;</span><br><span class="line">cout &lt;&lt; <span class="string">&quot;s: &quot;</span> &lt;&lt; s &lt;&lt; endl;        <span class="comment">// s: now</span></span><br><span class="line">cout &lt;&lt; <span class="string">&quot;i: &quot;</span> &lt;&lt; i &lt;&lt; endl;        <span class="comment">// i: 0x61fdd0</span></span><br><span class="line">cout &lt;&lt; <span class="string">&quot;*i: &quot;</span> &lt;&lt; *i &lt;&lt; endl;      <span class="comment">// *i: 0</span></span><br></pre></td></tr></table></figure>
-
-<p>s为string的一个对象，与<code>int i[4]</code>中指针 i 代表含义不同，直接打印其值为初始化的”now”。 </p>
+<p>s为string的一个对象，与<code>int i[4]</code>中指针 i 代表含义不同，直接打印其值为初始化的&quot;now&quot;。</p>
 <p>我们打印指针 i 时输出即为首元素0的地址，第一部分中特殊的重载并不适用。当解引用 i 时打印0。</p>
 <p>string对象可以使用下标运算符<code>([ ])</code>访问string对象中的单个字符，这是string类所定义的。</p>
 <p>与string类似，对于数组而言，只要指针指向的是数组里的元素，就可以执行下标运算。</p>
 <figure class="highlight c++"><table><tr><td class="code"><pre><span class="line">cout &lt;&lt; <span class="string">&quot;s[0]: &quot;</span> &lt;&lt; s[<span class="number">0</span>] &lt;&lt; endl;     <span class="comment">// s[0]: n</span></span><br><span class="line">cout &lt;&lt; <span class="string">&quot;p[1]: &quot;</span> &lt;&lt; p[<span class="number">1</span>] &lt;&lt; endl;     <span class="comment">// p[1]: o</span></span><br><span class="line">cout &lt;&lt; <span class="string">&quot;i[2]: &quot;</span> &lt;&lt; i[<span class="number">2</span>] &lt;&lt; endl;     <span class="comment">// i[2]: w</span></span><br></pre></td></tr></table></figure>
-
 <p>我们可以分别用<code>s[0]</code>、<code>p[1]</code>、<code>i[2]</code>得到 s 中第0个字符，p 中第1个字符，i 中第2个字符（计数从0算起）。</p>
 <p>对于数组而言，<code>p[1]</code>等价于<code>*(p + 1)</code>，<code>i[2]</code>等价于 <code>*(i + 2)</code>，其中p、i都是指向首元素的指针。</p>
 <p>由于p所指向的数组是const的，所以直接对其某一个元素重新赋值会报错。而这对于非const的string类而言并没有限制：</p>
 <figure class="highlight c++"><table><tr><td class="code"><pre><span class="line">s[<span class="number">2</span>] = <span class="string">&#x27;a&#x27;</span>;</span><br><span class="line">cout &lt;&lt; <span class="string">&quot;s: &quot;</span> &lt;&lt; s &lt;&lt; endl;          </span><br><span class="line"><span class="comment">// p[1] = &#x27;a&#x27;;             // error: assignment of read-only location &#x27;*(p + 1)&#x27;/</span></span><br></pre></td></tr></table></figure>
-
 ]]></content>
       <tags>
         <tag>C++</tag>
@@ -44,7 +39,8 @@
   <entry>
     <title>人言一二三</title>
     <url>/2023/09/29/%E4%BA%BA%E8%A8%80%E4%B8%80%E4%BA%8C%E4%B8%89/</url>
-    <content><![CDATA[<h2 id="我喜欢纯粹的事"><a href="#我喜欢纯粹的事" class="headerlink" title="我喜欢纯粹的事"></a>我喜欢纯粹的事</h2><p>纯粹，就是最高境界…</p>
+    <content><![CDATA[<h2 id="我喜欢纯粹的事">我喜欢纯粹的事</h2>
+<p>纯粹，就是最高境界…</p>
 ]]></content>
       <tags>
         <tag>闲谈</tag>
@@ -53,9 +49,30 @@
   <entry>
     <title>我的第一篇博客</title>
     <url>/2023/09/26/%E6%88%91%E7%9A%84%E7%AC%AC%E4%B8%80%E7%AF%87%E5%8D%9A%E5%AE%A2/</url>
-    <content><![CDATA[<h2 id="你好，世界"><a href="#你好，世界" class="headerlink" title="你好，世界"></a>你好，世界</h2><h3 id="This-is-my-first-creation-Thank-you-Hexo"><a href="#This-is-my-first-creation-Thank-you-Hexo" class="headerlink" title="This is my first creation. Thank you, Hexo!"></a>This is my first creation. Thank you, Hexo!</h3>]]></content>
+    <content><![CDATA[<h2 id="你好，世界">你好，世界</h2>
+<h3 id="this-is my first creation thank you, hexo!">This is my first creation. Thank you, Hexo!</h3>
+]]></content>
       <tags>
         <tag>初探 hexo</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>图床示例</title>
+    <url>/2023/10/13/%E5%9B%BE%E5%BA%8A%E7%A4%BA%E4%BE%8B/</url>
+    <content><![CDATA[<div class="hbe hbe-container" id="hexo-blog-encrypt" data-wpm="抱歉, 这个密码看着不太对, 请再试试." data-whm="抱歉, 这个文章不能被校验, 不过您还是能看看解密后的内容.">
+  <script id="hbeData" type="hbeData" data-hmacdigest="e78734868485de4a6e4e78e0a7ac661f4b86a21285b1ebb374a4d774771ade87">5c3b87dcd3ec31e12d9049de2feea34565d0d1978161c7a1dfb4c826f0d290702e63d6990aa06d568eac553dfbced43d0fbc3d3100d92eff786292e6c0ef165a13a9427b184c4667686487c4349296b7b05a6e6448213027dc648ad0e84b7b1fcfd42afea6474af567b699193d3c578dd4ac2a2ba5642c748636100402bef8bdfddf4c282e82d916577d6151a990560a5724007536e0b3fd33822f36072160d1bbbfaf2f21d80a4cadfdf0ed1ba945dfc7b0b842503e92eef3d5fd56601d36a41d7ce94575bf569680a8e2ddd862b5b835c839ad9da0cedbd72f48e3252465304d8a5b9b9503fc6138c3791d172b8fd1fc2881aaec77338b040665037e7bddd581fa0308ccebcfec278eb1ab5c01a339464c6afe4708c73d03e25d72a0cc23e77dfc6fd7ca5f190b0fbdd987d23d83fbe470b7e3fd90164ce68553dcff09d4dee9994649c17402891bf9335d421b021f56995a78f6929fa56b968217a52613da3c050eed37300db0f052a372fe92e54f0ab615b5867e85b0ebed337300bbc35118f9477866b716c51c7d972e9f63b6dfb8a3dc84dc6a314a0577fbb5267deecd1a81a00e8568839b3fb1a527842e186a2158a3767b0f8d6f90a1fb7d2b48855f991fd1cae28be78c5bf3c955e27451484093d355f0c8580f6015212ab58ef3091430e4d7c0b2ac597eedc2132e4c8404187fb328eb4a6da3f81e97a71b84ddd4f5d495055b5cf92950a13a45a87e58609eadf81d6000914ac0a4968bd05da532f600f4de751fa0c861ad56dff70ed87741dae8db47f2fc3255b4de3d4f2af0ad88332a142039bec8e89f2600db31ec43d9d050a095338006ed4477aa17c7f411d6c0bd49d371e4303f36e5ed89b4b69788827399ce6bf7a8d7d0a99e33515d63e9e9a101ccd85bddd1c6b92223431fc9</script>
+  <div class="hbe hbe-content">
+    <div class="hbe hbe-input hbe-input-default">
+      <input class="hbe hbe-input-field hbe-input-field-default" type="password" id="hbePass">
+      <label class="hbe hbe-input-label hbe-input-label-default" for="hbePass">
+        <span class="hbe hbe-input-label-content hbe-input-label-content-default">您好, 这里需要密码.</span>
+      </label>
+    </div>
+  </div>
+</div>
+<script data-pjax src="/lib/hbe.js"></script><link href="/css/hbe.style.css" rel="stylesheet" type="text/css">]]></content>
+      <tags>
+        <tag>blog测试</tag>
       </tags>
   </entry>
   <entry>
@@ -68,18 +85,22 @@
 <center style="font-size: 20px; font-weight: bold;">
   Peter Norvig
 </center>
-
-<h4 id="为什么每个人都这么急切？"><a href="#为什么每个人都这么急切？" class="headerlink" title="为什么每个人都这么急切？"></a>为什么每个人都这么急切？</h4><p>走进任何一家书店，你都会看到《24小时自学Java》这样的书，以及无数教你几天或几小时内学会C、SQL、Ruby、算法等等。在亚马逊高级搜索中，搜索[title: teach, yourself, hours, since: 2000]，找到了512本这样的书。在前十名中，九本是编程书籍，另一本是关于记账的。用“learn”替换“teach yourself”或用“days”替换“hours”得到的结果也相似。</p>
-<p>这说明两种情况，要么大家都急着学编程，要么编程真的比其他技能容易得多。Felleisen等人在他们的书《如何设计程序》中也提到了这种现象，说：“写糟糕的代码很简单，21天就能学会，哪怕你是个门外汉。”还有一部Abtruse Goose的漫画也做了类似的描述。<br>那么，《24小时自学C++》这样的标题到底意味着什么呢？</p>
+<h4 id="为什么每个人都这么急切？">为什么每个人都这么急切？</h4>
+<p>走进任何一家书店，你都会看到《24小时自学Java》这样的书，以及无数教你几天或几小时内学会C、SQL、Ruby、算法等等。在亚马逊高级搜索中，搜索[title: teach, yourself, hours, since: 2000]，找到了512本这样的书。在前十名中，九本是编程书籍，另一本是关于记账的。用“learn”替换“teach yourself”或用“days”替换“hours”得到的结果也相似。</p>
+<p>这说明两种情况，要么大家都急着学编程，要么编程真的比其他技能容易得多。Felleisen等人在他们的书《如何设计程序》中也提到了这种现象，说：“写糟糕的代码很简单，21天就能学会，哪怕你是个门外汉。”还有一部Abtruse Goose的漫画也做了类似的描述。<br>
+那么，《24小时自学C++》这样的标题到底意味着什么呢？</p>
 <ul>
 <li>自学：在24小时里，你根本没办法写出几个有深度的程序，更别说从中吸取经验教训了。你也没机会与资深程序员合作，体验真正的C++编程是怎样的。简单说，你学不到多少。这本书只能教你一些皮毛，而不是真正的深入理解。就像亚历山大·教皇说的，浅尝辄止是很危险的（<strong>a little learning is a dangerous thing</strong>）。</li>
 <li>C++：你可能在24小时内学会一些C++的基础语法（如果你之前已经学过其他编程语言的话），但你真的了解C++吗？如果你只是一个初学者，你可能只能用C++的语法写出初级的程序，但你真的理解C++的精髓吗？Alan Perlis曾说：“一个不改变你编程思维的语言，是没必要学的（<strong>A language that doesn’t affect the way you think about programming, is not worth knowing</strong>）。”或许，你只是为了完成某个特定任务，需要学一点C++（或者是JavaScript或Processing）。但那样，你其实并没有真正学会编程，只是学会了如何完成那个任务。</li>
 <li>24小时：显然，这时间远远不够，下一部分会进一步说明。</li>
 </ul>
 <span id="more"></span>
-
-<h4 id="十年自学编程"><a href="#十年自学编程" class="headerlink" title="十年自学编程"></a>十年自学编程</h4><p>研究者（如Bloom (1985)、Bryan &amp; Harter (1899)、Hayes (1989)、Simmon &amp; Chase (1973)）已经证明，在许多领域，如下棋、音乐创作、电报操作、绘画、钢琴演奏、游泳、网球，以及神经心理学和拓扑学的研究中，要达到专家水平大约需要十年时间。关键是有目的的实践：不仅仅是重复做，而是给自己设定一个略超出当前能力的任务，尝试去做，做的时候和做完后分析自己的表现，并纠正错误。然后再重复。再重复。似乎没有真正的捷径：即使是4岁就展现出音乐天赋的莫扎特，也花了13年时间才开始创作世界级的音乐。披头士乐队似乎在1964年凭借一系列的热门歌曲和在Ed Sullivan秀上的表现一炮而红。但他们从1957年开始就在利物浦和汉堡的小俱乐部演出，尽管他们很早就受到大众的喜爱，但他们的第一个广受好评的作品，Sgt. Peppers，是在1967年发布的。  Malcolm Gladwell 推广了这个观点，尽管他更注重的是10,000小时，而不是10年。Henri Cartier-Bresson (1908-2004)有另一个标准：“你的前10,000张照片是最差的。”（他没想到在数字相机的时代，有些人一周内就能达到这个数字。）真正的专业水平可能需要一生的时间：Samuel Johnson (1709-1784)说：“任何领域的卓越都只能通过一生的努力来获得；它的价值不菲。”乔叟(1340-1400)抱怨说：“生命短暂，技艺学习之路漫长。”希波克拉底（公元前400年左右）因“ars longa, vita brevis”而著称，这是更长的引文“Ars longa, vita brevis”而著称，这是更长的引文“Ars longa, vita brevis, occasio praeceps, experimentum periculosum, iudicium difficile”的一部分，英文意为“生命短暂，技艺长久，机会稍纵即逝，实验充满风险，判断困难。”当然，没有一个固定的数字可以作为最终答案：认为所有技能（如编程、下棋、打跳棋和演奏音乐）都需要完全相同的时间来掌握，或者所有人都需要完全相同的时间，似乎都不合理。正如K. Anders Ericsson教授所说：“在大多数领域，即使是最有天赋的人也需要相当长的时间才能达到最高水平。10,000小时这个数字只是给你一个感觉，我们说的是每周10到20小时，连一些人认为最有天赋的人也需要这么长时间才能达到最高水平。”</p>
-<h4 id="你想成为一名程序员吗？"><a href="#你想成为一名程序员吗？" class="headerlink" title="你想成为一名程序员吗？"></a>你想成为一名程序员吗？</h4><p>以下是我为成功编程提供的建议：<br>对编程产生兴趣，并因为它有趣而去做。确保它始终足够有趣，这样你会愿意投入你的十年或10,000小时。<br>以下是我为成功编程提供的建议：</p>
+<h4 id="十年自学编程">十年自学编程</h4>
+<p>研究者（如Bloom (1985)、Bryan &amp; Harter (1899)、Hayes (1989)、Simmon &amp; Chase (1973)）已经证明，在许多领域，如下棋、音乐创作、电报操作、绘画、钢琴演奏、游泳、网球，以及神经心理学和拓扑学的研究中，要达到专家水平大约需要十年时间。关键是有目的的实践：不仅仅是重复做，而是给自己设定一个略超出当前能力的任务，尝试去做，做的时候和做完后分析自己的表现，并纠正错误。然后再重复。再重复。似乎没有真正的捷径：即使是4岁就展现出音乐天赋的莫扎特，也花了13年时间才开始创作世界级的音乐。披头士乐队似乎在1964年凭借一系列的热门歌曲和在Ed Sullivan秀上的表现一炮而红。但他们从1957年开始就在利物浦和汉堡的小俱乐部演出，尽管他们很早就受到大众的喜爱，但他们的第一个广受好评的作品，Sgt. Peppers，是在1967年发布的。  Malcolm Gladwell 推广了这个观点，尽管他更注重的是10,000小时，而不是10年。Henri Cartier-Bresson (1908-2004)有另一个标准：“你的前10,000张照片是最差的。”（他没想到在数字相机的时代，有些人一周内就能达到这个数字。）真正的专业水平可能需要一生的时间：Samuel Johnson (1709-1784)说：“任何领域的卓越都只能通过一生的努力来获得；它的价值不菲。”乔叟(1340-1400)抱怨说：“生命短暂，技艺学习之路漫长。”希波克拉底（公元前400年左右）因“ars longa, vita brevis”而著称，这是更长的引文“Ars longa, vita brevis”而著称，这是更长的引文“Ars longa, vita brevis, occasio praeceps, experimentum periculosum, iudicium difficile”的一部分，英文意为“生命短暂，技艺长久，机会稍纵即逝，实验充满风险，判断困难。”当然，没有一个固定的数字可以作为最终答案：认为所有技能（如编程、下棋、打跳棋和演奏音乐）都需要完全相同的时间来掌握，或者所有人都需要完全相同的时间，似乎都不合理。正如K. Anders Ericsson教授所说：“在大多数领域，即使是最有天赋的人也需要相当长的时间才能达到最高水平。10,000小时这个数字只是给你一个感觉，我们说的是每周10到20小时，连一些人认为最有天赋的人也需要这么长时间才能达到最高水平。”</p>
+<h4 id="你想成为一名程序员吗？">你想成为一名程序员吗？</h4>
+<p>以下是我为成功编程提供的建议：<br>
+对编程产生兴趣，并因为它有趣而去做。确保它始终足够有趣，这样你会愿意投入你的十年或10,000小时。<br>
+以下是我为成功编程提供的建议：</p>
 <ol>
 <li>对编程产生兴趣，并因为它有趣而去做。兴趣是任何长期承诺的重要驱动力，编程也不例外。如果你对编程感到兴趣，你会更愿意投入时间和努力去学习和提高。编程本身有很多有趣和挑战性的方面，从解决复杂问题，到实现创新的算法，再到构建引人入胜的应用程序。</li>
 <li>动手编程。最好的学习方式是实践中学习。更专业地说，“个体在某一领域的最大性能水平并不是随着经验的增长而自动获得的，但即使是经验丰富的个体，也可以通过有意识地努力提高来提高性能水平。”以及“最有效的学习需要一个为特定个体设定的具有适当难度的明确定义任务、有益的反馈以及重复和纠正错误的机会。”《实践中的认知：日常生活中的心智、数学和文化》这本书是这种观点的一个有趣的参考。</li>
@@ -91,13 +112,14 @@
 <li>参与一项语言标准化工作。可以是ANSI C++委员会，也可以是决定你们本地编码风格是否采用2个或4个空格缩进。无论如何，你都可以了解其他人对语言的喜好，他们对此有多深的感情，甚至可能了解他们为什么有这样的感情。</li>
 <li>明智地尽快退出语言标准化工作。</li>
 </ol>
-<p>考虑到这些，仅仅通过书本学习能走多远还是一个疑问。在我第一个孩子出生之前，我读了所有的育儿书，但仍然感觉自己像个毫无经验的新手。30个月后，当我第二个孩子即将出生时，我是否回到书本上进行复习？没有。相反，我依赖于我的亲身经验，这比专家写的数千页书籍对我来说更有用、更令人放心。<br>Fred Brooks在他的文章《No Silver Bullets》(没有银弹)中，为找到优秀的软件设计师提出了一个三部分的计划：</p>
+<p>考虑到这些，仅仅通过书本学习能走多远还是一个疑问。在我第一个孩子出生之前，我读了所有的育儿书，但仍然感觉自己像个毫无经验的新手。30个月后，当我第二个孩子即将出生时，我是否回到书本上进行复习？没有。相反，我依赖于我的亲身经验，这比专家写的数千页书籍对我来说更有用、更令人放心。<br>
+Fred Brooks在他的文章《No Silver Bullets》(没有银弹)中，为找到优秀的软件设计师提出了一个三部分的计划：</p>
 <ul>
 <li>尽早系统地识别顶级设计师。</li>
 <li>指派一位职业导师负责潜在人才的发展，并仔细维护其职业档案。</li>
 <li>为成长中的设计师提供互动和激励彼此的机会。</li>
 </ul>
-<p>这意味着有些人已经具备成为优秀设计师的必要品质；任务是适当地引导他们。Alan Perlis更简洁地说：“每个人都可以被教会雕塑：但米开朗基罗则需要被教如何不这样做。对于伟大的程序员也是如此。”Perlis的意思是，伟大的人有一种超越他们培训的内在品质。但这种品质从哪里来？是与生俱来的吗？还是他们通过勤奋发展出来的？正如《美食总动员》中的虚构厨师Auguste Gusteau所说：“人人都可以做饭，但只有无畏的人才能成为伟大的厨师。”我更认为这是愿意为刻意练习投入生活的大部分时间。但也许“无畏”是一种总结这种状态的方式。或者，正如Gusteau的评论家Anton Ego所说：“并不是每个人都可以成为伟大的艺术家，但伟大的艺术家可以来自任何地方。”  所以，放心去买那本Java&#x2F;Ruby&#x2F;Javascript&#x2F;PHP的书；你可能会从中受益。但你的生活或你作为程序员的真正专业技能不会在24小时或21天内发生改变。如何努力在24个月内不断进步呢？好吧，现在你开始了。</p>
+<p>这意味着有些人已经具备成为优秀设计师的必要品质；任务是适当地引导他们。Alan Perlis更简洁地说：“每个人都可以被教会雕塑：但米开朗基罗则需要被教如何不这样做。对于伟大的程序员也是如此。”Perlis的意思是，伟大的人有一种超越他们培训的内在品质。但这种品质从哪里来？是与生俱来的吗？还是他们通过勤奋发展出来的？正如《美食总动员》中的虚构厨师Auguste Gusteau所说：“人人都可以做饭，但只有无畏的人才能成为伟大的厨师。”我更认为这是愿意为刻意练习投入生活的大部分时间。但也许“无畏”是一种总结这种状态的方式。或者，正如Gusteau的评论家Anton Ego所说：“并不是每个人都可以成为伟大的艺术家，但伟大的艺术家可以来自任何地方。”  所以，放心去买那本Java/Ruby/Javascript/PHP的书；你可能会从中受益。但你的生活或你作为程序员的真正专业技能不会在24小时或21天内发生改变。如何努力在24个月内不断进步呢？好吧，现在你开始了。</p>
 ]]></content>
       <tags>
         <tag>编程建议</tag>
