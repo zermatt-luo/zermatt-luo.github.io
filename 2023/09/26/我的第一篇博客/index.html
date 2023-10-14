@@ -243,6 +243,7 @@
   <div id="gitalk-container"></div>
 
   <script>
+    var title = location.pathname.substr(0, 50);
     function loadGitalkSuc() {
       const gitalk = new Gitalk({
         clientID: 'ce1c12cb8a7db3839c5a',
@@ -250,7 +251,7 @@
         repo: 'MyBlogTalk',
         owner: 'zermatt-luo',
         admin: ['zermatt-luo'],
-        id: location.pathname,
+	id: title,
         distractionFreeMode: false
       })
 
