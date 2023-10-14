@@ -31,19 +31,10 @@
 <p>对于数组而言，<code>p[1]</code>等价于<code>*(p + 1)</code>，<code>i[2]</code>等价于 <code>*(i + 2)</code>，其中p、i都是指向首元素的指针。</p>
 <p>由于p所指向的数组是const的，所以直接对其某一个元素重新赋值会报错。而这对于非const的string类而言并没有限制：</p>
 <figure class="highlight c++"><table><tr><td class="code"><pre><span class="line">s[<span class="number">2</span>] = <span class="string">&#x27;a&#x27;</span>;</span><br><span class="line">cout &lt;&lt; <span class="string">&quot;s: &quot;</span> &lt;&lt; s &lt;&lt; endl;          </span><br><span class="line"><span class="comment">// p[1] = &#x27;a&#x27;;             // error: assignment of read-only location &#x27;*(p + 1)&#x27;/</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line">&lt;div id=<span class="string">&quot;gitalk-container&quot;</span>&gt;&lt;/div&gt; </span><br><span class="line"><span class="keyword">var</span> title = location.<span class="property">pathname</span>.<span class="title function_">substr</span>(<span class="number">0</span>, <span class="number">50</span>); </span><br><span class="line"><span class="keyword">var</span> gitalk = <span class="keyword">new</span> <span class="title class_">Gitalk</span>(&#123;     </span><br><span class="line"><span class="attr">clientID</span>: ce1c12cb8a7db3839c5a,</span><br><span class="line"><span class="attr">clientSecret</span>: 41b2bbc68d98bb6fa2ff1e1b5142f9053d833d70,</span><br><span class="line"><span class="attr">repo</span>: <span class="string">&#x27;MyBlogTalk&#x27;</span>,</span><br><span class="line"><span class="attr">owner</span>: <span class="string">&#x27;zermatt-luo&#x27;</span>,</span><br><span class="line"><span class="attr">admin</span>: [<span class="string">&#x27;zermatt-luo&#x27;</span>],</span><br><span class="line"><span class="attr">id</span>: title,</span><br><span class="line"><span class="attr">distractionFreeMode</span>: <span class="literal">false</span> &#125;) </span><br></pre></td></tr></table></figure>
 ]]></content>
       <tags>
         <tag>C++</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>人言一二三</title>
-    <url>/2023/09/29/%E4%BA%BA%E8%A8%80%E4%B8%80%E4%BA%8C%E4%B8%89/</url>
-    <content><![CDATA[<h2 id="我喜欢纯粹的事">我喜欢纯粹的事</h2>
-<p>纯粹，就是最高境界…</p>
-]]></content>
-      <tags>
-        <tag>闲谈</tag>
       </tags>
   </entry>
   <entry>
@@ -54,6 +45,16 @@
 ]]></content>
       <tags>
         <tag>初探 hexo</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>人言一二三</title>
+    <url>/2023/09/29/%E4%BA%BA%E8%A8%80%E4%B8%80%E4%BA%8C%E4%B8%89/</url>
+    <content><![CDATA[<h2 id="我喜欢纯粹的事">我喜欢纯粹的事</h2>
+<p>纯粹，就是最高境界…</p>
+]]></content>
+      <tags>
+        <tag>闲谈</tag>
       </tags>
   </entry>
   <entry>

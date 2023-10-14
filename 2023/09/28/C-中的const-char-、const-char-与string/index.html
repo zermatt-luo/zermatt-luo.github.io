@@ -158,7 +158,7 @@
       <div class="post-attach">
         <span class="post-pubtime">
           <i class="iconfont icon-updatetime mr-10" title="更新时间"></i>
-          2023-10-13 11:47:29
+          2023-10-14 20:35:32
         </span>
         
               <span class="post-tags">
@@ -202,6 +202,7 @@
 <p>对于数组而言，<code>p[1]</code>等价于<code>*(p + 1)</code>，<code>i[2]</code>等价于 <code>*(i + 2)</code>，其中p、i都是指向首元素的指针。</p>
 <p>由于p所指向的数组是const的，所以直接对其某一个元素重新赋值会报错。而这对于非const的string类而言并没有限制：</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">s[<span class="number">2</span>] = <span class="string">&#x27;a&#x27;</span>;</span><br><span class="line">cout &lt;&lt; <span class="string">&quot;s: &quot;</span> &lt;&lt; s &lt;&lt; endl;          </span><br><span class="line"><span class="comment">// p[1] = &#x27;a&#x27;;             // error: assignment of read-only location &#x27;*(p + 1)&#x27;/</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&lt;div id=<span class="string">&quot;gitalk-container&quot;</span>&gt;&lt;/div&gt; </span><br><span class="line"><span class="keyword">var</span> title = location.<span class="property">pathname</span>.<span class="title function_">substr</span>(<span class="number">0</span>, <span class="number">50</span>); </span><br><span class="line"><span class="keyword">var</span> gitalk = <span class="keyword">new</span> <span class="title class_">Gitalk</span>(&#123;     </span><br><span class="line"><span class="attr">clientID</span>: ce1c12cb8a7db3839c5a,</span><br><span class="line"><span class="attr">clientSecret</span>: 41b2bbc68d98bb6fa2ff1e1b5142f9053d833d70,</span><br><span class="line"><span class="attr">repo</span>: <span class="string">&#x27;MyBlogTalk&#x27;</span>,</span><br><span class="line"><span class="attr">owner</span>: <span class="string">&#x27;zermatt-luo&#x27;</span>,</span><br><span class="line"><span class="attr">admin</span>: [<span class="string">&#x27;zermatt-luo&#x27;</span>],</span><br><span class="line"><span class="attr">id</span>: title,</span><br><span class="line"><span class="attr">distractionFreeMode</span>: <span class="literal">false</span> &#125;) </span><br></pre></td></tr></table></figure>
 
       </div>
       
@@ -217,7 +218,7 @@
           <div class="post-attach">
             <span class="post-pubtime">
               <i class="iconfont icon-updatetime mr-10" title="更新时间"></i>
-              2023-10-13 11:47:29
+              2023-10-14 20:35:32
             </span>
             
                   <span class="post-tags">
@@ -269,31 +270,29 @@
 
 
 
-  
-    <script async type="text/javascript" src="/plugins/valine.min.js" onload="loadValineSuc(this)"></script>
-  
 
-  <div id="vcomments"></div>
+
+  <div id="gitalk-container"></div>
 
   <script>
-    function loadValineSuc() {
-      new Valine({
-        el: '#vcomments',
-        appId: 'BM2UwnohSHtpXs2QmMYGcmMp-gzGzoHsz',
-        appKey: 'xeVffiIEB6XRFSpdf9hcrWWs',
-        placeholder: 'Welcome!',
-        avatar: 'retro',
-        lang: 'zh-CN'
+    function loadGitalkSuc() {
+      const gitalk = new Gitalk({
+        clientID: 'ce1c12cb8a7db3839c5a',
+        clientSecret: '41b2bbc68d98bb6fa2ff1e1b5142f9053d833d70',
+        repo: 'MyBlogTalk',
+        owner: 'zermatt-luo',
+        admin: ['zermatt-luo'],
+        id: location.pathname,
+        distractionFreeMode: false
       })
+
+      gitalk.render('gitalk-container')
     }
   </script>
-
-    <style>
-      .comments-container .v .vempty {
-        display: none!important;
-      }
-    </style>
-
+  
+    <link rel="stylesheet" href="/plugins/gitalk.css">
+    <script type="text/javascript" src="/plugins/gitalk.min.js" onload="loadGitalkSuc(this)"></script>
+  
 
 
 
