@@ -1,6 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>尽可能使用const</title>
+    <url>/2023/10/17/const/</url>
+    <content><![CDATA[<h2 id="const-for pointer">const for pointer</h2>
+<p>const 约束指针分为两种：常量指针（<strong>const pointer</strong>）<sup class="footnote-ref"><a href="#fn1" id="fnref1">[1]</a></sup>和指向常量的指针（<strong>pointer to const</strong>）<sup class="footnote-ref"><a href="#fn2" id="fnref2">[2]</a></sup>。</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="type">char</span> greeting[] = <span class="string">&quot;Hello&quot;</span>;</span><br><span class="line"><span class="type">char</span> *p = greeting;                <span class="comment">//non-const pointer, non-const data</span></span><br><span class="line"><span class="type">const</span> <span class="type">char</span> *p = greeting;          <span class="comment">//non-const pointer, const data</span></span><br><span class="line"><span class="type">char</span>* <span class="type">const</span> p = greeting;          <span class="comment">//const pointer, non-const data</span></span><br><span class="line"><span class="type">const</span> <span class="type">char</span>* <span class="type">const</span> p = greeting;    <span class="comment">//const pointer, const data</span></span><br></pre></td></tr></table></figure>
+<p>对于<strong>pointer to const</strong>，关键字<code>const</code>可以放在类型之前，也可以放在类型之后、星号<code>*</code>之前。即：</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="type">const</span> <span class="type">int</span> *p = &amp;i; </span><br></pre></td></tr></table></figure>
+<p>等价于</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="type">int</span> <span class="type">const</span> *p = &amp;i;</span><br></pre></td></tr></table></figure>
+<h2 id="const-for stl iterator">const for STL iterator</h2>
+<p>STL迭代器的作用就像 <code>T*</code>指针。对应常量指针（const pointer）和指向常量的指针（pointer to const），STL迭代器也有不同的声明方式：</p>
+<ol>
+<li>
+<p>类似于<code>T* const</code>指针。在最前面声明<code>const</code>即可。</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="function">vector&lt;<span class="type">int</span>&gt; <span class="title">vec</span><span class="params">(<span class="number">10</span>, <span class="number">5</span>)</span></span>;</span><br><span class="line"><span class="type">const</span> vector&lt;<span class="type">int</span>&gt;::iterator iter = vec.<span class="built_in">begin</span>();  <span class="comment">// iter类似于 T* const </span></span><br><span class="line">*iter = <span class="number">9</span>;                                       <span class="comment">// 正确，可以改变iter所指内容的值</span></span><br><span class="line">iter++;                                          <span class="comment">// 错误！iter本身是const的</span></span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p>类似于<code>const T*</code>指针。需要用<strong>const_iterator</strong>。</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="function">vector&lt;<span class="type">int</span>&gt; <span class="title">vec</span><span class="params">(<span class="number">10</span>, <span class="number">5</span>)</span></span>;</span><br><span class="line">vector&lt;<span class="type">int</span>&gt;::const_iterator iter1 = vec.<span class="built_in">begin</span>(); <span class="comment">// iter1类似于 const T*</span></span><br><span class="line">*iter1 = <span class="number">99</span>;                                     <span class="comment">// 错误！*iter1是const</span></span><br><span class="line">iter1++;                                         <span class="comment">// 正确，可以改变iter1自身的值</span></span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h2 id="const-for function return value">const for function return value</h2>
+<p>令函数返回一个常量值，往往可以降低因客户错误而造成的意外，又不至于放弃安全性和高效性。考虑下面一个例子，定义有理数<code>Rational</code>类的<code>operator*</code>:</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Rational</span> &#123; ... &#125;;</span><br><span class="line"><span class="type">const</span> Rational <span class="keyword">operator</span>* (<span class="type">const</span> Rational&amp; lhs, <span class="type">const</span> Rational&amp; rhs);</span><br></pre></td></tr></table></figure>
+<p>这里返回一个<code>const</code>对象是为了避免出现错误造成的意外情况：</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line">Rational a, b, c;</span><br><span class="line">...</span><br><span class="line"><span class="keyword">if</span> (a * b = c) ...                                   <span class="comment">// 其实是想做一个比较动作</span></span><br></pre></td></tr></table></figure>
+<p>如果a和b都是内置类型，这样的代码直截了当就是不合法。将<code>operator*</code>的返回值声明为<code>const</code>可以防止出现上面的错误。这样做与内置类型恰好兼容。</p>
+<hr class="footnotes-sep">
+<section class="footnotes">
+<ol class="footnotes-list">
+<li id="fn1" class="footnote-item"><p>顶层const <a href="#fnref1" class="footnote-backref">↩︎</a></p>
+</li>
+<li id="fn2" class="footnote-item"><p>底层const <a href="#fnref2" class="footnote-backref">↩︎</a></p>
+</li>
+</ol>
+</section>
+]]></content>
+      <tags>
+        <tag>C++</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>const char*、const char[]与string</title>
     <url>/2023/09/28/C-%E4%B8%AD%E7%9A%84const-char-%E3%80%81const-char-%E4%B8%8Estring/</url>
     <content><![CDATA[<p>以下代码是基于gcc的vscode编译器编写的。首先导入运行示例的必要库，并指定标准命名空间std。</p>
@@ -44,67 +86,6 @@
 ]]></content>
       <tags>
         <tag>闲谈</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>尽可能使用const</title>
-    <url>/2023/10/17/const/</url>
-    <content><![CDATA[<h2 id="const-for pointer">const for pointer</h2>
-<p>const 约束指针分为两种：常量指针（<strong>const pointer</strong>）<sup class="footnote-ref"><a href="#fn1" id="fnref1">[1]</a></sup>和指向常量的指针（<strong>pointer to const</strong>）<sup class="footnote-ref"><a href="#fn2" id="fnref2">[2]</a></sup>。</p>
-<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="type">char</span> greeting[] = <span class="string">&quot;Hello&quot;</span>;</span><br><span class="line"><span class="type">char</span> *p = greeting;                <span class="comment">//non-const pointer, non-const data</span></span><br><span class="line"><span class="type">const</span> <span class="type">char</span> *p = greeting;          <span class="comment">//non-const pointer, const data</span></span><br><span class="line"><span class="type">char</span>* <span class="type">const</span> p = greeting;          <span class="comment">//const pointer, non-const data</span></span><br><span class="line"><span class="type">const</span> <span class="type">char</span>* <span class="type">const</span> p = greeting;    <span class="comment">//const pointer, const data</span></span><br></pre></td></tr></table></figure>
-<p>对于<strong>pointer to const</strong>，关键字<code>const</code>可以放在类型之前，也可以放在类型之后、星号<code>*</code>之前。即：</p>
-<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="type">const</span> <span class="type">int</span> *p = &amp;i; </span><br></pre></td></tr></table></figure>
-<p>等价于</p>
-<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="type">int</span> <span class="type">const</span> *p = &amp;i;</span><br></pre></td></tr></table></figure>
-<h2 id="const-for stl iterator">const for STL iterator</h2>
-<p>STL迭代器的作用就像 <code>T*</code>指针。对应常量指针（const pointer）和指向常量的指针（pointer to const），STL迭代器也有不同的声明方式：</p>
-<ol>
-<li>
-<p>类似于<code>T* const</code>指针。在最前面声明<code>const</code>即可。</p>
-<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="function">vector&lt;<span class="type">int</span>&gt; <span class="title">vec</span><span class="params">(<span class="number">10</span>, <span class="number">5</span>)</span></span>;</span><br><span class="line"><span class="type">const</span> vector&lt;<span class="type">int</span>&gt;::iterator iter = vec.<span class="built_in">begin</span>();  <span class="comment">// iter类似于 T* const </span></span><br><span class="line">*iter = <span class="number">9</span>;                                       <span class="comment">// 正确，可以改变iter所指内容的值</span></span><br><span class="line">iter++;                                          <span class="comment">// 错误！iter本身是const的</span></span><br></pre></td></tr></table></figure>
-</li>
-<li>
-<p>类似于<code>const T*</code>指针。需要用<strong>const_iterator</strong>。</p>
-<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="function">vector&lt;<span class="type">int</span>&gt; <span class="title">vec</span><span class="params">(<span class="number">10</span>, <span class="number">5</span>)</span></span>;</span><br><span class="line">vector&lt;<span class="type">int</span>&gt;::const_iterator iter1 = vec.<span class="built_in">begin</span>(); <span class="comment">// iter1类似于 const T*</span></span><br><span class="line">*iter1 = <span class="number">99</span>;                                     <span class="comment">// 错误！*iter1是const</span></span><br><span class="line">iter1++;                                         <span class="comment">// 正确，可以改变iter1自身的值</span></span><br></pre></td></tr></table></figure>
-</li>
-</ol>
-<h2 id="const-for function return value">const for function return value</h2>
-<p>令函数返回一个常量值，往往可以降低因客户错误而造成的意外，又不至于放弃安全性和高效性。考虑下面一个例子，定义有理数<code>Rational</code>类的<code>operator*</code>:</p>
-<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Rational</span> &#123; ... &#125;;</span><br><span class="line"><span class="type">const</span> Rational <span class="keyword">operator</span>* (<span class="type">const</span> Rational&amp; lhs, <span class="type">const</span> Rational&amp; rhs);</span><br></pre></td></tr></table></figure>
-<p>这里返回一个<code>const</code>对象是为了避免出现错误造成的意外情况：</p>
-<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line">Rational a, b, c;</span><br><span class="line">...</span><br><span class="line"><span class="keyword">if</span> (a * b = c) ...                                   <span class="comment">// 其实是想做一个比较动作</span></span><br></pre></td></tr></table></figure>
-<p>如果a和b都是内置类型，这样的代码直截了当就是不合法。将<code>operator*</code>的返回值声明为<code>const</code>可以防止出现上面的错误。这样做与内置类型恰好兼容。</p>
-<hr class="footnotes-sep">
-<section class="footnotes">
-<ol class="footnotes-list">
-<li id="fn1" class="footnote-item"><p>顶层const <a href="#fnref1" class="footnote-backref">↩︎</a></p>
-</li>
-<li id="fn2" class="footnote-item"><p>底层const <a href="#fnref2" class="footnote-backref">↩︎</a></p>
-</li>
-</ol>
-</section>
-]]></content>
-      <tags>
-        <tag>C++</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>图床示例</title>
-    <url>/2023/10/13/%E5%9B%BE%E5%BA%8A%E7%A4%BA%E4%BE%8B/</url>
-    <content><![CDATA[<div class="hbe hbe-container" id="hexo-blog-encrypt" data-wpm="抱歉, 这个密码看着不太对, 请再试试." data-whm="抱歉, 这个文章不能被校验, 不过您还是能看看解密后的内容.">
-  <script id="hbeData" type="hbeData" data-hmacdigest="e78734868485de4a6e4e78e0a7ac661f4b86a21285b1ebb374a4d774771ade87">5c3b87dcd3ec31e12d9049de2feea34565d0d1978161c7a1dfb4c826f0d290702e63d6990aa06d568eac553dfbced43d0fbc3d3100d92eff786292e6c0ef165a13a9427b184c4667686487c4349296b7b05a6e6448213027dc648ad0e84b7b1fcfd42afea6474af567b699193d3c578dd4ac2a2ba5642c748636100402bef8bdfddf4c282e82d916577d6151a990560a5724007536e0b3fd33822f36072160d1bbbfaf2f21d80a4cadfdf0ed1ba945dfc7b0b842503e92eef3d5fd56601d36a41d7ce94575bf569680a8e2ddd862b5b835c839ad9da0cedbd72f48e3252465304d8a5b9b9503fc6138c3791d172b8fd1fc2881aaec77338b040665037e7bddd581fa0308ccebcfec278eb1ab5c01a339464c6afe4708c73d03e25d72a0cc23e77dfc6fd7ca5f190b0fbdd987d23d83fbe470b7e3fd90164ce68553dcff09d4dee9994649c17402891bf9335d421b021f56995a78f6929fa56b968217a52613da3c050eed37300db0f052a372fe92e54f0ab615b5867e85b0ebed337300bbc35118f9477866b716c51c7d972e9f63b6dfb8a3dc84dc6a314a0577fbb5267deecd1a81a00e8568839b3fb1a527842e186a2158a3767b0f8d6f90a1fb7d2b48855f991fd1cae28be78c5bf3c955e27451484093d355f0c8580f6015212ab58ef3091430e4d7c0b2ac597eedc2132e4c8404187fb328eb4a6da3f81e97a71b84ddd4f5d495055b5cf92950a13a45a87e58609eadf81d6000914ac0a4968bd05da532f600f4de751fa0c861ad56dff70ed87741dae8db47f2fc3255b4de3d4f2af0ad88332a142039bec8e89f2600db31ec43d9d050a095338006ed4477aa17c7f411d6c0bd49d371e4303f36e5ed89b4b69788827399ce6bf7a8d7d0a99e33515d63e9e9a101ccd85bddd1c6b92223431fc9</script>
-  <div class="hbe hbe-content">
-    <div class="hbe hbe-input hbe-input-default">
-      <input class="hbe hbe-input-field hbe-input-field-default" type="password" id="hbePass">
-      <label class="hbe hbe-input-label hbe-input-label-default" for="hbePass">
-        <span class="hbe hbe-input-label-content hbe-input-label-content-default">您好, 这里需要密码.</span>
-      </label>
-    </div>
-  </div>
-</div>
-<script data-pjax src="/lib/hbe.js"></script><link href="/css/hbe.style.css" rel="stylesheet" type="text/css">]]></content>
-      <tags>
-        <tag>blog测试</tag>
       </tags>
   </entry>
   <entry>
@@ -165,6 +146,25 @@ Fred Brooks在他的文章《No Silver Bullets》(没有银弹)中，为找到�
 ]]></content>
       <tags>
         <tag>编程建议</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>图床示例</title>
+    <url>/2023/10/13/%E5%9B%BE%E5%BA%8A%E7%A4%BA%E4%BE%8B/</url>
+    <content><![CDATA[<div class="hbe hbe-container" id="hexo-blog-encrypt" data-wpm="抱歉, 这个密码看着不太对, 请再试试." data-whm="抱歉, 这个文章不能被校验, 不过您还是能看看解密后的内容.">
+  <script id="hbeData" type="hbeData" data-hmacdigest="e78734868485de4a6e4e78e0a7ac661f4b86a21285b1ebb374a4d774771ade87">5c3b87dcd3ec31e12d9049de2feea34565d0d1978161c7a1dfb4c826f0d290702e63d6990aa06d568eac553dfbced43d0fbc3d3100d92eff786292e6c0ef165a13a9427b184c4667686487c4349296b7b05a6e6448213027dc648ad0e84b7b1fcfd42afea6474af567b699193d3c578dd4ac2a2ba5642c748636100402bef8bdfddf4c282e82d916577d6151a990560a5724007536e0b3fd33822f36072160d1bbbfaf2f21d80a4cadfdf0ed1ba945dfc7b0b842503e92eef3d5fd56601d36a41d7ce94575bf569680a8e2ddd862b5b835c839ad9da0cedbd72f48e3252465304d8a5b9b9503fc6138c3791d172b8fd1fc2881aaec77338b040665037e7bddd581fa0308ccebcfec278eb1ab5c01a339464c6afe4708c73d03e25d72a0cc23e77dfc6fd7ca5f190b0fbdd987d23d83fbe470b7e3fd90164ce68553dcff09d4dee9994649c17402891bf9335d421b021f56995a78f6929fa56b968217a52613da3c050eed37300db0f052a372fe92e54f0ab615b5867e85b0ebed337300bbc35118f9477866b716c51c7d972e9f63b6dfb8a3dc84dc6a314a0577fbb5267deecd1a81a00e8568839b3fb1a527842e186a2158a3767b0f8d6f90a1fb7d2b48855f991fd1cae28be78c5bf3c955e27451484093d355f0c8580f6015212ab58ef3091430e4d7c0b2ac597eedc2132e4c8404187fb328eb4a6da3f81e97a71b84ddd4f5d495055b5cf92950a13a45a87e58609eadf81d6000914ac0a4968bd05da532f600f4de751fa0c861ad56dff70ed87741dae8db47f2fc3255b4de3d4f2af0ad88332a142039bec8e89f2600db31ec43d9d050a095338006ed4477aa17c7f411d6c0bd49d371e4303f36e5ed89b4b69788827399ce6bf7a8d7d0a99e33515d63e9e9a101ccd85bddd1c6b92223431fc9</script>
+  <div class="hbe hbe-content">
+    <div class="hbe hbe-input hbe-input-default">
+      <input class="hbe hbe-input-field hbe-input-field-default" type="password" id="hbePass">
+      <label class="hbe hbe-input-label hbe-input-label-default" for="hbePass">
+        <span class="hbe hbe-input-label-content hbe-input-label-content-default">您好, 这里需要密码.</span>
+      </label>
+    </div>
+  </div>
+</div>
+<script data-pjax src="/lib/hbe.js"></script><link href="/css/hbe.style.css" rel="stylesheet" type="text/css">]]></content>
+      <tags>
+        <tag>blog测试</tag>
       </tags>
   </entry>
 </search>
