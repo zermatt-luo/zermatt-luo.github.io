@@ -1,6 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>const char*、const char[]与string</title>
+    <url>/2023/09/28/C-%E4%B8%AD%E7%9A%84const-char-%E3%80%81const-char-%E4%B8%8Estring/</url>
+    <content><![CDATA[<p>以下代码是基于gcc的vscode编译器编写的。首先导入运行示例的必要库，并指定标准命名空间std。</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;string&gt;</span> </span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br></pre></td></tr></table></figure>
+<h2 id="1-const char* 与 const char[ ]">1. const char* 与 const char[ ]</h2>
+<p>定义一个char型的指针p，指向字符串“now”；定义一个字符串数组p1，值为“now”。两者都属于<code>const</code>类型。</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="type">const</span> <span class="type">char</span> *p = <span class="string">&quot;now&quot;</span>;</span><br><span class="line"><span class="type">const</span> <span class="type">char</span> p1[<span class="number">4</span>] = <span class="string">&quot;now&quot;</span>;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>const char *  和 const char[ ] 都可以用于处理 C 风格的字符串。</p>
+<p>const char* 主要出现在早期旧版本的代码中。这个指针本身是可变的（即可以改变它所指向的位置），但通过这个指针不能修改所指向数组的内容。它比较灵活（可以重新指向其他位置），在某些情况下更为方便； const char[ ]更接近于 “准确” 的类型，因为它更明确地表示这是一个字符数组。但它没有const char* 灵活。</p>
+</blockquote>
+<p>数组有一个特性，在很多用到数组名字的地方，编译器都会自动地将其转换成一个指向该数组首元素的指针。所以const char p1[4] = “now” 中p1也是一个指针。</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line">cout &lt;&lt; <span class="string">&quot;p: &quot;</span> &lt;&lt; p &lt;&lt; endl;        <span class="comment">// p: now</span></span><br><span class="line">cout &lt;&lt; <span class="string">&quot;p1: &quot;</span> &lt;&lt; p1 &lt;&lt; endl;      <span class="comment">// p1: now</span></span><br><span class="line">cout &lt;&lt; <span class="string">&quot;*p: &quot;</span> &lt;&lt; *p &lt;&lt; endl;      <span class="comment">// *p: n</span></span><br><span class="line">cout &lt;&lt; <span class="string">&quot;*p1: &quot;</span> &lt;&lt; *p1 &lt;&lt; endl;    <span class="comment">// *p1: n</span></span><br></pre></td></tr></table></figure>
+<p>但是，当我们打印指针p和p1时并没有输出地址值，输出的反而是它们指向的字符串数组。</p>
+<p>这是因为cout有一个特殊的<strong>重载</strong>，当它看到一个 <code>const char[ ]</code> 或 <code>const char *</code> 类型，它会假定这是一个以空字符（即 ‘\0’）结尾的 C 风格字符串，并逐字符输出，直到遇到空字符为止。</p>
+<p>后面两行就容易理解了，p 和 p1都是指向字符串数组首元素的指针，解引用后代表首元素。</p>
+<h2 id="2其他类型数组-与 string">2.其他类型数组 与 string</h2>
+<span id="more"></span>
+<p>定义一个string对象s，它的内容是字符串字面值 “now”。</p>
+<p>为了说明其余类型的数组和const char类型的不同，我们这里定义一个int型数组，它有四个元素：0, 1, 2, 3。由上文，<code>int i[4] = &#123;0,1,2,3&#125;</code>中 i 也是一个指针，指向该数组的首元素0。</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line">string s = <span class="string">&quot;now&quot;</span>;</span><br><span class="line"><span class="type">int</span> i[<span class="number">4</span>] = &#123;<span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>&#125;;</span><br><span class="line">cout &lt;&lt; <span class="string">&quot;s: &quot;</span> &lt;&lt; s &lt;&lt; endl;        <span class="comment">// s: now</span></span><br><span class="line">cout &lt;&lt; <span class="string">&quot;i: &quot;</span> &lt;&lt; i &lt;&lt; endl;        <span class="comment">// i: 0x61fdd0</span></span><br><span class="line">cout &lt;&lt; <span class="string">&quot;*i: &quot;</span> &lt;&lt; *i &lt;&lt; endl;      <span class="comment">// *i: 0</span></span><br></pre></td></tr></table></figure>
+<p>s为string的一个对象，与<code>int i[4]</code>中指针 i 代表含义不同，直接打印其值为初始化的&quot;now&quot;。</p>
+<p>我们打印指针 i 时输出即为首元素0的地址，第一部分中特殊的重载并不适用。当解引用 i 时打印0。</p>
+<p>string对象可以使用下标运算符<code>([ ])</code>访问string对象中的单个字符，这是string类所定义的。</p>
+<p>与string类似，对于数组而言，只要指针指向的是数组里的元素，就可以执行下标运算。</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line">cout &lt;&lt; <span class="string">&quot;s[0]: &quot;</span> &lt;&lt; s[<span class="number">0</span>] &lt;&lt; endl;     <span class="comment">// s[0]: n</span></span><br><span class="line">cout &lt;&lt; <span class="string">&quot;p[1]: &quot;</span> &lt;&lt; p[<span class="number">1</span>] &lt;&lt; endl;     <span class="comment">// p[1]: o</span></span><br><span class="line">cout &lt;&lt; <span class="string">&quot;i[2]: &quot;</span> &lt;&lt; i[<span class="number">2</span>] &lt;&lt; endl;     <span class="comment">// i[2]: w</span></span><br></pre></td></tr></table></figure>
+<p>我们可以分别用<code>s[0]</code>、<code>p[1]</code>、<code>i[2]</code>得到 s 中第0个字符，p 中第1个字符，i 中第2个字符（计数从0算起）。</p>
+<p>对于数组而言，<code>p[1]</code>等价于<code>*(p + 1)</code>，<code>i[2]</code>等价于 <code>*(i + 2)</code>，其中p、i都是指向首元素的指针。</p>
+<p>由于p所指向的数组是const的，所以直接对其某一个元素重新赋值会报错。而这对于非const的string类而言并没有限制：</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line">s[<span class="number">2</span>] = <span class="string">&#x27;a&#x27;</span>;</span><br><span class="line">cout &lt;&lt; <span class="string">&quot;s: &quot;</span> &lt;&lt; s &lt;&lt; endl;          </span><br><span class="line"><span class="comment">// p[1] = &#x27;a&#x27;;             // error: assignment of read-only location &#x27;*(p + 1)&#x27;/</span></span><br></pre></td></tr></table></figure>
+]]></content>
+      <tags>
+        <tag>C++</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>我的第一篇博客</title>
+    <url>/2023/09/26/%E6%88%91%E7%9A%84%E7%AC%AC%E4%B8%80%E7%AF%87%E5%8D%9A%E5%AE%A2/</url>
+    <content><![CDATA[<h2 id="你好，世界">你好，世界</h2>
+<h3 id="this-is my first creation thank you, hexo!">This is my first creation. Thank you, Hexo!</h3>
+]]></content>
+      <tags>
+        <tag>初探 hexo</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>尽可能使用const</title>
     <url>/2023/10/17/const/</url>
     <content><![CDATA[<h2 id="const-for pointer">const for pointer</h2>
@@ -43,42 +89,6 @@
       </tags>
   </entry>
   <entry>
-    <title>const char*、const char[]与string</title>
-    <url>/2023/09/28/C-%E4%B8%AD%E7%9A%84const-char-%E3%80%81const-char-%E4%B8%8Estring/</url>
-    <content><![CDATA[<p>以下代码是基于gcc的vscode编译器编写的。首先导入运行示例的必要库，并指定标准命名空间std。</p>
-<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;string&gt;</span> </span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br></pre></td></tr></table></figure>
-<h2 id="1-const char* 与 const char[ ]">1. const char* 与 const char[ ]</h2>
-<p>定义一个char型的指针p，指向字符串“now”；定义一个字符串数组p1，值为“now”。两者都属于<code>const</code>类型。</p>
-<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="type">const</span> <span class="type">char</span> *p = <span class="string">&quot;now&quot;</span>;</span><br><span class="line"><span class="type">const</span> <span class="type">char</span> p1[<span class="number">4</span>] = <span class="string">&quot;now&quot;</span>;</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>const char *  和 const char[ ] 都可以用于处理 C 风格的字符串。</p>
-<p>const char* 主要出现在早期旧版本的代码中。这个指针本身是可变的（即可以改变它所指向的位置），但通过这个指针不能修改所指向数组的内容。它比较灵活（可以重新指向其他位置），在某些情况下更为方便； const char[ ]更接近于 “准确” 的类型，因为它更明确地表示这是一个字符数组。但它没有const char* 灵活。</p>
-</blockquote>
-<p>数组有一个特性，在很多用到数组名字的地方，编译器都会自动地将其转换成一个指向该数组首元素的指针。所以const char p1[4] = “now” 中p1也是一个指针。</p>
-<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line">cout &lt;&lt; <span class="string">&quot;p: &quot;</span> &lt;&lt; p &lt;&lt; endl;        <span class="comment">// p: now</span></span><br><span class="line">cout &lt;&lt; <span class="string">&quot;p1: &quot;</span> &lt;&lt; p1 &lt;&lt; endl;      <span class="comment">// p1: now</span></span><br><span class="line">cout &lt;&lt; <span class="string">&quot;*p: &quot;</span> &lt;&lt; *p &lt;&lt; endl;      <span class="comment">// *p: n</span></span><br><span class="line">cout &lt;&lt; <span class="string">&quot;*p1: &quot;</span> &lt;&lt; *p1 &lt;&lt; endl;    <span class="comment">// *p1: n</span></span><br></pre></td></tr></table></figure>
-<p>但是，当我们打印指针p和p1时并没有输出地址值，输出的反而是它们指向的字符串数组。</p>
-<p>这是因为cout有一个特殊的<strong>重载</strong>，当它看到一个 <code>const char[ ]</code> 或 <code>const char *</code> 类型，它会假定这是一个以空字符（即 ‘\0’）结尾的 C 风格字符串，并逐字符输出，直到遇到空字符为止。</p>
-<p>后面两行就容易理解了，p 和 p1都是指向字符串数组首元素的指针，解引用后代表首元素。</p>
-<h2 id="2其他类型数组-与 string">2.其他类型数组 与 string</h2>
-<span id="more"></span>
-<p>定义一个string对象s，它的内容是字符串字面值 “now”。</p>
-<p>为了说明其余类型的数组和const char类型的不同，我们这里定义一个int型数组，它有四个元素：0, 1, 2, 3。由上文，<code>int i[4] = &#123;0,1,2,3&#125;</code>中 i 也是一个指针，指向该数组的首元素0。</p>
-<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line">string s = <span class="string">&quot;now&quot;</span>;</span><br><span class="line"><span class="type">int</span> i[<span class="number">4</span>] = &#123;<span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>&#125;;</span><br><span class="line">cout &lt;&lt; <span class="string">&quot;s: &quot;</span> &lt;&lt; s &lt;&lt; endl;        <span class="comment">// s: now</span></span><br><span class="line">cout &lt;&lt; <span class="string">&quot;i: &quot;</span> &lt;&lt; i &lt;&lt; endl;        <span class="comment">// i: 0x61fdd0</span></span><br><span class="line">cout &lt;&lt; <span class="string">&quot;*i: &quot;</span> &lt;&lt; *i &lt;&lt; endl;      <span class="comment">// *i: 0</span></span><br></pre></td></tr></table></figure>
-<p>s为string的一个对象，与<code>int i[4]</code>中指针 i 代表含义不同，直接打印其值为初始化的&quot;now&quot;。</p>
-<p>我们打印指针 i 时输出即为首元素0的地址，第一部分中特殊的重载并不适用。当解引用 i 时打印0。</p>
-<p>string对象可以使用下标运算符<code>([ ])</code>访问string对象中的单个字符，这是string类所定义的。</p>
-<p>与string类似，对于数组而言，只要指针指向的是数组里的元素，就可以执行下标运算。</p>
-<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line">cout &lt;&lt; <span class="string">&quot;s[0]: &quot;</span> &lt;&lt; s[<span class="number">0</span>] &lt;&lt; endl;     <span class="comment">// s[0]: n</span></span><br><span class="line">cout &lt;&lt; <span class="string">&quot;p[1]: &quot;</span> &lt;&lt; p[<span class="number">1</span>] &lt;&lt; endl;     <span class="comment">// p[1]: o</span></span><br><span class="line">cout &lt;&lt; <span class="string">&quot;i[2]: &quot;</span> &lt;&lt; i[<span class="number">2</span>] &lt;&lt; endl;     <span class="comment">// i[2]: w</span></span><br></pre></td></tr></table></figure>
-<p>我们可以分别用<code>s[0]</code>、<code>p[1]</code>、<code>i[2]</code>得到 s 中第0个字符，p 中第1个字符，i 中第2个字符（计数从0算起）。</p>
-<p>对于数组而言，<code>p[1]</code>等价于<code>*(p + 1)</code>，<code>i[2]</code>等价于 <code>*(i + 2)</code>，其中p、i都是指向首元素的指针。</p>
-<p>由于p所指向的数组是const的，所以直接对其某一个元素重新赋值会报错。而这对于非const的string类而言并没有限制：</p>
-<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line">s[<span class="number">2</span>] = <span class="string">&#x27;a&#x27;</span>;</span><br><span class="line">cout &lt;&lt; <span class="string">&quot;s: &quot;</span> &lt;&lt; s &lt;&lt; endl;          </span><br><span class="line"><span class="comment">// p[1] = &#x27;a&#x27;;             // error: assignment of read-only location &#x27;*(p + 1)&#x27;/</span></span><br></pre></td></tr></table></figure>
-]]></content>
-      <tags>
-        <tag>C++</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>人言一二三</title>
     <url>/2023/09/29/%E4%BA%BA%E8%A8%80%E4%B8%80%E4%BA%8C%E4%B8%89/</url>
     <content><![CDATA[<h2 id="我喜欢纯粹的事">我喜欢纯粹的事</h2>
@@ -89,13 +99,50 @@
       </tags>
   </entry>
   <entry>
-    <title>我的第一篇博客</title>
-    <url>/2023/09/26/%E6%88%91%E7%9A%84%E7%AC%AC%E4%B8%80%E7%AF%87%E5%8D%9A%E5%AE%A2/</url>
-    <content><![CDATA[<h2 id="你好，世界">你好，世界</h2>
-<h3 id="this-is my first creation thank you, hexo!">This is my first creation. Thank you, Hexo!</h3>
+    <title>图床示例</title>
+    <url>/2023/10/13/%E5%9B%BE%E5%BA%8A%E7%A4%BA%E4%BE%8B/</url>
+    <content><![CDATA[<div class="hbe hbe-container" id="hexo-blog-encrypt" data-wpm="抱歉, 这个密码看着不太对, 请再试试." data-whm="抱歉, 这个文章不能被校验, 不过您还是能看看解密后的内容.">
+  <script id="hbeData" type="hbeData" data-hmacdigest="e78734868485de4a6e4e78e0a7ac661f4b86a21285b1ebb374a4d774771ade87">5c3b87dcd3ec31e12d9049de2feea34565d0d1978161c7a1dfb4c826f0d290702e63d6990aa06d568eac553dfbced43d0fbc3d3100d92eff786292e6c0ef165a13a9427b184c4667686487c4349296b7b05a6e6448213027dc648ad0e84b7b1fcfd42afea6474af567b699193d3c578dd4ac2a2ba5642c748636100402bef8bdfddf4c282e82d916577d6151a990560a5724007536e0b3fd33822f36072160d1bbbfaf2f21d80a4cadfdf0ed1ba945dfc7b0b842503e92eef3d5fd56601d36a41d7ce94575bf569680a8e2ddd862b5b835c839ad9da0cedbd72f48e3252465304d8a5b9b9503fc6138c3791d172b8fd1fc2881aaec77338b040665037e7bddd581fa0308ccebcfec278eb1ab5c01a339464c6afe4708c73d03e25d72a0cc23e77dfc6fd7ca5f190b0fbdd987d23d83fbe470b7e3fd90164ce68553dcff09d4dee9994649c17402891bf9335d421b021f56995a78f6929fa56b968217a52613da3c050eed37300db0f052a372fe92e54f0ab615b5867e85b0ebed337300bbc35118f9477866b716c51c7d972e9f63b6dfb8a3dc84dc6a314a0577fbb5267deecd1a81a00e8568839b3fb1a527842e186a2158a3767b0f8d6f90a1fb7d2b48855f991fd1cae28be78c5bf3c955e27451484093d355f0c8580f6015212ab58ef3091430e4d7c0b2ac597eedc2132e4c8404187fb328eb4a6da3f81e97a71b84ddd4f5d495055b5cf92950a13a45a87e58609eadf81d6000914ac0a4968bd05da532f600f4de751fa0c861ad56dff70ed87741dae8db47f2fc3255b4de3d4f2af0ad88332a142039bec8e89f2600db31ec43d9d050a095338006ed4477aa17c7f411d6c0bd49d371e4303f36e5ed89b4b69788827399ce6bf7a8d7d0a99e33515d63e9e9a101ccd85bddd1c6b92223431fc9</script>
+  <div class="hbe hbe-content">
+    <div class="hbe hbe-input hbe-input-default">
+      <input class="hbe hbe-input-field hbe-input-field-default" type="password" id="hbePass">
+      <label class="hbe hbe-input-label hbe-input-label-default" for="hbePass">
+        <span class="hbe hbe-input-label-content hbe-input-label-content-default">您好, 这里需要密码.</span>
+      </label>
+    </div>
+  </div>
+</div>
+<script data-pjax src="/lib/hbe.js"></script><link href="/css/hbe.style.css" rel="stylesheet" type="text/css">]]></content>
+      <tags>
+        <tag>blog测试</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>歌曲《其实都没有》</title>
+    <url>/2023/10/23/%E6%AD%8C%E6%9B%B2%E3%80%8A%E5%85%B6%E5%AE%9E%E9%83%BD%E6%B2%A1%E6%9C%89%E3%80%8B/</url>
+    <content><![CDATA[<p>大圆哥的视频带火了一首歌——<strong>《其实都没有》</strong>。在这里我们不讨论它的故事和内容，我对其他人对它的态度很感兴趣，让我们用数据说话：</p>
+<p><a href="https://index.baidu.com/v2/index.html#/">百度指数</a>记录了国内用户使用百度搜索的所有关键词的趋势和热度。当然谷歌趋势也是另一种途径，但我看了上面并没有很多支撑起具有统计意义的数据，可能这跟国内用户使用习惯有关。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/zermatt-luo/MyBlog@main/img/QQ%E6%88%AA%E5%9B%BE20231023165956.png" alt="QQ截图20231023165956"></p>
+<p>上图是百度指数中《其实都没有》一个月内的搜索趋势。从大圆哥10月14日发布视频后，这首歌到今天为止搜索翻了6倍，之前一直稳定在1000左右，到今天搜索指数达到了6000。当然，变化的趋势不是线性的，从最近几天开始暴涨，这可能跟短视频的推荐算法有关。</p>
+<p>让我们看看搜索这首歌的人的地域：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/zermatt-luo/MyBlog@main/img/QQ%E6%88%AA%E5%9B%BE20231023170533.png" alt="QQ截图20231023170533"></p>
+<p>前五名中除去广东、江苏、浙江这些外来劳务大省外，剩下山东和河南。河南我猜想因为人多以及大圆哥在河南，导致推荐算法优先推送本省，这里我们暂且不表。剩下的只有搜索量第一的山东，写到这里你们应该懂我意思。除去少数个例外，那里是重情重义的地方。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/zermatt-luo/MyBlog@main/img/QQ%E6%88%AA%E5%9B%BE20231023171836.png" alt="QQ截图20231023171836"></p>
+<p>上面是年龄分布：</p>
+<ol>
+<li>30—39：而立之年你们应该都成家立业了吧，心里也尚有放不下的遗憾。年少时的欢喜也许回不去了，但它可曾照亮过你的生活？</li>
+<li>20—29：一无所有的年纪，幻想过以后两人的美好未来，相夫教子，执子之手，万家灯火总有一盏为我而留。但美好存在的意义，不正是因为痛苦的存在吗？</li>
+</ol>
+<p>小于19岁是懵懵懂懂的年纪，没有生活的压力，苦恼的多是人际关系：Ta今天不理我了，Ta对我的态度怎么变了…尚未体验在生活的重担下，真正爱而不得的无奈。</p>
+<p>搜索量占比最少的是50岁以上的。<strong>五十而知天命</strong>，除去父母这一辈较少使用互联网搜索内容外，到这个年纪已经意识到很多事情都是天注定，万般不由人。命运使然，有时终须有，无时莫强求，坦然接受生活吧。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/zermatt-luo/MyBlog@main/img/QQ%E6%88%AA%E5%9B%BE20231023173443.png" alt="QQ截图20231023173443"></p>
+<p>受视频的影响，男生更倾向于搜索这首歌。但是我想说，男生多受点委屈，不算什么。有人曾说过，男人被甩过才会变强，没有度量把这个当笑话说的男人是无能的。但是无论男女生，记得珍惜身边人，要知道：<strong>快乐不是你有什么，而是你意识到有什么</strong>。</p>
+<p>没有人不遗憾，只是有人不喊疼。我很喜欢里面的一句歌词，尽管它与本首歌不太搭：<strong>泛黄，有泛黄的理由</strong>。</p>
+<hr>
+<p>哦对了，当我敲下这段文字时，我的背景音乐正是这首歌——《其实都没有》。播放它的是apple music，它比任何国内音乐播放器都好用。</p>
 ]]></content>
       <tags>
-        <tag>初探 hexo</tag>
+        <tag>成长</tag>
       </tags>
   </entry>
   <entry>
@@ -146,25 +193,6 @@ Fred Brooks在他的文章《No Silver Bullets》(没有银弹)中，为找到�
 ]]></content>
       <tags>
         <tag>编程建议</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>图床示例</title>
-    <url>/2023/10/13/%E5%9B%BE%E5%BA%8A%E7%A4%BA%E4%BE%8B/</url>
-    <content><![CDATA[<div class="hbe hbe-container" id="hexo-blog-encrypt" data-wpm="抱歉, 这个密码看着不太对, 请再试试." data-whm="抱歉, 这个文章不能被校验, 不过您还是能看看解密后的内容.">
-  <script id="hbeData" type="hbeData" data-hmacdigest="e78734868485de4a6e4e78e0a7ac661f4b86a21285b1ebb374a4d774771ade87">5c3b87dcd3ec31e12d9049de2feea34565d0d1978161c7a1dfb4c826f0d290702e63d6990aa06d568eac553dfbced43d0fbc3d3100d92eff786292e6c0ef165a13a9427b184c4667686487c4349296b7b05a6e6448213027dc648ad0e84b7b1fcfd42afea6474af567b699193d3c578dd4ac2a2ba5642c748636100402bef8bdfddf4c282e82d916577d6151a990560a5724007536e0b3fd33822f36072160d1bbbfaf2f21d80a4cadfdf0ed1ba945dfc7b0b842503e92eef3d5fd56601d36a41d7ce94575bf569680a8e2ddd862b5b835c839ad9da0cedbd72f48e3252465304d8a5b9b9503fc6138c3791d172b8fd1fc2881aaec77338b040665037e7bddd581fa0308ccebcfec278eb1ab5c01a339464c6afe4708c73d03e25d72a0cc23e77dfc6fd7ca5f190b0fbdd987d23d83fbe470b7e3fd90164ce68553dcff09d4dee9994649c17402891bf9335d421b021f56995a78f6929fa56b968217a52613da3c050eed37300db0f052a372fe92e54f0ab615b5867e85b0ebed337300bbc35118f9477866b716c51c7d972e9f63b6dfb8a3dc84dc6a314a0577fbb5267deecd1a81a00e8568839b3fb1a527842e186a2158a3767b0f8d6f90a1fb7d2b48855f991fd1cae28be78c5bf3c955e27451484093d355f0c8580f6015212ab58ef3091430e4d7c0b2ac597eedc2132e4c8404187fb328eb4a6da3f81e97a71b84ddd4f5d495055b5cf92950a13a45a87e58609eadf81d6000914ac0a4968bd05da532f600f4de751fa0c861ad56dff70ed87741dae8db47f2fc3255b4de3d4f2af0ad88332a142039bec8e89f2600db31ec43d9d050a095338006ed4477aa17c7f411d6c0bd49d371e4303f36e5ed89b4b69788827399ce6bf7a8d7d0a99e33515d63e9e9a101ccd85bddd1c6b92223431fc9</script>
-  <div class="hbe hbe-content">
-    <div class="hbe hbe-input hbe-input-default">
-      <input class="hbe hbe-input-field hbe-input-field-default" type="password" id="hbePass">
-      <label class="hbe hbe-input-label hbe-input-label-default" for="hbePass">
-        <span class="hbe hbe-input-label-content hbe-input-label-content-default">您好, 这里需要密码.</span>
-      </label>
-    </div>
-  </div>
-</div>
-<script data-pjax src="/lib/hbe.js"></script><link href="/css/hbe.style.css" rel="stylesheet" type="text/css">]]></content>
-      <tags>
-        <tag>blog测试</tag>
       </tags>
   </entry>
 </search>

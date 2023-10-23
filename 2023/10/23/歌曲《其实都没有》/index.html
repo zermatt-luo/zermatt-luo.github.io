@@ -11,7 +11,7 @@
   
   <title>
     
-      尽可能使用const 
+      歌曲《其实都没有》 
       
       
       |
@@ -154,19 +154,19 @@
   <!-- 文章内容页 url形式：https://yoursite/文章标题/ -->
   <div class="container post-details" id="post-details">
     <div class="post-content">
-      <div class="post-title">尽可能使用const</div>
+      <div class="post-title">歌曲《其实都没有》</div>
       <div class="post-attach">
         <span class="post-pubtime">
           <i class="iconfont icon-updatetime mr-10" title="更新时间"></i>
-          2023-10-18 11:26:22
+          2023-10-23 18:32:09
         </span>
         
               <span class="post-tags">
                 <i class="iconfont icon-tags mr-10" title="标签"></i>
                 
                 <span class="span--tag mr-8">
-                  <a href="/tags/C/" title="C++">
-                    #C++
+                  <a href="/tags/%E6%88%90%E9%95%BF/" title="成长">
+                    #成长
                   </a>
                 </span>
                 
@@ -174,47 +174,33 @@
           
       </div>
       <div class="markdown-body">
-        <h2 id="const-for pointer">const for pointer</h2>
-<p>const 约束指针分为两种：常量指针（<strong>const pointer</strong>）<sup class="footnote-ref"><a href="#fn1" id="fnref1">[1]</a></sup>和指向常量的指针（<strong>pointer to const</strong>）<sup class="footnote-ref"><a href="#fn2" id="fnref2">[2]</a></sup>。</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">char</span> greeting[] = <span class="string">&quot;Hello&quot;</span>;</span><br><span class="line"><span class="type">char</span> *p = greeting;                <span class="comment">//non-const pointer, non-const data</span></span><br><span class="line"><span class="type">const</span> <span class="type">char</span> *p = greeting;          <span class="comment">//non-const pointer, const data</span></span><br><span class="line"><span class="type">char</span>* <span class="type">const</span> p = greeting;          <span class="comment">//const pointer, non-const data</span></span><br><span class="line"><span class="type">const</span> <span class="type">char</span>* <span class="type">const</span> p = greeting;    <span class="comment">//const pointer, const data</span></span><br></pre></td></tr></table></figure>
-<p>对于<strong>pointer to const</strong>，关键字<code>const</code>可以放在类型之前，也可以放在类型之后、星号<code>*</code>之前。即：</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">const</span> <span class="type">int</span> *p = &amp;i; </span><br></pre></td></tr></table></figure>
-<p>等价于</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> <span class="type">const</span> *p = &amp;i;</span><br></pre></td></tr></table></figure>
-<h2 id="const-for stl iterator">const for STL iterator</h2>
-<p>STL迭代器的作用就像 <code>T*</code>指针。对应常量指针（const pointer）和指向常量的指针（pointer to const），STL迭代器也有不同的声明方式：</p>
+        <p>大圆哥的视频带火了一首歌——<strong>《其实都没有》</strong>。在这里我们不讨论它的故事和内容，我对其他人对它的态度很感兴趣，让我们用数据说话：</p>
+<p><a target="_blank" rel="noopener" href="https://index.baidu.com/v2/index.html#/">百度指数</a>记录了国内用户使用百度搜索的所有关键词的趋势和热度。当然谷歌趋势也是另一种途径，但我看了上面并没有很多支撑起具有统计意义的数据，可能这跟国内用户使用习惯有关。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/zermatt-luo/MyBlog@main/img/QQ%E6%88%AA%E5%9B%BE20231023165956.png" alt="QQ截图20231023165956"></p>
+<p>上图是百度指数中《其实都没有》一个月内的搜索趋势。从大圆哥10月14日发布视频后，这首歌到今天为止搜索翻了6倍，之前一直稳定在1000左右，到今天搜索指数达到了6000。当然，变化的趋势不是线性的，从最近几天开始暴涨，这可能跟短视频的推荐算法有关。</p>
+<p>让我们看看搜索这首歌的人的地域：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/zermatt-luo/MyBlog@main/img/QQ%E6%88%AA%E5%9B%BE20231023170533.png" alt="QQ截图20231023170533"></p>
+<p>前五名中除去广东、江苏、浙江这些外来劳务大省外，剩下山东和河南。河南我猜想因为人多以及大圆哥在河南，导致推荐算法优先推送本省，这里我们暂且不表。剩下的只有搜索量第一的山东，写到这里你们应该懂我意思。除去少数个例外，那里是重情重义的地方。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/zermatt-luo/MyBlog@main/img/QQ%E6%88%AA%E5%9B%BE20231023171836.png" alt="QQ截图20231023171836"></p>
+<p>上面是年龄分布：</p>
 <ol>
-<li>
-<p>类似于<code>T* const</code>指针。在最前面声明<code>const</code>即可。</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">vector&lt;<span class="type">int</span>&gt; <span class="title">vec</span><span class="params">(<span class="number">10</span>, <span class="number">5</span>)</span></span>;</span><br><span class="line"><span class="type">const</span> vector&lt;<span class="type">int</span>&gt;::iterator iter = vec.<span class="built_in">begin</span>();  <span class="comment">// iter类似于 T* const </span></span><br><span class="line">*iter = <span class="number">9</span>;                                       <span class="comment">// 正确，可以改变iter所指内容的值</span></span><br><span class="line">iter++;                                          <span class="comment">// 错误！iter本身是const的</span></span><br></pre></td></tr></table></figure>
-</li>
-<li>
-<p>类似于<code>const T*</code>指针。需要用<strong>const_iterator</strong>。</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">vector&lt;<span class="type">int</span>&gt; <span class="title">vec</span><span class="params">(<span class="number">10</span>, <span class="number">5</span>)</span></span>;</span><br><span class="line">vector&lt;<span class="type">int</span>&gt;::const_iterator iter1 = vec.<span class="built_in">begin</span>(); <span class="comment">// iter1类似于 const T*</span></span><br><span class="line">*iter1 = <span class="number">99</span>;                                     <span class="comment">// 错误！*iter1是const</span></span><br><span class="line">iter1++;                                         <span class="comment">// 正确，可以改变iter1自身的值</span></span><br></pre></td></tr></table></figure>
-</li>
+<li>30—39：而立之年你们应该都成家立业了吧，心里也尚有放不下的遗憾。年少时的欢喜也许回不去了，但它可曾照亮过你的生活？</li>
+<li>20—29：一无所有的年纪，幻想过以后两人的美好未来，相夫教子，执子之手，万家灯火总有一盏为我而留。但美好存在的意义，不正是因为痛苦的存在吗？</li>
 </ol>
-<h2 id="const-for function return value">const for function return value</h2>
-<p>令函数返回一个常量值，往往可以降低因客户错误而造成的意外，又不至于放弃安全性和高效性。考虑下面一个例子，定义有理数<code>Rational</code>类的<code>operator*</code>:</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Rational</span> &#123; ... &#125;;</span><br><span class="line"><span class="type">const</span> Rational <span class="keyword">operator</span>* (<span class="type">const</span> Rational&amp; lhs, <span class="type">const</span> Rational&amp; rhs);</span><br></pre></td></tr></table></figure>
-<p>这里返回一个<code>const</code>对象是为了避免出现错误造成的意外情况：</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Rational a, b, c;</span><br><span class="line">...</span><br><span class="line"><span class="keyword">if</span> (a * b = c) ...                                   <span class="comment">// 其实是想做一个比较动作</span></span><br></pre></td></tr></table></figure>
-<p>如果a和b都是内置类型，这样的代码直截了当就是不合法。将<code>operator*</code>的返回值声明为<code>const</code>可以防止出现上面的错误。这样做与内置类型恰好兼容。</p>
-<hr class="footnotes-sep">
-<section class="footnotes">
-<ol class="footnotes-list">
-<li id="fn1" class="footnote-item"><p>顶层const <a href="#fnref1" class="footnote-backref">↩︎</a></p>
-</li>
-<li id="fn2" class="footnote-item"><p>底层const <a href="#fnref2" class="footnote-backref">↩︎</a></p>
-</li>
-</ol>
-</section>
+<p>小于19岁是懵懵懂懂的年纪，没有生活的压力，苦恼的多是人际关系：Ta今天不理我了，Ta对我的态度怎么变了…尚未体验在生活的重担下，真正爱而不得的无奈。</p>
+<p>搜索量占比最少的是50岁以上的。<strong>五十而知天命</strong>，除去父母这一辈较少使用互联网搜索内容外，到这个年纪已经意识到很多事情都是天注定，万般不由人。命运使然，有时终须有，无时莫强求，坦然接受生活吧。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/zermatt-luo/MyBlog@main/img/QQ%E6%88%AA%E5%9B%BE20231023173443.png" alt="QQ截图20231023173443"></p>
+<p>受视频的影响，男生更倾向于搜索这首歌。但是我想说，男生多受点委屈，不算什么。有人曾说过，男人被甩过才会变强，没有度量把这个当笑话说的男人是无能的。但是无论男女生，记得珍惜身边人，要知道：<strong>快乐不是你有什么，而是你意识到有什么</strong>。</p>
+<p>没有人不遗憾，只是有人不喊疼。我很喜欢里面的一句歌词，尽管它与本首歌不太搭：<strong>泛黄，有泛黄的理由</strong>。</p>
+<hr>
+<p>哦对了，当我敲下这段文字时，我的背景音乐正是这首歌——《其实都没有》。播放它的是apple music，它比任何国内音乐播放器都好用。</p>
 
       </div>
       
         <div class="prev-or-next">
           <div class="post-foot-next">
             
-              <a href="/2023/10/13/%E5%9B%BE%E5%BA%8A%E7%A4%BA%E4%BE%8B/" target="_self">
+              <a href="/2023/10/17/const/" target="_self">
                 <i class="iconfont icon-chevronleft"></i>
                 <span>上一页</span>
               </a>
@@ -223,15 +209,15 @@
           <div class="post-attach">
             <span class="post-pubtime">
               <i class="iconfont icon-updatetime mr-10" title="更新时间"></i>
-              2023-10-18 11:26:22
+              2023-10-23 18:32:09
             </span>
             
                   <span class="post-tags">
                     <i class="iconfont icon-tags mr-10" title="标签"></i>
                     
                     <span class="span--tag mr-8">
-                      <a href="/tags/C/" title="C++">
-                        #C++
+                      <a href="/tags/%E6%88%90%E9%95%BF/" title="成长">
+                        #成长
                       </a>
                     </span>
                     
@@ -240,33 +226,11 @@
           </div>
           <div class="post-foot-prev">
             
-              <a href="/2023/10/23/%E6%AD%8C%E6%9B%B2%E3%80%8A%E5%85%B6%E5%AE%9E%E9%83%BD%E6%B2%A1%E6%9C%89%E3%80%8B/" target="_self">
-                <span>下一页</span>
-                <i class="iconfont icon-chevronright"></i>
-              </a>
-            
           </div>
         </div>
       
     </div>
     
-  <div id="btn-catalog" class="btn-catalog">
-    <i class="iconfont icon-catalog"></i>
-  </div>
-  <div class="post-catalog hidden" id="catalog">
-    <div class="title">目录</div>
-    <div class="catalog-content">
-      
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#const-for%20pointer"><span class="toc-text">const for pointer</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#const-for%20stl%20iterator"><span class="toc-text">const for STL iterator</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#const-for%20function%20return%20value"><span class="toc-text">const for function return value</span></a></li></ol>
-      
-    </div>
-  </div>
-
-  
-<script src="/js/catalog.js"></script>
-
-
-
 
     
       <div class="comments-container">
@@ -587,12 +551,12 @@
       </a>
       <div class="share-content hidden">
         
-          <a class="share-item" href="https://twitter.com/intent/tweet?text=' + %E5%B0%BD%E5%8F%AF%E8%83%BD%E4%BD%BF%E7%94%A8const + '&url=' + https%3A%2F%2Fzermatt-luo.github.io%2F2023%2F10%2F17%2Fconst%2F + '" target="_blank" title="Twitter">
+          <a class="share-item" href="https://twitter.com/intent/tweet?text=' + %E6%AD%8C%E6%9B%B2%E3%80%8A%E5%85%B6%E5%AE%9E%E9%83%BD%E6%B2%A1%E6%9C%89%E3%80%8B + '&url=' + https%3A%2F%2Fzermatt-luo.github.io%2F2023%2F10%2F23%2F%25E6%25AD%258C%25E6%259B%25B2%25E3%2580%258A%25E5%2585%25B6%25E5%25AE%259E%25E9%2583%25BD%25E6%25B2%25A1%25E6%259C%2589%25E3%2580%258B%2F + '" target="_blank" title="Twitter">
             <i class="iconfont icon-twitter"></i>
           </a>
         
         
-          <a class="share-item" href="https://www.facebook.com/sharer.php?u=https://zermatt-luo.github.io/2023/10/17/const/" target="_blank" title="Facebook">
+          <a class="share-item" href="https://www.facebook.com/sharer.php?u=https://zermatt-luo.github.io/2023/10/23/%E6%AD%8C%E6%9B%B2%E3%80%8A%E5%85%B6%E5%AE%9E%E9%83%BD%E6%B2%A1%E6%9C%89%E3%80%8B/" target="_blank" title="Facebook">
             <i class="iconfont icon-facebooksquare"></i>
           </a>
         
