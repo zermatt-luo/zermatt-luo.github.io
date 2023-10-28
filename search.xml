@@ -37,16 +37,6 @@
       </tags>
   </entry>
   <entry>
-    <title>我的第一篇博客</title>
-    <url>/2023/09/26/%E6%88%91%E7%9A%84%E7%AC%AC%E4%B8%80%E7%AF%87%E5%8D%9A%E5%AE%A2/</url>
-    <content><![CDATA[<h2 id="你好，世界">你好，世界</h2>
-<h3 id="this-is my first creation thank you, hexo!">This is my first creation. Thank you, Hexo!</h3>
-]]></content>
-      <tags>
-        <tag>初探 hexo</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>尽可能使用const</title>
     <url>/2023/10/17/const/</url>
     <content><![CDATA[<h2 id="const-for pointer">const for pointer</h2>
@@ -86,63 +76,6 @@
 ]]></content>
       <tags>
         <tag>C++</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>人言一二三</title>
-    <url>/2023/09/29/%E4%BA%BA%E8%A8%80%E4%B8%80%E4%BA%8C%E4%B8%89/</url>
-    <content><![CDATA[<h2 id="我喜欢纯粹的事">我喜欢纯粹的事</h2>
-<p>纯粹，就是最高境界…</p>
-]]></content>
-      <tags>
-        <tag>闲谈</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>图床示例</title>
-    <url>/2023/10/13/%E5%9B%BE%E5%BA%8A%E7%A4%BA%E4%BE%8B/</url>
-    <content><![CDATA[<div class="hbe hbe-container" id="hexo-blog-encrypt" data-wpm="抱歉, 这个密码看着不太对, 请再试试." data-whm="抱歉, 这个文章不能被校验, 不过您还是能看看解密后的内容.">
-  <script id="hbeData" type="hbeData" data-hmacdigest="e78734868485de4a6e4e78e0a7ac661f4b86a21285b1ebb374a4d774771ade87">5c3b87dcd3ec31e12d9049de2feea34565d0d1978161c7a1dfb4c826f0d290702e63d6990aa06d568eac553dfbced43d0fbc3d3100d92eff786292e6c0ef165a13a9427b184c4667686487c4349296b7b05a6e6448213027dc648ad0e84b7b1fcfd42afea6474af567b699193d3c578dd4ac2a2ba5642c748636100402bef8bdfddf4c282e82d916577d6151a990560a5724007536e0b3fd33822f36072160d1bbbfaf2f21d80a4cadfdf0ed1ba945dfc7b0b842503e92eef3d5fd56601d36a41d7ce94575bf569680a8e2ddd862b5b835c839ad9da0cedbd72f48e3252465304d8a5b9b9503fc6138c3791d172b8fd1fc2881aaec77338b040665037e7bddd581fa0308ccebcfec278eb1ab5c01a339464c6afe4708c73d03e25d72a0cc23e77dfc6fd7ca5f190b0fbdd987d23d83fbe470b7e3fd90164ce68553dcff09d4dee9994649c17402891bf9335d421b021f56995a78f6929fa56b968217a52613da3c050eed37300db0f052a372fe92e54f0ab615b5867e85b0ebed337300bbc35118f9477866b716c51c7d972e9f63b6dfb8a3dc84dc6a314a0577fbb5267deecd1a81a00e8568839b3fb1a527842e186a2158a3767b0f8d6f90a1fb7d2b48855f991fd1cae28be78c5bf3c955e27451484093d355f0c8580f6015212ab58ef3091430e4d7c0b2ac597eedc2132e4c8404187fb328eb4a6da3f81e97a71b84ddd4f5d495055b5cf92950a13a45a87e58609eadf81d6000914ac0a4968bd05da532f600f4de751fa0c861ad56dff70ed87741dae8db47f2fc3255b4de3d4f2af0ad88332a142039bec8e89f2600db31ec43d9d050a095338006ed4477aa17c7f411d6c0bd49d371e4303f36e5ed89b4b69788827399ce6bf7a8d7d0a99e33515d63e9e9a101ccd85bddd1c6b92223431fc9</script>
-  <div class="hbe hbe-content">
-    <div class="hbe hbe-input hbe-input-default">
-      <input class="hbe hbe-input-field hbe-input-field-default" type="password" id="hbePass">
-      <label class="hbe hbe-input-label hbe-input-label-default" for="hbePass">
-        <span class="hbe hbe-input-label-content hbe-input-label-content-default">您好, 这里需要密码.</span>
-      </label>
-    </div>
-  </div>
-</div>
-<script data-pjax src="/lib/hbe.js"></script><link href="/css/hbe.style.css" rel="stylesheet" type="text/css">]]></content>
-      <tags>
-        <tag>blog测试</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>歌曲《其实都没有》</title>
-    <url>/2023/10/23/%E6%AD%8C%E6%9B%B2%E3%80%8A%E5%85%B6%E5%AE%9E%E9%83%BD%E6%B2%A1%E6%9C%89%E3%80%8B/</url>
-    <content><![CDATA[<p>大圆哥的视频带火了一首歌——<strong>《其实都没有》</strong>。在这里我们不讨论它的故事和内容，我对其他人对它的态度很感兴趣，让我们用数据说话：</p>
-<p><a href="https://index.baidu.com/v2/index.html#/">百度指数</a>记录了国内用户使用百度搜索的所有关键词的趋势和热度。当然谷歌趋势也是另一种途径，但我看了上面并没有很多支撑起具有统计意义的数据，可能这跟国内用户使用习惯有关。</p>
-<p><img src="https://cdn.jsdelivr.net/gh/zermatt-luo/MyBlog@main/img/QQ%E6%88%AA%E5%9B%BE20231023165956.png" alt="QQ截图20231023165956"></p>
-<p>上图是百度指数中《其实都没有》一个月内的搜索趋势。从大圆哥10月14日发布视频后，这首歌到今天为止搜索翻了6倍，之前一直稳定在1000左右，到今天搜索指数达到了6000。当然，变化的趋势不是线性的，从最近几天开始暴涨，这可能跟短视频的推荐算法有关。</p>
-<p>让我们看看搜索这首歌的人的地域：</p>
-<p><img src="https://cdn.jsdelivr.net/gh/zermatt-luo/MyBlog@main/img/QQ%E6%88%AA%E5%9B%BE20231023170533.png" alt="QQ截图20231023170533"></p>
-<p>前五名中除去广东、江苏、浙江这些外来劳务大省外，剩下山东和河南。河南我猜想因为人多以及大圆哥在河南，导致推荐算法优先推送本省，这里我们暂且不表。剩下的只有搜索量第一的山东，写到这里你们应该懂我意思。除去少数个例外，那里是重情重义的地方。</p>
-<p><img src="https://cdn.jsdelivr.net/gh/zermatt-luo/MyBlog@main/img/QQ%E6%88%AA%E5%9B%BE20231023171836.png" alt="QQ截图20231023171836"></p>
-<p>上面是年龄分布：</p>
-<ol>
-<li>30—39：而立之年你们应该都成家立业了吧，心里也尚有放不下的遗憾。年少时的欢喜也许回不去了，但它可曾照亮过你的生活？</li>
-<li>20—29：一无所有的年纪，幻想过以后两人的美好未来，相夫教子，执子之手，万家灯火总有一盏为我而留。但美好存在的意义，不正是因为痛苦的存在吗？</li>
-</ol>
-<p>小于19岁是懵懵懂懂的年纪，没有生活的压力，苦恼的多是人际关系：Ta今天不理我了，Ta对我的态度怎么变了…尚未体验在生活的重担下，真正爱而不得的无奈。</p>
-<p>搜索量占比最少的是50岁以上的。<strong>五十而知天命</strong>，除去父母这一辈较少使用互联网搜索内容外，到这个年纪已经意识到很多事情都是天注定，万般不由人。命运使然，有时终须有，无时莫强求，坦然接受生活吧。</p>
-<p><img src="https://cdn.jsdelivr.net/gh/zermatt-luo/MyBlog@main/img/QQ%E6%88%AA%E5%9B%BE20231023173443.png" alt="QQ截图20231023173443"></p>
-<p>受视频的影响，男生更倾向于搜索这首歌。但是我想说，男生多受点委屈，不算什么。有人曾说过，男人被甩过才会变强，没有度量把这个当笑话说的男人是无能的。但是无论男女生，记得珍惜身边人，要知道：<strong>快乐不是你有什么，而是你意识到有什么</strong>。</p>
-<p>没有人不遗憾，只是有人不喊疼。我很喜欢里面的一句歌词，尽管它与本首歌不太搭：<strong>泛黄，有泛黄的理由</strong>。</p>
-<hr>
-<p>哦对了，当我敲下这段文字时，我的背景音乐正是这首歌——《其实都没有》。播放它的是apple music，它比任何国内音乐播放器都好用。</p>
-]]></content>
-      <tags>
-        <tag>成长</tag>
       </tags>
   </entry>
   <entry>
@@ -193,6 +126,68 @@ Fred Brooks在他的文章《No Silver Bullets》(没有银弹)中，为找到�
 ]]></content>
       <tags>
         <tag>编程建议</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>智能指针shared_ptr的应用</title>
+    <url>/2023/10/28/%E6%99%BA%E8%83%BD%E6%8C%87%E9%92%88shared-ptr%E7%9A%84%E5%BA%94%E7%94%A8/</url>
+    <content><![CDATA[<p>与Java不同的是，C++程序员需要手动管理众多资源，典型的就是<strong>内存回收</strong>。通过使用智能指针 <code>shared_ptr </code>可以几乎消除内存泄漏的资源管理问题。这里我们分别以内存中的堆区和栈区为例，介绍 <code>shared_ptr </code>在资源管理方面的优势。</p>
+<h2 id="堆区（heap-based)">堆区（heap-based)</h2>
+<p>假设有一个投资 class 的基类<code>Investment</code>，其余各种各样的投资类型继承它：</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Investment</span> &#123;...&#125;                        <span class="comment">// “投资类型”继承体系中的基类</span></span><br></pre></td></tr></table></figure>
+<p>现有一个工厂（factory）函数<sup class="footnote-ref"><a href="#fn1" id="fnref1">[1]</a></sup>供应我们某一个特定的 Investment 对象：</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="function">Investment* <span class="title">createInvestment</span><span class="params">()</span></span>;              <span class="comment">// 返回指针，指向Investment继承体系内的动态分配对象</span></span><br></pre></td></tr></table></figure>
+<p>为了避免泄露内存和其他资源，将 factory 函数返回的每一个对象适当地 delete 掉很重要：</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line">Investment* pInv = <span class="built_in">createInvestment</span>();      <span class="comment">// 调用 factory 函数 </span></span><br><span class="line"></span><br><span class="line">...                                         <span class="comment">// 使用它</span></span><br><span class="line"><span class="keyword">delete</span> pInv;                                <span class="comment">// 释放它，避免内存泄漏</span></span><br></pre></td></tr></table></figure>
+<p>现考虑有个 f 函数履行了这个责任：</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">f</span><span class="params">()</span></span>&#123;</span><br><span class="line">    Investment* pInv = <span class="built_in">createInvestment</span>();      <span class="comment">// 调用 factory 函数 </span></span><br><span class="line"></span><br><span class="line">	...                                         </span><br><span class="line">	<span class="keyword">delete</span> pInv;                                <span class="comment">// 释放pInv所指的对象，避免内存泄漏</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>目前看起来似乎没什么问题，但在某些情况下，f 可能无法履行删除 pInv 所指的对象的责任。如：</p>
+<ul>
+<li>“ … ”区域内有一个过早的 return 语句，导致控制流不会触及到 delete 语句</li>
+<li>“ … ”区域内的语句抛出异常</li>
+</ul>
+<p>上面代码可能在初期版本没什么问题，但是随着时间渐渐过去可能会被修改、维护，如果有些人添加 return 语句或者 f 的区域有可能调用一个“过去从未抛出异常，却在被 ‘改善后’ 开始出现异常“时，那么这就背离了函数的资源管理策略的初衷。</p>
+<p>为了确保 createInvestment 返回资源总是被释放，我们需要确保当控制流离开 f，该对象的析构函数会自动释放这些资源。这就引出了智能指针—<strong>shared_ptr</strong>。下面示范如何用 shared_ptr 以避免 f 函数潜在的资源泄漏的可能性：</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">f</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="function">std::shared_ptr&lt;Investment&gt; <span class="title">pInv</span><span class="params">(createInvestment())</span></span>;     <span class="comment">// 调用 factory 函数</span></span><br><span class="line">    </span><br><span class="line">    ...                                                       <span class="comment">// 一如既往使用 pInv</span></span><br><span class="line">&#125;                                                             <span class="comment">// 经由 shared_ptr 析构函数自动删除 pInv</span></span><br></pre></td></tr></table></figure>
+<p>当 shared_ptr 被销毁（例如一个局部的 shared_ptr 离开其作用域）时，计数器该 shared_ptr 关联的计数器会递减。一旦计数器变为0，它就会自动释放自己所管理的对象。</p>
+<p>在改进后的代码中，不论控制流如何离开区块，如过早 return 或抛出异常，一旦对象 pInv 被销毁（离开 f 作用域），其析构函数会被自动调用，于是资源被释放。</p>
+<p>需要补充的是，shared_pte 在其析构函数内做 delete 而不是 delete[ ]动作，这就意味着在动态分配而得到的数组身上使用shared_ptr是个糟糕的行为，尽管它能通过编译：</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line">std:: <span class="function">shared_pte&lt;std::string&gt; <span class="title">sps</span><span class="params">(<span class="keyword">new</span> std::string[<span class="number">10</span>])</span></span>;      <span class="comment">// 很糟糕！会用上错误的 delete 形式</span></span><br><span class="line">std:: <span class="function">shared_pte&lt;<span class="type">int</span>&gt; <span class="title">spi</span><span class="params">(<span class="keyword">new</span> <span class="type">int</span>[<span class="number">1024</span>])</span></span>;                    <span class="comment">// 同样问题</span></span><br></pre></td></tr></table></figure>
+<p>不必惊讶为什么C++工程师没有解决这个问题，即没有特别针对”C++动态分配数组“而设计的类型shared_ptr这样的东西，这是因为STL容器里的 vector 和 string 几乎可以取代动态数组，它们两个有自己的析构函数，可以避免这个问题。</p>
+<h2 id="栈区（stack-based）">栈区（stack-based）</h2>
+<p>我们可以使用 shared_ptr 来建立自己的资源管理类。</p>
+<p>假设我们有一个 class Lock 以及它的两个成员函数 lock、unlock：</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">lock</span><span class="params">(Mutex* pm)</span></span>;                                        <span class="comment">// 锁定pm所指的互斥器</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">unlock</span><span class="params">(Mutex* pm)</span></span>;                                      <span class="comment">// 将互斥器解除锁定</span></span><br></pre></td></tr></table></figure>
+<p>为确保不会忘记将一个被锁住的Mutex解锁，可以通过建立一个 class  Lock 来管理机锁：</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Lock</span>&#123;</span><br><span class="line">    <span class="keyword">public</span>:</span><br><span class="line">    	<span class="function">explict <span class="title">Lock</span><span class="params">(Mutex* pm)</span> : mutexPtr(pm)&#123;</span></span><br><span class="line">            <span class="built_in">lock</span>(mutexPtr);</span><br><span class="line">        &#125;                                                    <span class="comment">// 获得资源</span></span><br><span class="line">    ~<span class="built_in">Lock</span>() &#123; <span class="built_in">unlock</span>(mutexPtr); &#125;                            <span class="comment">// 释放资源</span></span><br><span class="line">    <span class="keyword">private</span>：</span><br><span class="line">        Mutex *mutexPtr;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>用户对 Lock 的用法类似于 shared_ptr 的方式：</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line">Mutex m;                                                     <span class="comment">// 定义你需要的互斥器</span></span><br><span class="line">...</span><br><span class="line">&#123;                                                            <span class="comment">// 建立一个区块用来定义 critical section</span></span><br><span class="line">    <span class="function">Lock <span class="title">m1</span><span class="params">(&amp;m)</span></span>;                                             <span class="comment">// 锁定互斥器</span></span><br><span class="line">    ...                                                      <span class="comment">// 执行 critical section 内的操作</span></span><br><span class="line">&#125;                                                            <span class="comment">// 执行析构函数</span></span><br></pre></td></tr></table></figure>
+<p>目前看起来没什么问题，但是如果 Lock 对象被复制：</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="function">Lock <span class="title">ml1</span><span class="params">(&amp;m)</span></span>;                                                <span class="comment">// 锁定m</span></span><br><span class="line"><span class="function">Lock <span class="title">ml2</span><span class="params">(ml1)</span></span>;                                               <span class="comment">// 复制ml1到ml2上，会出现问题</span></span><br></pre></td></tr></table></figure>
+<p>当我们将 ml1 复制到 ml2 上时，我们希望保留 ml2的资源 <code>mutexPtr</code>，但如果 ml1 离开区块，其析构函数执行，那么经过复制后的 ml2 里的资源也会被释放，这可能与我们的初衷不符。我们希望保留资源，直到它的最后一个使用者（某对象）被销毁，而中间其余对象被销毁不受影响。为此，我们可以引入 shared_ptr。</p>
+<p>如果简单地将 Mutex*  改为 shared_ptr&lt;Mutex&gt;，那么其析构函数行为是”当引用计数为0时删除所指之物“，而不是执行函数 unlock 。幸运的是，shared_ptr 允许指定所谓的”删除器“，即一个函数或函数对象，当引用计数为0时被调用。下面是更新后的代码：</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Lock</span>&#123;</span><br><span class="line">    <span class="keyword">public</span>:</span><br><span class="line">    	<span class="function">explict <span class="title">Lock</span><span class="params">(Mutex* pm)</span> : mutexPtr(pm， unlock)&#123;</span>     <span class="comment">// 以某个 Mutex 初始化 shared_ptr 并以 unlock 函数作为删除器</span></span><br><span class="line">            <span class="built_in">lock</span>(mutexPtr.<span class="built_in">get</span>());</span><br><span class="line">        &#125;                                                    <span class="comment">// 获得资源</span></span><br><span class="line">    <span class="keyword">private</span>：</span><br><span class="line">        std::shared_ptr&lt;Mutex&gt; mutexPtr;                     <span class="comment">// 使用 shared_ptr 代替 raw pointer</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>注意，本例中的 Lock class 不再声明析构函数，因为没有必要。<strong>class</strong>的析构函数（无论是编译器生成的还是用户自定的）会自动调用其 <strong>non-static</strong>成员变量（本例为 mutexPtr）的析构函数。而 mutexPtr 的析构函数会在互斥器引用计数为0时自动调用 shared_ptr 的删除器（本例为 unlock）。</p>
+<h2 id="内存主要分区">内存主要分区</h2>
+<p>最后简要介绍下内存主要的分区。</p>
+<ol>
+<li>堆区（heap）：用来储存<strong>动态分配</strong>的对象，即由 malloc/new 分配的内存块。这是在程序运行时分配的对象，当其不再使用时，我们的代码必须显示地销毁它们。</li>
+<li>栈区（stack）：用来保存定义在函数内的非 static 对象。</li>
+<li>静态内存：用来保存局部 static 对象<sup class="footnote-ref"><a href="#fn2" id="fnref2">[2]</a></sup>、类 static 数据成员以及定义在任何函数之外的变量（全局变量）。</li>
+</ol>
+<p>分配在栈区或者静态内存中的对象由编译器自动创建和销毁。</p>
+<hr class="footnotes-sep">
+<section class="footnotes">
+<ol class="footnotes-list">
+<li id="fn1" class="footnote-item"><p>factory（工厂）函数屏蔽了实现细节，返回一个<strong>base class</strong>指针，指向新生成的<strong>derived class</strong>对象。 <a href="#fnref1" class="footnote-backref">↩︎</a></p>
+</li>
+<li id="fn2" class="footnote-item"><p>函数内的 static 对象是局部  static 对象（local static 对象，因为它们对函数而言是 local 的），其他 static 对象称为全局  static 对象。 <a href="#fnref2" class="footnote-backref">↩︎</a></p>
+</li>
+</ol>
+</section>
+]]></content>
+      <tags>
+        <tag>C++</tag>
       </tags>
   </entry>
 </search>

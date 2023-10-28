@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html lang="zh-CN" color-mode="light">
+
+  <head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  
+  <meta name="author" content="xluo" />
+  <meta name="description" content="" />
+  
+  
+  <title>
+    
+      智能指针shared_ptr的应用 
+      
+      
+      |
+    
+     Xu Luo
+  </title>
+
+  
+
+  <!-- Raleway-Font -->
+  <link href="https://fonts.googleapis.com/css?family=Raleway&display=swap" rel="stylesheet">
+
+  <!-- hexo site css -->
+  <link rel="stylesheet" href="/css/main.css" />
+  <link rel="stylesheet" href="//at.alicdn.com/t/font_1886449_67xjft27j1l.css" />
+  <!-- 代码块风格 -->
+  
+    
+<link rel="stylesheet" href="/css/figcaption/mac-block.css">
+
+  
+
+  <!-- jquery3.3.1 -->
+  
+    <script defer type="text/javascript" src="/plugins/jquery.min.js"></script>
+  
+
+  <!-- fancybox -->
+  
+    <link href="/plugins/jquery.fancybox.min.css" rel="stylesheet">
+    <script defer type="text/javascript" src="/plugins/jquery.fancybox.min.js"></script>
+  
+  
+<script src="/js/fancybox.js"></script>
+
+
+  
+
+  
+    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+  
+
+  <script>
+    var html = document.documentElement
+    const colorMode = localStorage.getItem('color-mode')
+    if (colorMode) {
+      document.documentElement.setAttribute('color-mode', colorMode)
+    }
+  </script>
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+  <body>
+    <div id="app">
+      <div class="header">
+  <div class="avatar">
+    <a href="/">
+      <!-- 头像取消懒加载，添加no-lazy -->
+      
+        <img src="/images/self-image2.jpg" alt="">
+      
+    </a>
+    <div class="nickname"><a href="/">Xu Luo</a></div>
+  </div>
+  <div class="navbar">
+    <ul>
+      
+        <li class="nav-item" data-path="/">
+          <a href="/">Home</a>
+        </li>
+      
+        <li class="nav-item" data-path="/archives/">
+          <a href="/archives/">Archives</a>
+        </li>
+      
+        <li class="nav-item" data-path="/tags/">
+          <a href="/tags/">Tags</a>
+        </li>
+      
+        <li class="nav-item" data-path="/friends/">
+          <a href="/friends/">Friends</a>
+        </li>
+      
+        <li class="nav-item" data-path="/about/">
+          <a href="/about/">About</a>
+        </li>
+      
+    </ul>
+  </div>
+</div>
+
+
+<script src="/js/activeNav.js"></script>
+
+
+
+      <div class="flex-container">
+        <!-- 文章详情页，展示文章具体内容，url形式：https://yoursite/文章标题/ -->
+<!-- 同时为「标签tag」，「朋友friend」，「分类categories」，「关于about」页面的承载页面，具体展示取决于page.type -->
+
+
+  <!-- LaTex Display -->
+
+  
+    <script async type="text/javascript" src="/plugins/mathjax/tex-chtml.js"></script>
+  
+  <script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']]
+      }
+    }
+  </script>
+
+
+
+
+
+  <!-- clipboard -->
+
+  
+    <script async type="text/javascript" src="/plugins/clipboard.min.js"></script>
+  
+  
+<script src="/js/codeCopy.js"></script>
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  <!-- 文章内容页 url形式：https://yoursite/文章标题/ -->
+  <div class="container post-details" id="post-details">
+    <div class="post-content">
+      <div class="post-title">智能指针shared_ptr的应用</div>
+      <div class="post-attach">
+        <span class="post-pubtime">
+          <i class="iconfont icon-updatetime mr-10" title="更新时间"></i>
+          2023-10-28 19:10:13
+        </span>
+        
+              <span class="post-tags">
+                <i class="iconfont icon-tags mr-10" title="标签"></i>
+                
+                <span class="span--tag mr-8">
+                  <a href="/tags/C/" title="C++">
+                    #C++
+                  </a>
+                </span>
+                
+              </span>
+          
+      </div>
+      <div class="markdown-body">
+        <p>与Java不同的是，C++程序员需要手动管理众多资源，典型的就是<strong>内存回收</strong>。通过使用智能指针 <code>shared_ptr </code>可以几乎消除内存泄漏的资源管理问题。这里我们分别以内存中的堆区和栈区为例，介绍 <code>shared_ptr </code>在资源管理方面的优势。</p>
+<h2 id="堆区（heap-based)">堆区（heap-based)</h2>
+<p>假设有一个投资 class 的基类<code>Investment</code>，其余各种各样的投资类型继承它：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Investment</span> &#123;...&#125;                        <span class="comment">// “投资类型”继承体系中的基类</span></span><br></pre></td></tr></table></figure>
+<p>现有一个工厂（factory）函数<sup class="footnote-ref"><a href="#fn1" id="fnref1">[1]</a></sup>供应我们某一个特定的 Investment 对象：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">Investment* <span class="title">createInvestment</span><span class="params">()</span></span>;              <span class="comment">// 返回指针，指向Investment继承体系内的动态分配对象</span></span><br></pre></td></tr></table></figure>
+<p>为了避免泄露内存和其他资源，将 factory 函数返回的每一个对象适当地 delete 掉很重要：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Investment* pInv = <span class="built_in">createInvestment</span>();      <span class="comment">// 调用 factory 函数 </span></span><br><span class="line"></span><br><span class="line">...                                         <span class="comment">// 使用它</span></span><br><span class="line"><span class="keyword">delete</span> pInv;                                <span class="comment">// 释放它，避免内存泄漏</span></span><br></pre></td></tr></table></figure>
+<p>现考虑有个 f 函数履行了这个责任：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">f</span><span class="params">()</span></span>&#123;</span><br><span class="line">    Investment* pInv = <span class="built_in">createInvestment</span>();      <span class="comment">// 调用 factory 函数 </span></span><br><span class="line"></span><br><span class="line">	...                                         </span><br><span class="line">	<span class="keyword">delete</span> pInv;                                <span class="comment">// 释放pInv所指的对象，避免内存泄漏</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>目前看起来似乎没什么问题，但在某些情况下，f 可能无法履行删除 pInv 所指的对象的责任。如：</p>
+<ul>
+<li>“ … ”区域内有一个过早的 return 语句，导致控制流不会触及到 delete 语句</li>
+<li>“ … ”区域内的语句抛出异常</li>
+</ul>
+<p>上面代码可能在初期版本没什么问题，但是随着时间渐渐过去可能会被修改、维护，如果有些人添加 return 语句或者 f 的区域有可能调用一个“过去从未抛出异常，却在被 ‘改善后’ 开始出现异常“时，那么这就背离了函数的资源管理策略的初衷。</p>
+<p>为了确保 createInvestment 返回资源总是被释放，我们需要确保当控制流离开 f，该对象的析构函数会自动释放这些资源。这就引出了智能指针—<strong>shared_ptr</strong>。下面示范如何用 shared_ptr 以避免 f 函数潜在的资源泄漏的可能性：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">f</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="function">std::shared_ptr&lt;Investment&gt; <span class="title">pInv</span><span class="params">(createInvestment())</span></span>;     <span class="comment">// 调用 factory 函数</span></span><br><span class="line">    </span><br><span class="line">    ...                                                       <span class="comment">// 一如既往使用 pInv</span></span><br><span class="line">&#125;                                                             <span class="comment">// 经由 shared_ptr 析构函数自动删除 pInv</span></span><br></pre></td></tr></table></figure>
+<p>当 shared_ptr 被销毁（例如一个局部的 shared_ptr 离开其作用域）时，计数器该 shared_ptr 关联的计数器会递减。一旦计数器变为0，它就会自动释放自己所管理的对象。</p>
+<p>在改进后的代码中，不论控制流如何离开区块，如过早 return 或抛出异常，一旦对象 pInv 被销毁（离开 f 作用域），其析构函数会被自动调用，于是资源被释放。</p>
+<p>需要补充的是，shared_pte 在其析构函数内做 delete 而不是 delete[ ]动作，这就意味着在动态分配而得到的数组身上使用shared_ptr是个糟糕的行为，尽管它能通过编译：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">std:: <span class="function">shared_pte&lt;std::string&gt; <span class="title">sps</span><span class="params">(<span class="keyword">new</span> std::string[<span class="number">10</span>])</span></span>;      <span class="comment">// 很糟糕！会用上错误的 delete 形式</span></span><br><span class="line">std:: <span class="function">shared_pte&lt;<span class="type">int</span>&gt; <span class="title">spi</span><span class="params">(<span class="keyword">new</span> <span class="type">int</span>[<span class="number">1024</span>])</span></span>;                    <span class="comment">// 同样问题</span></span><br></pre></td></tr></table></figure>
+<p>不必惊讶为什么C++工程师没有解决这个问题，即没有特别针对”C++动态分配数组“而设计的类型shared_ptr这样的东西，这是因为STL容器里的 vector 和 string 几乎可以取代动态数组，它们两个有自己的析构函数，可以避免这个问题。</p>
+<h2 id="栈区（stack-based）">栈区（stack-based）</h2>
+<p>我们可以使用 shared_ptr 来建立自己的资源管理类。</p>
+<p>假设我们有一个 class Lock 以及它的两个成员函数 lock、unlock：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">lock</span><span class="params">(Mutex* pm)</span></span>;                                        <span class="comment">// 锁定pm所指的互斥器</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">unlock</span><span class="params">(Mutex* pm)</span></span>;                                      <span class="comment">// 将互斥器解除锁定</span></span><br></pre></td></tr></table></figure>
+<p>为确保不会忘记将一个被锁住的Mutex解锁，可以通过建立一个 class  Lock 来管理机锁：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Lock</span>&#123;</span><br><span class="line">    <span class="keyword">public</span>:</span><br><span class="line">    	<span class="function">explict <span class="title">Lock</span><span class="params">(Mutex* pm)</span> : mutexPtr(pm)&#123;</span></span><br><span class="line">            <span class="built_in">lock</span>(mutexPtr);</span><br><span class="line">        &#125;                                                    <span class="comment">// 获得资源</span></span><br><span class="line">    ~<span class="built_in">Lock</span>() &#123; <span class="built_in">unlock</span>(mutexPtr); &#125;                            <span class="comment">// 释放资源</span></span><br><span class="line">    <span class="keyword">private</span>：</span><br><span class="line">        Mutex *mutexPtr;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>用户对 Lock 的用法类似于 shared_ptr 的方式：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Mutex m;                                                     <span class="comment">// 定义你需要的互斥器</span></span><br><span class="line">...</span><br><span class="line">&#123;                                                            <span class="comment">// 建立一个区块用来定义 critical section</span></span><br><span class="line">    <span class="function">Lock <span class="title">m1</span><span class="params">(&amp;m)</span></span>;                                             <span class="comment">// 锁定互斥器</span></span><br><span class="line">    ...                                                      <span class="comment">// 执行 critical section 内的操作</span></span><br><span class="line">&#125;                                                            <span class="comment">// 执行析构函数</span></span><br></pre></td></tr></table></figure>
+<p>目前看起来没什么问题，但是如果 Lock 对象被复制：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">Lock <span class="title">ml1</span><span class="params">(&amp;m)</span></span>;                                                <span class="comment">// 锁定m</span></span><br><span class="line"><span class="function">Lock <span class="title">ml2</span><span class="params">(ml1)</span></span>;                                               <span class="comment">// 复制ml1到ml2上，会出现问题</span></span><br></pre></td></tr></table></figure>
+<p>当我们将 ml1 复制到 ml2 上时，我们希望保留 ml2的资源 <code>mutexPtr</code>，但如果 ml1 离开区块，其析构函数执行，那么经过复制后的 ml2 里的资源也会被释放，这可能与我们的初衷不符。我们希望保留资源，直到它的最后一个使用者（某对象）被销毁，而中间其余对象被销毁不受影响。为此，我们可以引入 shared_ptr。</p>
+<p>如果简单地将 Mutex*  改为 shared_ptr&lt;Mutex&gt;，那么其析构函数行为是”当引用计数为0时删除所指之物“，而不是执行函数 unlock 。幸运的是，shared_ptr 允许指定所谓的”删除器“，即一个函数或函数对象，当引用计数为0时被调用。下面是更新后的代码：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Lock</span>&#123;</span><br><span class="line">    <span class="keyword">public</span>:</span><br><span class="line">    	<span class="function">explict <span class="title">Lock</span><span class="params">(Mutex* pm)</span> : mutexPtr(pm， unlock)&#123;</span>     <span class="comment">// 以某个 Mutex 初始化 shared_ptr 并以 unlock 函数作为删除器</span></span><br><span class="line">            <span class="built_in">lock</span>(mutexPtr.<span class="built_in">get</span>());</span><br><span class="line">        &#125;                                                    <span class="comment">// 获得资源</span></span><br><span class="line">    <span class="keyword">private</span>：</span><br><span class="line">        std::shared_ptr&lt;Mutex&gt; mutexPtr;                     <span class="comment">// 使用 shared_ptr 代替 raw pointer</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>注意，本例中的 Lock class 不再声明析构函数，因为没有必要。<strong>class</strong>的析构函数（无论是编译器生成的还是用户自定的）会自动调用其 <strong>non-static</strong>成员变量（本例为 mutexPtr）的析构函数。而 mutexPtr 的析构函数会在互斥器引用计数为0时自动调用 shared_ptr 的删除器（本例为 unlock）。</p>
+<h2 id="内存主要分区">内存主要分区</h2>
+<p>最后简要介绍下内存主要的分区。</p>
+<ol>
+<li>堆区（heap）：用来储存<strong>动态分配</strong>的对象，即由 malloc/new 分配的内存块。这是在程序运行时分配的对象，当其不再使用时，我们的代码必须显示地销毁它们。</li>
+<li>栈区（stack）：用来保存定义在函数内的非 static 对象。</li>
+<li>静态内存：用来保存局部 static 对象<sup class="footnote-ref"><a href="#fn2" id="fnref2">[2]</a></sup>、类 static 数据成员以及定义在任何函数之外的变量（全局变量）。</li>
+</ol>
+<p>分配在栈区或者静态内存中的对象由编译器自动创建和销毁。</p>
+<hr class="footnotes-sep">
+<section class="footnotes">
+<ol class="footnotes-list">
+<li id="fn1" class="footnote-item"><p>factory（工厂）函数屏蔽了实现细节，返回一个<strong>base class</strong>指针，指向新生成的<strong>derived class</strong>对象。 <a href="#fnref1" class="footnote-backref">↩︎</a></p>
+</li>
+<li id="fn2" class="footnote-item"><p>函数内的 static 对象是局部  static 对象（local static 对象，因为它们对函数而言是 local 的），其他 static 对象称为全局  static 对象。 <a href="#fnref2" class="footnote-backref">↩︎</a></p>
+</li>
+</ol>
+</section>
+
+      </div>
+      
+        <div class="prev-or-next">
+          <div class="post-foot-next">
+            
+              <a href="/2023/10/17/const/" target="_self">
+                <i class="iconfont icon-chevronleft"></i>
+                <span>上一页</span>
+              </a>
+            
+          </div>
+          <div class="post-attach">
+            <span class="post-pubtime">
+              <i class="iconfont icon-updatetime mr-10" title="更新时间"></i>
+              2023-10-28 19:10:13
+            </span>
+            
+                  <span class="post-tags">
+                    <i class="iconfont icon-tags mr-10" title="标签"></i>
+                    
+                    <span class="span--tag mr-8">
+                      <a href="/tags/C/" title="C++">
+                        #C++
+                      </a>
+                    </span>
+                    
+                  </span>
+              
+          </div>
+          <div class="post-foot-prev">
+            
+          </div>
+        </div>
+      
+    </div>
+    
+  <div id="btn-catalog" class="btn-catalog">
+    <i class="iconfont icon-catalog"></i>
+  </div>
+  <div class="post-catalog hidden" id="catalog">
+    <div class="title">目录</div>
+    <div class="catalog-content">
+      
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A0%86%E5%8C%BA%EF%BC%88heap-based)"><span class="toc-text">堆区（heap-based)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A0%88%E5%8C%BA%EF%BC%88stack-based%EF%BC%89"><span class="toc-text">栈区（stack-based）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%86%85%E5%AD%98%E4%B8%BB%E8%A6%81%E5%88%86%E5%8C%BA"><span class="toc-text">内存主要分区</span></a></li></ol>
+      
+    </div>
+  </div>
+
+  
+<script src="/js/catalog.js"></script>
+
+
+
+
+    
+      <div class="comments-container">
+        
+
+
+
+
+  
+    <script async type="text/javascript" src="/plugins/valine.min.js" onload="loadValineSuc(this)"></script>
+  
+
+  <div id="vcomments"></div>
+
+  <script>
+    function loadValineSuc() {
+      new Valine({
+        el: '#vcomments',
+        appId: 'BM2UwnohSHtpXs2QmMYGcmMp-gzGzoHsz',
+        appKey: 'xeVffiIEB6XRFSpdf9hcrWWs',
+        placeholder: '评论区（支持MarkDown格式）：',
+        avatar: 'retro',
+        lang: 'zh-CN'
+      })
+    }
+  </script>
+
+    <style>
+      .comments-container .v .vempty {
+        display: none!important;
+      }
+    </style>
+
+
+
+
+      </div>
+    
+  </div>
+
+
+        
+<div class="footer">
+  <div class="social">
+    <ul>
+      
+        <li>
+          <a title="github" target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">
+            <i class="iconfont icon-github"></i>
+          </a>
+        </li>
+      
+        <li>
+          <a title="weibo" target="_blank" rel="noopener" href="https://weibo.com/u/6599849469">
+            <i class="iconfont icon-weibo"></i>
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+  
+    
+    <div class="footer-more">
+      
+        <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">Copyright © 2023 Oranges</a>
+        
+    </div>
+  
+    
+    <div class="footer-more">
+      
+        <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">Theme by Oranges | Powered by Hexo</a>
+        
+    </div>
+  
+  
+    <div class="footer-views">
+      
+          本站总访问量<span id="busuanzi_value_site_pv"></span>次
+        
+      
+          本文总阅读量<span id="busuanzi_value_page_pv"></span>次
+        
+      
+          本站访客数<span id="busuanzi_value_site_uv"></span>人
+        
+      
+    </div>
+  
+</div>
+
+      </div>
+
+      <div class="tools-bar">
+        <div class="back-to-top tools-bar-item hidden">
+  <a href="javascript: void(0)">
+    <i class="iconfont icon-chevronup"></i>
+  </a>
+</div>
+
+
+<script src="/js/backtotop.js"></script>
+
+
+
+        
+  <div class="search-icon tools-bar-item" id="search-icon">
+    <a href="javascript: void(0)">
+      <i class="iconfont icon-search"></i>
+    </a>
+  </div>
+
+  <div class="search-overlay hidden">
+    <div class="search-content" tabindex="0">
+      <div class="search-title">
+        <span class="search-icon-input">
+          <a href="javascript: void(0)">
+            <i class="iconfont icon-search"></i>
+          </a>
+        </span>
+        
+          <input type="text" class="search-input" id="search-input" placeholder="搜索...">
+        
+        <span class="search-close-icon" id="search-close-icon">
+          <a href="javascript: void(0)">
+            <i class="iconfont icon-close"></i>
+          </a>
+        </span>
+      </div>
+      <div class="search-result" id="search-result"></div>
+    </div>
+  </div>
+
+  <script type="text/javascript">
+    var inputArea = document.querySelector("#search-input")
+    var searchOverlayArea = document.querySelector(".search-overlay")
+
+    inputArea.onclick = function() {
+      getSearchFile()
+      this.onclick = null
+    }
+
+    inputArea.onkeydown = function() {
+      if(event.keyCode == 13)
+        return false
+    }
+
+    function openOrHideSearchContent() {
+      let isHidden = searchOverlayArea.classList.contains('hidden')
+      if (isHidden) {
+        searchOverlayArea.classList.remove('hidden')
+        document.body.classList.add('hidden')
+        // inputArea.focus()
+      } else {
+        searchOverlayArea.classList.add('hidden')
+        document.body.classList.remove('hidden')
+      }
+    }
+
+    function blurSearchContent(e) {
+      if (e.target === searchOverlayArea) {
+        openOrHideSearchContent()
+      }
+    }
+
+    document.querySelector("#search-icon").addEventListener("click", openOrHideSearchContent, false)
+    document.querySelector("#search-close-icon").addEventListener("click", openOrHideSearchContent, false)
+    searchOverlayArea.addEventListener("click", blurSearchContent, false)
+
+    var searchFunc = function (path, search_id, content_id) {
+      'use strict';
+      var $input = document.getElementById(search_id);
+      var $resultContent = document.getElementById(content_id);
+      $resultContent.innerHTML = "<ul><span class='local-search-empty'>首次搜索，正在载入索引文件，请稍后……<span></ul>";
+      $.ajax({
+        // 0x01. load xml file
+        url: path,
+        dataType: "xml",
+        success: function (xmlResponse) {
+          // 0x02. parse xml file
+          var datas = $("entry", xmlResponse).map(function () {
+            return {
+              title: $("title", this).text(),
+              content: $("content", this).text(),
+              url: $("url", this).text()
+            };
+          }).get();
+          $resultContent.innerHTML = "";
+
+          $input.addEventListener('input', function () {
+            // 0x03. parse query to keywords list
+            var str = '<ul class=\"search-result-list\">';
+            var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+            $resultContent.innerHTML = "";
+            if (this.value.trim().length <= 0) {
+              return;
+            }
+            // 0x04. perform local searching
+            datas.forEach(function (data) {
+              var isMatch = true;
+              var content_index = [];
+              if (!data.title || data.title.trim() === '') {
+                data.title = "Untitled";
+              }
+              var orig_data_title = data.title.trim();
+              var data_title = orig_data_title.toLowerCase();
+              var orig_data_content = data.content.trim().replace(/<[^>]+>/g, "");
+              var data_content = orig_data_content.toLowerCase();
+              var data_url = data.url;
+              var index_title = -1;
+              var index_content = -1;
+              var first_occur = -1;
+              // only match artiles with not empty contents
+              if (data_content !== '') {
+                keywords.forEach(function (keyword, i) {
+                  index_title = data_title.indexOf(keyword);
+                  index_content = data_content.indexOf(keyword);
+
+                  if (index_title < 0 && index_content < 0) {
+                    isMatch = false;
+                  } else {
+                    if (index_content < 0) {
+                      index_content = 0;
+                    }
+                    if (i == 0) {
+                      first_occur = index_content;
+                    }
+                    // content_index.push({index_content:index_content, keyword_len:keyword_len});
+                  }
+                });
+              } else {
+                isMatch = false;
+              }
+              // 0x05. show search results
+              if (isMatch) {
+                str += "<li><a href='" + data_url + "' class='search-result-title'>" + orig_data_title + "</a>";
+                var content = orig_data_content;
+                if (first_occur >= 0) {
+                  // cut out 100 characters
+                  var start = first_occur - 20;
+                  var end = first_occur + 80;
+
+                  if (start < 0) {
+                    start = 0;
+                  }
+
+                  if (start == 0) {
+                    end = 100;
+                  }
+
+                  if (end > content.length) {
+                    end = content.length;
+                  }
+
+                  var match_content = content.substr(start, end);
+
+                  // highlight all keywords
+                  keywords.forEach(function (keyword) {
+                    var regS = new RegExp(keyword, "gi");
+                    match_content = match_content.replace(regS, "<span class=\"search-keyword\">" + keyword + "</span>");
+                  });
+
+                  str += "<p class=\"search-result-abstract\">" + match_content + "...</p>"
+                }
+                str += "</li>";
+              }
+            });
+            str += "</ul>";
+            if (str.indexOf('<li>') === -1) {
+              return $resultContent.innerHTML = "<ul><span class='local-search-empty'>没有找到内容，请尝试更换检索词。<span></ul>";
+            }
+            $resultContent.innerHTML = str;
+          });
+        },
+        error: function(xhr, status, error) {
+          $resultContent.innerHTML = ""
+          if (xhr.status === 404) {
+            $resultContent.innerHTML = "<ul><span class='local-search-empty'>未找到search.xml文件，具体请参考：<a href='https://github.com/zchengsite/hexo-theme-oranges#configuration' target='_black'>configuration</a><span></ul>";
+          } else {
+            $resultContent.innerHTML = "<ul><span class='local-search-empty'>请求失败，尝试重新刷新页面或稍后重试。<span></ul>";
+          }
+        }
+      });
+      $(document).on('click', '#search-close-icon', function() {
+        $('#search-input').val('');
+        $('#search-result').html('');
+      });
+    }
+
+    var getSearchFile = function() {
+        var path = "/search.xml";
+        searchFunc(path, 'search-input', 'search-result');
+    }
+  </script>
+
+
+
+
+        
+  <div class="tools-bar-item theme-icon" id="switch-color-scheme">
+    <a href="javascript: void(0)">
+      <i id="theme-icon" class="iconfont icon-moon"></i>
+    </a>
+  </div>
+
+  
+<script src="/js/colorscheme.js"></script>
+
+
+
+
+
+        
+  
+    <div class="share-icon tools-bar-item">
+      <a href="javascript: void(0)" id="share-icon">
+        <i class="iconfont iconshare"></i>
+      </a>
+      <div class="share-content hidden">
+        
+          <a class="share-item" href="https://twitter.com/intent/tweet?text=' + %E6%99%BA%E8%83%BD%E6%8C%87%E9%92%88shared_ptr%E7%9A%84%E5%BA%94%E7%94%A8 + '&url=' + https%3A%2F%2Fzermatt-luo.github.io%2F2023%2F10%2F28%2F%25E6%2599%25BA%25E8%2583%25BD%25E6%258C%2587%25E9%2592%2588shared-ptr%25E7%259A%2584%25E5%25BA%2594%25E7%2594%25A8%2F + '" target="_blank" title="Twitter">
+            <i class="iconfont icon-twitter"></i>
+          </a>
+        
+        
+          <a class="share-item" href="https://www.facebook.com/sharer.php?u=https://zermatt-luo.github.io/2023/10/28/%E6%99%BA%E8%83%BD%E6%8C%87%E9%92%88shared-ptr%E7%9A%84%E5%BA%94%E7%94%A8/" target="_blank" title="Facebook">
+            <i class="iconfont icon-facebooksquare"></i>
+          </a>
+        
+      </div>
+    </div>
+  
+  
+<script src="/js/shares.js"></script>
+
+
+
+      </div>
+    </div>
+  </body>
+</html>
