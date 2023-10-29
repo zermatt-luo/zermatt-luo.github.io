@@ -1,48 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>尽可能使用const</title>
-    <url>/2023/10/17/const/</url>
-    <content><![CDATA[<h2 id="const-for pointer">const for pointer</h2>
-<p>const 约束指针分为两种：常量指针（<strong>const pointer</strong>）<sup class="footnote-ref"><a href="#fn1" id="fnref1">[1]</a></sup>和指向常量的指针（<strong>pointer to const</strong>）<sup class="footnote-ref"><a href="#fn2" id="fnref2">[2]</a></sup>。</p>
-<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="type">char</span> greeting[] = <span class="string">&quot;Hello&quot;</span>;</span><br><span class="line"><span class="type">char</span> *p = greeting;                <span class="comment">//non-const pointer, non-const data</span></span><br><span class="line"><span class="type">const</span> <span class="type">char</span> *p = greeting;          <span class="comment">//non-const pointer, const data</span></span><br><span class="line"><span class="type">char</span>* <span class="type">const</span> p = greeting;          <span class="comment">//const pointer, non-const data</span></span><br><span class="line"><span class="type">const</span> <span class="type">char</span>* <span class="type">const</span> p = greeting;    <span class="comment">//const pointer, const data</span></span><br></pre></td></tr></table></figure>
-<p>对于<strong>pointer to const</strong>，关键字<code>const</code>可以放在类型之前，也可以放在类型之后、星号<code>*</code>之前。即：</p>
-<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="type">const</span> <span class="type">int</span> *p = &amp;i; </span><br></pre></td></tr></table></figure>
-<p>等价于</p>
-<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="type">int</span> <span class="type">const</span> *p = &amp;i;</span><br></pre></td></tr></table></figure>
-<h2 id="const-for stl iterator">const for STL iterator</h2>
-<p>STL迭代器的作用就像 <code>T*</code>指针。对应常量指针（const pointer）和指向常量的指针（pointer to const），STL迭代器也有不同的声明方式：</p>
-<ol>
-<li>
-<p>类似于<code>T* const</code>指针。在最前面声明<code>const</code>即可。</p>
-<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="function">vector&lt;<span class="type">int</span>&gt; <span class="title">vec</span><span class="params">(<span class="number">10</span>, <span class="number">5</span>)</span></span>;</span><br><span class="line"><span class="type">const</span> vector&lt;<span class="type">int</span>&gt;::iterator iter = vec.<span class="built_in">begin</span>();  <span class="comment">// iter类似于 T* const </span></span><br><span class="line">*iter = <span class="number">9</span>;                                       <span class="comment">// 正确，可以改变iter所指内容的值</span></span><br><span class="line">iter++;                                          <span class="comment">// 错误！iter本身是const的</span></span><br></pre></td></tr></table></figure>
-</li>
-<li>
-<p>类似于<code>const T*</code>指针。需要用<strong>const_iterator</strong>。</p>
-<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="function">vector&lt;<span class="type">int</span>&gt; <span class="title">vec</span><span class="params">(<span class="number">10</span>, <span class="number">5</span>)</span></span>;</span><br><span class="line">vector&lt;<span class="type">int</span>&gt;::const_iterator iter1 = vec.<span class="built_in">begin</span>(); <span class="comment">// iter1类似于 const T*</span></span><br><span class="line">*iter1 = <span class="number">99</span>;                                     <span class="comment">// 错误！*iter1是const</span></span><br><span class="line">iter1++;                                         <span class="comment">// 正确，可以改变iter1自身的值</span></span><br></pre></td></tr></table></figure>
-</li>
-</ol>
-<h2 id="const-for function return value">const for function return value</h2>
-<p>令函数返回一个常量值，往往可以降低因客户错误而造成的意外，又不至于放弃安全性和高效性。考虑下面一个例子，定义有理数<code>Rational</code>类的<code>operator*</code>:</p>
-<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Rational</span> &#123; ... &#125;;</span><br><span class="line"><span class="type">const</span> Rational <span class="keyword">operator</span>* (<span class="type">const</span> Rational&amp; lhs, <span class="type">const</span> Rational&amp; rhs);</span><br></pre></td></tr></table></figure>
-<p>这里返回一个<code>const</code>对象是为了避免出现错误造成的意外情况：</p>
-<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line">Rational a, b, c;</span><br><span class="line">...</span><br><span class="line"><span class="keyword">if</span> (a * b = c) ...                                   <span class="comment">// 其实是想做一个比较动作</span></span><br></pre></td></tr></table></figure>
-<p>如果a和b都是内置类型，这样的代码直截了当就是不合法。将<code>operator*</code>的返回值声明为<code>const</code>可以防止出现上面的错误。这样做与内置类型恰好兼容。</p>
-<hr class="footnotes-sep">
-<section class="footnotes">
-<ol class="footnotes-list">
-<li id="fn1" class="footnote-item"><p>顶层const <a href="#fnref1" class="footnote-backref">↩︎</a></p>
-</li>
-<li id="fn2" class="footnote-item"><p>底层const <a href="#fnref2" class="footnote-backref">↩︎</a></p>
-</li>
-</ol>
-</section>
-]]></content>
-      <tags>
-        <tag>C++</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>const char*、const char[]与string</title>
     <url>/2023/09/28/C-%E4%B8%AD%E7%9A%84const-char-%E3%80%81const-char-%E4%B8%8Estring/</url>
     <content><![CDATA[<p>以下代码是基于gcc的vscode编译器编写的。首先导入运行示例的必要库，并指定标准命名空间std。</p>
@@ -79,60 +37,39 @@
       </tags>
   </entry>
   <entry>
-    <title>智能指针shared_ptr的应用</title>
-    <url>/2023/10/28/%E6%99%BA%E8%83%BD%E6%8C%87%E9%92%88shared-ptr%E7%9A%84%E5%BA%94%E7%94%A8/</url>
-    <content><![CDATA[<p>与Java不同的是，C++程序员需要手动管理众多资源，典型的就是<strong>内存回收</strong>。通过使用智能指针 <code>shared_ptr </code>可以几乎消除内存泄漏的资源管理问题。这里我们分别以内存中的堆区和栈区为例，介绍 <code>shared_ptr </code>在资源管理方面的优势。</p>
-<h2 id="堆区（heap-based)">堆区（heap-based)</h2>
-<p>假设有一个投资 class 的基类<code>Investment</code>，其余各种各样的投资类型继承它：</p>
-<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Investment</span> &#123;...&#125;                        <span class="comment">// “投资类型”继承体系中的基类</span></span><br></pre></td></tr></table></figure>
-<p>现有一个工厂（factory）函数<sup class="footnote-ref"><a href="#fn1" id="fnref1">[1]</a></sup>供应我们某一个特定的 Investment 对象：</p>
-<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="function">Investment* <span class="title">createInvestment</span><span class="params">()</span></span>;              <span class="comment">// 返回指针，指向Investment继承体系内的动态分配对象</span></span><br></pre></td></tr></table></figure>
-<p>为了避免泄露内存和其他资源，将 factory 函数返回的每一个对象适当地 delete 掉很重要：</p>
-<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line">Investment* pInv = <span class="built_in">createInvestment</span>();      <span class="comment">// 调用 factory 函数 </span></span><br><span class="line"></span><br><span class="line">...                                         <span class="comment">// 使用它</span></span><br><span class="line"><span class="keyword">delete</span> pInv;                                <span class="comment">// 释放它，避免内存泄漏</span></span><br></pre></td></tr></table></figure>
-<p>现考虑有个 f 函数履行了这个责任：</p>
-<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">f</span><span class="params">()</span></span>&#123;</span><br><span class="line">    Investment* pInv = <span class="built_in">createInvestment</span>();      <span class="comment">// 调用 factory 函数 </span></span><br><span class="line"></span><br><span class="line">	...                                         </span><br><span class="line">	<span class="keyword">delete</span> pInv;                                <span class="comment">// 释放pInv所指的对象，避免内存泄漏</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>目前看起来似乎没什么问题，但在某些情况下，f 可能无法履行删除 pInv 所指的对象的责任。如：</p>
-<ul>
-<li>“ … ”区域内有一个过早的 return 语句，导致控制流不会触及到 delete 语句</li>
-<li>“ … ”区域内的语句抛出异常</li>
-</ul>
-<p>上面代码可能在初期版本没什么问题，但是随着时间渐渐过去可能会被修改、维护，如果有些人添加 return 语句或者 f 的区域有可能调用一个“过去从未抛出异常，却在被 ‘改善后’ 开始出现异常“时，那么这就背离了函数的资源管理策略的初衷。</p>
-<p>为了确保 createInvestment 返回资源总是被释放，我们需要确保当控制流离开 f，该对象的析构函数会自动释放这些资源。这就引出了智能指针—<strong>shared_ptr</strong>。下面示范如何用 shared_ptr 以避免 f 函数潜在的资源泄漏的可能性：</p>
-<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">f</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="function">std::shared_ptr&lt;Investment&gt; <span class="title">pInv</span><span class="params">(createInvestment())</span></span>;     <span class="comment">// 调用 factory 函数</span></span><br><span class="line">    </span><br><span class="line">    ...                                                       <span class="comment">// 一如既往使用 pInv</span></span><br><span class="line">&#125;                                                             <span class="comment">// 经由 shared_ptr 析构函数自动删除 pInv</span></span><br></pre></td></tr></table></figure>
-<p>当 shared_ptr 被销毁（例如一个局部的 shared_ptr 离开其作用域）时，计数器该 shared_ptr 关联的计数器会递减。一旦计数器变为0，它就会自动释放自己所管理的对象。</p>
-<p>在改进后的代码中，不论控制流如何离开区块，如过早 return 或抛出异常，一旦对象 pInv 被销毁（离开 f 作用域），其析构函数会被自动调用，于是资源被释放。</p>
-<p>需要补充的是，shared_pte 在其析构函数内做 delete 而不是 delete[ ]动作，这就意味着在动态分配而得到的数组身上使用shared_ptr是个糟糕的行为，尽管它能通过编译：</p>
-<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line">std:: <span class="function">shared_pte&lt;std::string&gt; <span class="title">sps</span><span class="params">(<span class="keyword">new</span> std::string[<span class="number">10</span>])</span></span>;      <span class="comment">// 很糟糕！会用上错误的 delete 形式</span></span><br><span class="line">std:: <span class="function">shared_pte&lt;<span class="type">int</span>&gt; <span class="title">spi</span><span class="params">(<span class="keyword">new</span> <span class="type">int</span>[<span class="number">1024</span>])</span></span>;                    <span class="comment">// 同样问题</span></span><br></pre></td></tr></table></figure>
-<p>不必惊讶为什么C++工程师没有解决这个问题，即没有特别针对”C++动态分配数组“而设计的类型shared_ptr这样的东西，这是因为STL容器里的 vector 和 string 几乎可以取代动态数组，它们两个有自己的析构函数，可以避免这个问题。</p>
-<h2 id="栈区（stack-based）">栈区（stack-based）</h2>
-<p>我们可以使用 shared_ptr 来建立自己的资源管理类。</p>
-<p>假设我们有一个 class Lock 以及它的两个成员函数 lock、unlock：</p>
-<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">lock</span><span class="params">(Mutex* pm)</span></span>;                                        <span class="comment">// 锁定pm所指的互斥器</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">unlock</span><span class="params">(Mutex* pm)</span></span>;                                      <span class="comment">// 将互斥器解除锁定</span></span><br></pre></td></tr></table></figure>
-<p>为确保不会忘记将一个被锁住的Mutex解锁，可以通过建立一个 class  Lock 来管理机锁：</p>
-<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Lock</span>&#123;</span><br><span class="line">    <span class="keyword">public</span>:</span><br><span class="line">    	<span class="function">explict <span class="title">Lock</span><span class="params">(Mutex* pm)</span> : mutexPtr(pm)&#123;</span></span><br><span class="line">            <span class="built_in">lock</span>(mutexPtr);</span><br><span class="line">        &#125;                                                    <span class="comment">// 获得资源</span></span><br><span class="line">    ~<span class="built_in">Lock</span>() &#123; <span class="built_in">unlock</span>(mutexPtr); &#125;                            <span class="comment">// 释放资源</span></span><br><span class="line">    <span class="keyword">private</span>：</span><br><span class="line">        Mutex *mutexPtr;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>用户对 Lock 的用法类似于 shared_ptr 的方式：</p>
-<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line">Mutex m;                                                     <span class="comment">// 定义你需要的互斥器</span></span><br><span class="line">...</span><br><span class="line">&#123;                                                            <span class="comment">// 建立一个区块用来定义 critical section</span></span><br><span class="line">    <span class="function">Lock <span class="title">m1</span><span class="params">(&amp;m)</span></span>;                                             <span class="comment">// 锁定互斥器</span></span><br><span class="line">    ...                                                      <span class="comment">// 执行 critical section 内的操作</span></span><br><span class="line">&#125;                                                            <span class="comment">// 执行析构函数</span></span><br></pre></td></tr></table></figure>
-<p>目前看起来没什么问题，但是如果 Lock 对象被复制：</p>
-<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="function">Lock <span class="title">ml1</span><span class="params">(&amp;m)</span></span>;                                                <span class="comment">// 锁定m</span></span><br><span class="line"><span class="function">Lock <span class="title">ml2</span><span class="params">(ml1)</span></span>;                                               <span class="comment">// 复制ml1到ml2上，会出现问题</span></span><br></pre></td></tr></table></figure>
-<p>当我们将 ml1 复制到 ml2 上时，我们希望保留 ml2的资源 <code>mutexPtr</code>，但如果 ml1 离开区块，其析构函数执行，那么经过复制后的 ml2 里的资源也会被释放，这可能与我们的初衷不符。我们希望保留资源，直到它的最后一个使用者（某对象）被销毁，而中间其余对象被销毁不受影响。为此，我们可以引入 shared_ptr。</p>
-<p>如果简单地将 Mutex*  改为 shared_ptr&lt;Mutex&gt;，那么其析构函数行为是”当引用计数为0时删除所指之物“，而不是执行函数 unlock 。幸运的是，shared_ptr 允许指定所谓的”删除器“，即一个函数或函数对象，当引用计数为0时被调用。下面是更新后的代码：</p>
-<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Lock</span>&#123;</span><br><span class="line">    <span class="keyword">public</span>:</span><br><span class="line">    	<span class="function">explict <span class="title">Lock</span><span class="params">(Mutex* pm)</span> : mutexPtr(pm， unlock)&#123;</span>     <span class="comment">// 以某个 Mutex 初始化 shared_ptr 并以 unlock 函数作为删除器</span></span><br><span class="line">            <span class="built_in">lock</span>(mutexPtr.<span class="built_in">get</span>());</span><br><span class="line">        &#125;                                                    <span class="comment">// 获得资源</span></span><br><span class="line">    <span class="keyword">private</span>：</span><br><span class="line">        std::shared_ptr&lt;Mutex&gt; mutexPtr;                     <span class="comment">// 使用 shared_ptr 代替 raw pointer</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>注意，本例中的 Lock class 不再声明析构函数，因为没有必要。<strong>class</strong>的析构函数（无论是编译器生成的还是用户自定的）会自动调用其 <strong>non-static</strong>成员变量（本例为 mutexPtr）的析构函数。而 mutexPtr 的析构函数会在互斥器引用计数为0时自动调用 shared_ptr 的删除器（本例为 unlock）。</p>
-<h2 id="内存主要分区">内存主要分区</h2>
-<p>最后简要介绍下内存主要的分区。</p>
+    <title>尽可能使用const</title>
+    <url>/2023/10/17/const/</url>
+    <content><![CDATA[<h2 id="const-for pointer">const for pointer</h2>
+<p>const 约束指针分为两种：常量指针（<strong>const pointer</strong>）<sup class="footnote-ref"><a href="#fn1" id="fnref1">[1]</a></sup>和指向常量的指针（<strong>pointer to const</strong>）<sup class="footnote-ref"><a href="#fn2" id="fnref2">[2]</a></sup>。</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="type">char</span> greeting[] = <span class="string">&quot;Hello&quot;</span>;</span><br><span class="line"><span class="type">char</span> *p = greeting;                <span class="comment">//non-const pointer, non-const data</span></span><br><span class="line"><span class="type">const</span> <span class="type">char</span> *p = greeting;          <span class="comment">//non-const pointer, const data</span></span><br><span class="line"><span class="type">char</span>* <span class="type">const</span> p = greeting;          <span class="comment">//const pointer, non-const data</span></span><br><span class="line"><span class="type">const</span> <span class="type">char</span>* <span class="type">const</span> p = greeting;    <span class="comment">//const pointer, const data</span></span><br></pre></td></tr></table></figure>
+<p>对于<strong>pointer to const</strong>，关键字<code>const</code>可以放在类型之前，也可以放在类型之后、星号<code>*</code>之前。即：</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="type">const</span> <span class="type">int</span> *p = &amp;i; </span><br></pre></td></tr></table></figure>
+<p>等价于</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="type">int</span> <span class="type">const</span> *p = &amp;i;</span><br></pre></td></tr></table></figure>
+<h2 id="const-for stl iterator">const for STL iterator</h2>
+<p>STL迭代器的作用就像 <code>T*</code>指针。对应常量指针（const pointer）和指向常量的指针（pointer to const），STL迭代器也有不同的声明方式：</p>
 <ol>
-<li>堆区（heap）：用来储存<strong>动态分配</strong>的对象，即由 malloc/new 分配的内存块。这是在程序运行时分配的对象，当其不再使用时，我们的代码必须显示地销毁它们。</li>
-<li>栈区（stack）：用来保存定义在函数内的非 static 对象。</li>
-<li>静态内存：用来保存局部 static 对象<sup class="footnote-ref"><a href="#fn2" id="fnref2">[2]</a></sup>、类 static 数据成员以及定义在任何函数之外的变量（全局变量）。</li>
+<li>
+<p>类似于<code>T* const</code>指针。在最前面声明<code>const</code>即可。</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="function">vector&lt;<span class="type">int</span>&gt; <span class="title">vec</span><span class="params">(<span class="number">10</span>, <span class="number">5</span>)</span></span>;</span><br><span class="line"><span class="type">const</span> vector&lt;<span class="type">int</span>&gt;::iterator iter = vec.<span class="built_in">begin</span>();  <span class="comment">// iter类似于 T* const </span></span><br><span class="line">*iter = <span class="number">9</span>;                                       <span class="comment">// 正确，可以改变iter所指内容的值</span></span><br><span class="line">iter++;                                          <span class="comment">// 错误！iter本身是const的</span></span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p>类似于<code>const T*</code>指针。需要用<strong>const_iterator</strong>。</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="function">vector&lt;<span class="type">int</span>&gt; <span class="title">vec</span><span class="params">(<span class="number">10</span>, <span class="number">5</span>)</span></span>;</span><br><span class="line">vector&lt;<span class="type">int</span>&gt;::const_iterator iter1 = vec.<span class="built_in">begin</span>(); <span class="comment">// iter1类似于 const T*</span></span><br><span class="line">*iter1 = <span class="number">99</span>;                                     <span class="comment">// 错误！*iter1是const</span></span><br><span class="line">iter1++;                                         <span class="comment">// 正确，可以改变iter1自身的值</span></span><br></pre></td></tr></table></figure>
+</li>
 </ol>
-<p>分配在栈区或者静态内存中的对象由编译器自动创建和销毁。</p>
-<img src="https://cdn.jsdelivr.net/gh/zermatt-luo/MyBlog@main/img/static.png" alt="static" style="zoom:80%;" />
+<h2 id="const-for function return value">const for function return value</h2>
+<p>令函数返回一个常量值，往往可以降低因客户错误而造成的意外，又不至于放弃安全性和高效性。考虑下面一个例子，定义有理数<code>Rational</code>类的<code>operator*</code>:</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Rational</span> &#123; ... &#125;;</span><br><span class="line"><span class="type">const</span> Rational <span class="keyword">operator</span>* (<span class="type">const</span> Rational&amp; lhs, <span class="type">const</span> Rational&amp; rhs);</span><br></pre></td></tr></table></figure>
+<p>这里返回一个<code>const</code>对象是为了避免出现错误造成的意外情况：</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line">Rational a, b, c;</span><br><span class="line">...</span><br><span class="line"><span class="keyword">if</span> (a * b = c) ...                                   <span class="comment">// 其实是想做一个比较动作</span></span><br></pre></td></tr></table></figure>
+<p>如果a和b都是内置类型，这样的代码直截了当就是不合法。将<code>operator*</code>的返回值声明为<code>const</code>可以防止出现上面的错误。这样做与内置类型恰好兼容。</p>
 <hr class="footnotes-sep">
 <section class="footnotes">
 <ol class="footnotes-list">
-<li id="fn1" class="footnote-item"><p>factory（工厂）函数屏蔽了实现细节，返回一个<strong>base class</strong>指针，指向新生成的<strong>derived class</strong>对象。 <a href="#fnref1" class="footnote-backref">↩︎</a></p>
+<li id="fn1" class="footnote-item"><p>顶层const <a href="#fnref1" class="footnote-backref">↩︎</a></p>
 </li>
-<li id="fn2" class="footnote-item"><p>函数内的 static 对象是局部  static 对象（local static 对象，因为它们对函数而言是 local 的），其他 static 对象称为全局  static 对象。 <a href="#fnref2" class="footnote-backref">↩︎</a></p>
+<li id="fn2" class="footnote-item"><p>底层const <a href="#fnref2" class="footnote-backref">↩︎</a></p>
 </li>
 </ol>
 </section>
@@ -189,6 +126,69 @@ Fred Brooks在他的文章《No Silver Bullets》(没有银弹)中，为找到�
 ]]></content>
       <tags>
         <tag>编程建议</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>智能指针shared_ptr的应用</title>
+    <url>/2023/10/28/%E6%99%BA%E8%83%BD%E6%8C%87%E9%92%88shared-ptr%E7%9A%84%E5%BA%94%E7%94%A8/</url>
+    <content><![CDATA[<p>与Java不同的是，C++程序员需要手动管理众多资源，典型的就是<strong>内存回收</strong>。通过使用智能指针 <code>shared_ptr </code>可以几乎消除内存泄漏的资源管理问题。这里我们分别以内存中的堆区和栈区为例，介绍 <code>shared_ptr </code>在资源管理方面的优势。</p>
+<h2 id="堆区（heap-based)">堆区（heap-based)</h2>
+<p>假设有一个投资 class 的基类<code>Investment</code>，其余各种各样的投资类型继承它：</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Investment</span> &#123;...&#125;                        <span class="comment">// “投资类型”继承体系中的基类</span></span><br></pre></td></tr></table></figure>
+<p>现有一个工厂（factory）函数<sup class="footnote-ref"><a href="#fn1" id="fnref1">[1]</a></sup>供应我们某一个特定的 Investment 对象：</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="function">Investment* <span class="title">createInvestment</span><span class="params">()</span></span>;              <span class="comment">// 返回指针，指向Investment继承体系内的动态分配对象</span></span><br></pre></td></tr></table></figure>
+<p>为了避免泄露内存和其他资源，将 factory 函数返回的每一个对象适当地 delete 掉很重要：</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line">Investment* pInv = <span class="built_in">createInvestment</span>();      <span class="comment">// 调用 factory 函数 </span></span><br><span class="line"></span><br><span class="line">...                                         <span class="comment">// 使用它</span></span><br><span class="line"><span class="keyword">delete</span> pInv;                                <span class="comment">// 释放它，避免内存泄漏</span></span><br></pre></td></tr></table></figure>
+<p>现考虑有个 f 函数履行了这个责任：</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">f</span><span class="params">()</span></span>&#123;</span><br><span class="line">    Investment* pInv = <span class="built_in">createInvestment</span>();      <span class="comment">// 调用 factory 函数 </span></span><br><span class="line"></span><br><span class="line">	...                                         </span><br><span class="line">	<span class="keyword">delete</span> pInv;                                <span class="comment">// 释放pInv所指的对象，避免内存泄漏</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>目前看起来似乎没什么问题，但在某些情况下，f 可能无法履行删除 pInv 所指的对象的责任。如：</p>
+<ul>
+<li>“ … ”区域内有一个过早的 return 语句，导致控制流不会触及到 delete 语句</li>
+<li>“ … ”区域内的语句抛出异常</li>
+</ul>
+<p>上面代码可能在初期版本没什么问题，但是随着时间渐渐过去可能会被修改、维护，如果有些人添加 return 语句或者 f 的区域有可能调用一个“过去从未抛出异常，却在被 ‘改善后’ 开始出现异常“时，那么这就背离了函数的资源管理策略的初衷。</p>
+<p>为了确保 createInvestment 返回资源总是被释放，我们需要确保当控制流离开 f，该对象的析构函数会自动释放这些资源。这就引出了智能指针—<strong>shared_ptr</strong>。下面示范如何用 shared_ptr 以避免 f 函数潜在的资源泄漏的可能性：</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">f</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="function">std::shared_ptr&lt;Investment&gt; <span class="title">pInv</span><span class="params">(createInvestment())</span></span>;     <span class="comment">// 调用 factory 函数</span></span><br><span class="line">    </span><br><span class="line">    ...                                                       <span class="comment">// 一如既往使用 pInv</span></span><br><span class="line">&#125;                                                             <span class="comment">// 经由 shared_ptr 析构函数自动删除 pInv</span></span><br></pre></td></tr></table></figure>
+<p>当 shared_ptr 被销毁（例如一个局部的 shared_ptr 离开其作用域）时，计数器该 shared_ptr 关联的计数器会递减。一旦计数器变为0，它就会自动释放自己所管理的对象。</p>
+<p>在改进后的代码中，不论控制流如何离开区块，如过早 return 或抛出异常，一旦对象 pInv 被销毁（离开 f 作用域），其析构函数会被自动调用，于是资源被释放。</p>
+<p>需要补充的是，shared_pte 在其析构函数内做 delete 而不是 delete[ ]动作，这就意味着在动态分配而得到的数组身上使用shared_ptr是个糟糕的行为，尽管它能通过编译：</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line">std:: <span class="function">shared_pte&lt;std::string&gt; <span class="title">sps</span><span class="params">(<span class="keyword">new</span> std::string[<span class="number">10</span>])</span></span>;      <span class="comment">// 很糟糕！会用上错误的 delete 形式</span></span><br><span class="line">std:: <span class="function">shared_pte&lt;<span class="type">int</span>&gt; <span class="title">spi</span><span class="params">(<span class="keyword">new</span> <span class="type">int</span>[<span class="number">1024</span>])</span></span>;                    <span class="comment">// 同样问题</span></span><br></pre></td></tr></table></figure>
+<p>不必惊讶为什么C++工程师没有解决这个问题，即没有特别针对”C++动态分配数组“而设计的类型shared_ptr这样的东西，这是因为STL容器里的 vector 和 string 几乎可以取代动态数组，它们两个有自己的析构函数，可以避免这个问题。</p>
+<h2 id="栈区（stack-based）">栈区（stack-based）</h2>
+<p>我们可以使用 shared_ptr 来建立自己的资源管理类。</p>
+<p>假设我们有一个 class Lock 以及它的两个成员函数 lock、unlock：</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">lock</span><span class="params">(Mutex* pm)</span></span>;                                        <span class="comment">// 锁定pm所指的互斥器</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">unlock</span><span class="params">(Mutex* pm)</span></span>;                                      <span class="comment">// 将互斥器解除锁定</span></span><br></pre></td></tr></table></figure>
+<p>为确保不会忘记将一个被锁住的Mutex解锁，可以通过建立一个 class  Lock 来管理机锁：</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Lock</span>&#123;</span><br><span class="line">    <span class="keyword">public</span>:</span><br><span class="line">    	<span class="function">explict <span class="title">Lock</span><span class="params">(Mutex* pm)</span> : mutexPtr(pm)&#123;</span></span><br><span class="line">            <span class="built_in">lock</span>(mutexPtr);</span><br><span class="line">        &#125;                                                    <span class="comment">// 获得资源</span></span><br><span class="line">    ~<span class="built_in">Lock</span>() &#123; <span class="built_in">unlock</span>(mutexPtr); &#125;                            <span class="comment">// 释放资源</span></span><br><span class="line">    <span class="keyword">private</span>：</span><br><span class="line">        Mutex *mutexPtr;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>用户对 Lock 的用法类似于 shared_ptr 的方式：</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line">Mutex m;                                                     <span class="comment">// 定义你需要的互斥器</span></span><br><span class="line">...</span><br><span class="line">&#123;                                                            <span class="comment">// 建立一个区块用来定义 critical section</span></span><br><span class="line">    <span class="function">Lock <span class="title">m1</span><span class="params">(&amp;m)</span></span>;                                             <span class="comment">// 锁定互斥器</span></span><br><span class="line">    ...                                                      <span class="comment">// 执行 critical section 内的操作</span></span><br><span class="line">&#125;                                                            <span class="comment">// 执行析构函数</span></span><br></pre></td></tr></table></figure>
+<p>目前看起来没什么问题，但是如果 Lock 对象被复制：</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="function">Lock <span class="title">ml1</span><span class="params">(&amp;m)</span></span>;                                                <span class="comment">// 锁定m</span></span><br><span class="line"><span class="function">Lock <span class="title">ml2</span><span class="params">(ml1)</span></span>;                                               <span class="comment">// 复制ml1到ml2上，会出现问题</span></span><br></pre></td></tr></table></figure>
+<p>当我们将 ml1 复制到 ml2 上时，我们希望保留 ml2的资源 <code>mutexPtr</code>，但如果 ml1 离开区块，其析构函数执行，那么经过复制后的 ml2 里的资源也会被释放，这可能与我们的初衷不符。我们希望保留资源，直到它的最后一个使用者（某对象）被销毁，而中间其余对象被销毁不受影响。为此，我们可以引入 shared_ptr。</p>
+<p>如果简单地将 Mutex*  改为 shared_ptr&lt;Mutex&gt;，那么其析构函数行为是”当引用计数为0时删除所指之物“，而不是执行函数 unlock 。幸运的是，shared_ptr 允许指定所谓的”删除器“，即一个函数或函数对象，当引用计数为0时被调用。下面是更新后的代码：</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Lock</span>&#123;</span><br><span class="line">    <span class="keyword">public</span>:</span><br><span class="line">    	<span class="function">explict <span class="title">Lock</span><span class="params">(Mutex* pm)</span> : mutexPtr(pm， unlock)&#123;</span>     <span class="comment">// 以某个 Mutex 初始化 shared_ptr 并以 unlock 函数作为删除器</span></span><br><span class="line">            <span class="built_in">lock</span>(mutexPtr.<span class="built_in">get</span>());</span><br><span class="line">        &#125;                                                    <span class="comment">// 获得资源</span></span><br><span class="line">    <span class="keyword">private</span>：</span><br><span class="line">        std::shared_ptr&lt;Mutex&gt; mutexPtr;                     <span class="comment">// 使用 shared_ptr 代替 raw pointer</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>注意，本例中的 Lock class 不再声明析构函数，因为没有必要。<strong>class</strong>的析构函数（无论是编译器生成的还是用户自定的）会自动调用其 <strong>non-static</strong>成员变量（本例为 mutexPtr）的析构函数。而 mutexPtr 的析构函数会在互斥器引用计数为0时自动调用 shared_ptr 的删除器（本例为 unlock）。</p>
+<h2 id="内存主要分区">内存主要分区</h2>
+<p>最后简要介绍下内存主要的分区。</p>
+<ol>
+<li>堆区（heap）：用来储存<strong>动态分配</strong>的对象，即由 malloc/new 分配的内存块。这是在程序运行时分配的对象，当其不再使用时，我们的代码必须显示地销毁它们。</li>
+<li>栈区（stack）：用来保存定义在函数内的非 static 对象。</li>
+<li>静态内存：用来保存局部 static 对象<sup class="footnote-ref"><a href="#fn2" id="fnref2">[2]</a></sup>、类 static 数据成员以及定义在任何函数之外的变量（全局变量）。</li>
+</ol>
+<p>分配在栈区或者静态内存中的对象由编译器自动创建和销毁。</p>
+<img src="https://cdn.jsdelivr.net/gh/zermatt-luo/MyBlog@main/img/static_1.png" alt="static_1" style="zoom:80%;" />
+<hr class="footnotes-sep">
+<section class="footnotes">
+<ol class="footnotes-list">
+<li id="fn1" class="footnote-item"><p>factory（工厂）函数屏蔽了实现细节，返回一个<strong>base class</strong>指针，指向新生成的<strong>derived class</strong>对象。 <a href="#fnref1" class="footnote-backref">↩︎</a></p>
+</li>
+<li id="fn2" class="footnote-item"><p>函数内的 static 对象是局部  static 对象（local static 对象，因为它们对函数而言是 local 的），其他 static 对象称为全局  static 对象。 <a href="#fnref2" class="footnote-backref">↩︎</a></p>
+</li>
+</ol>
+</section>
+]]></content>
+      <tags>
+        <tag>C++</tag>
       </tags>
   </entry>
 </search>
