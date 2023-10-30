@@ -1,6 +1,79 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>CPU眼里的汇编语言</title>
+    <url>/2023/10/30/CPU%E7%9C%BC%E9%87%8C%E7%9A%84%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%80/</url>
+    <content><![CDATA[<p>打开 Compiler Explorer， 写一个简单的自加函数：</p>
+<img src="https://cdn.jsdelivr.net/gh/zermatt-luo/MyBlog@main/img/image-20231030210847368.png" alt="image-20231030210847368" style="zoom:150%;" />
+<h2 id="代码分析">代码分析</h2>
+<p><img src="https://cdn.jsdelivr.net/gh/zermatt-luo/MyBlog@main/img/%25E6%25B1%2587%25E7%25BC%2596%25E8%25AF%25AD%25E8%25A8%2580-%25E7%25AC%25AC%25201%2520%25E9%25A1%25B5.drawio.png" alt="汇编语言-第 1 页.drawio"></p>
+<p>该函数涉及到三个CPU寄存器：<strong>eax/rax</strong>、<strong>rbp</strong> 、<strong>rsp</strong>：</p>
+<p><strong>eax/rax</strong><sup class="footnote-ref"><a href="#fn1" id="fnref1">[1]</a></sup>：一般用来存放数值，类似于C/C++里面的普通变量；</p>
+<p><strong>rbp</strong> 、<strong>rsp</strong>：一般用来存放内存地址，类似于C/C++里面的指针变量。用来管理、读写内存的栈区（stack）。</p>
+<p>初始状态寄存器的值均为 0x100。</p>
+<p>首先看函数对应的汇编指令：push。</p>
+<img src="https://cdn.jsdelivr.net/gh/zermatt-luo/MyBlog@main/img/image-20231030204311218.png" alt="image-20231030204311218" style="zoom:150%;" />
+<p><img src="https://cdn.jsdelivr.net/gh/zermatt-luo/MyBlog@main/img/2.png" alt="2"></p>
+<p>push对应了两个微操作：</p>
+<ol>
+<li>将寄存器 rbp 的值，存放在“栈顶”寄存器 rsp 指向的内存下方（rsp 所指内存的Value值为 rbp 的地址）。</li>
+<li>随着“栈顶”向低生长，也就是让 rsp 寄存器的值减 4。</li>
+</ol>
+<p>随后是简单的 mov 指令，把寄存器 rsp 的值赋给 rbp，如下图所示：</p>
+<img src="https://cdn.jsdelivr.net/gh/zermatt-luo/MyBlog@main/img/image-20231030204515184.png" alt="image-20231030204515184" style="zoom:150%;" />
+<p><img src="https://cdn.jsdelivr.net/gh/zermatt-luo/MyBlog@main/img/3.png" alt="3"></p>
+<p>接着是一个较为复杂的 mov 指令<sup class="footnote-ref"><a href="#fn2" id="fnref2">[2]</a></sup>。但通过参考源代码，我们很容易猜出它是要把数值 1，写入到变量 a 所在的内存。</p>
+<img src="https://cdn.jsdelivr.net/gh/zermatt-luo/MyBlog@main/img/image-20231030204607840.png" alt="image-20231030204607840" style="zoom:150%;" />
+<p><img src="https://cdn.jsdelivr.net/gh/zermatt-luo/MyBlog@main/img/4.png" alt="4"></p>
+<p>mov 指令和数值 1 都很容易找到，但变量 a 的内存地址就颇为复杂。不过关键字 PTR 提示我们：这是一个指针操作，这也恰好对应了 rbp 本身就是类似于指针变量的寄存器。</p>
+<p>所以，这行汇编代码对应C/C++代码类似于：</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line">*(rbp - <span class="number">4</span>) = <span class="number">1</span>;</span><br></pre></td></tr></table></figure>
+<p>变量 a 的内存地址等于寄存器 rbp 的值减4；而中括号<code>[ ]</code>就相当于指针变量的解引用<code>*</code>操作；DWORD是指针类型，表明数值 1 将占用 4 个字节的长度。</p>
+<blockquote>
+<p>这里说个题外话：对比 C/C++ 和汇编语言可以看出，C/C++语言是最接近底层的高级语言。</p>
+</blockquote>
+<p>接着进行自加运算。</p>
+<img src="https://cdn.jsdelivr.net/gh/zermatt-luo/MyBlog@main/img/image-20231030200848432.png" alt="image-20231030200848432" style="zoom:150%;" />
+<p><img src="https://cdn.jsdelivr.net/gh/zermatt-luo/MyBlog@main/img/5.png" alt="5"></p>
+<p>带 PTR 和 [ ] 的 add 指令也有两个微操作：</p>
+<ol>
+<li>首先，用指针的<code>*</code>操作获得变量 a 的值，并与 2 做加法运算；</li>
+<li>把加法运算得到的结果，通过指针的<code>*</code>写入到变量 a 所在的内存。</li>
+</ol>
+<p>随后的 mov 指令与上文的相似，即将变量 a 的值从内存中读出来，写入到寄存器 eax 里面。</p>
+<img src="https://cdn.jsdelivr.net/gh/zermatt-luo/MyBlog@main/img/image-20231030201610873.png" alt="image-20231030201610873" style="zoom:150%;" />
+<p><img src="https://cdn.jsdelivr.net/gh/zermatt-luo/MyBlog@main/img/6.png" alt="6"></p>
+<p>这里对应的C/C++ 语言类似于：</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line">eax = *(rbp - <span class="number">4</span>)</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>即使是普通变量操作，背后的实现原理也跟“指针”脱不了干系。因为在 CPU 眼里，万物皆有地址，万物皆可指针。</p>
+</blockquote>
+<p>最后，就是 push 的反向操作 pop。</p>
+<p>它也对应了两个微操作：</p>
+<ol>
+<li>把寄存器 rsp 指向的“栈顶”内存的值 0x100，写入到寄存器 rbp。</li>
+<li>随着“栈顶”的升高， rsp 寄存器的值也随之加 4。</li>
+</ol>
+<img src="https://cdn.jsdelivr.net/gh/zermatt-luo/MyBlog@main/img/image-20231030202453405.png" alt="image-20231030202453405" style="zoom:150%;" />
+<p><img src="https://cdn.jsdelivr.net/gh/zermatt-luo/MyBlog@main/img/test.png" alt="test"></p>
+<h2 id="总结">总结</h2>
+<p>再宏伟、壮观的房子，真正施工的时候，不过是在重复搭钢筋、倒水泥；再搭钢筋、再倒水泥的过程。CPU 也是如此，我们不过是把数据，在寄存器和内存之间搬来搬去。</p>
+<p>通过上文的代码分析我们发现，为了做 1 次简单的 +2 运算，居然产生了（至少）5 次内存读写，内存读写占比高达 83%。据有些机构统计指出，CPU 的内存读写，占据了 CPU 90%的工作负荷。</p>
+<hr class="footnotes-sep">
+<section class="footnotes">
+<ol class="footnotes-list">
+<li id="fn1" class="footnote-item"><p>寄存器 eax 和寄存器 rax 的区别：寄存器 eax 是 32 位的 x86 CPU的寄存器，如今的 x86 CPU多是 64 位的，其对应的寄存器是 rax，eax 只是 rax 的低 32 位而已。 <a href="#fnref1" class="footnote-backref">↩︎</a></p>
+</li>
+<li id="fn2" class="footnote-item"><p>汇编语言中，mov 指令用于写入。 <a href="#fnref2" class="footnote-backref">↩︎</a></p>
+</li>
+</ol>
+</section>
+]]></content>
+      <tags>
+        <tag>CPU</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>const char*、const char[]与string</title>
     <url>/2023/09/28/C-%E4%B8%AD%E7%9A%84const-char-%E3%80%81const-char-%E4%B8%8Estring/</url>
     <content><![CDATA[<p>以下代码是基于gcc的vscode编译器编写的。首先导入运行示例的必要库，并指定标准命名空间std。</p>
@@ -79,56 +152,6 @@
       </tags>
   </entry>
   <entry>
-    <title>用十年时间自学编程</title>
-    <url>/2023/09/28/%E7%94%A8%E5%8D%81%E5%B9%B4%E6%97%B6%E9%97%B4%E8%87%AA%E5%AD%A6%E7%BC%96%E7%A8%8B/</url>
-    <content><![CDATA[<p>在网上找到了一篇关于编程心得交流分享的文章《Teach Yourself Programming in Ten Years》，<a href="http://norvig.com/21-days.html#answers">原文链接</a>放到这里。下面是中文翻译版：</p>
-<center style="font-size: 27px; font-weight: bold;">
-  Teach Yourself Programming in Ten Years
-</center>
-<center style="font-size: 20px; font-weight: bold;">
-  Peter Norvig
-</center>
-<h4 id="为什么每个人都这么急切？">为什么每个人都这么急切？</h4>
-<p>走进任何一家书店，你都会看到《24小时自学Java》这样的书，以及无数教你几天或几小时内学会C、SQL、Ruby、算法等等。在亚马逊高级搜索中，搜索[title: teach, yourself, hours, since: 2000]，找到了512本这样的书。在前十名中，九本是编程书籍，另一本是关于记账的。用“learn”替换“teach yourself”或用“days”替换“hours”得到的结果也相似。</p>
-<p>这说明两种情况，要么大家都急着学编程，要么编程真的比其他技能容易得多。Felleisen等人在他们的书《如何设计程序》中也提到了这种现象，说：“写糟糕的代码很简单，21天就能学会，哪怕你是个门外汉。”还有一部Abtruse Goose的漫画也做了类似的描述。<br>
-那么，《24小时自学C++》这样的标题到底意味着什么呢？</p>
-<ul>
-<li>自学：在24小时里，你根本没办法写出几个有深度的程序，更别说从中吸取经验教训了。你也没机会与资深程序员合作，体验真正的C++编程是怎样的。简单说，你学不到多少。这本书只能教你一些皮毛，而不是真正的深入理解。就像亚历山大·教皇说的，浅尝辄止是很危险的（<strong>a little learning is a dangerous thing</strong>）。</li>
-<li>C++：你可能在24小时内学会一些C++的基础语法（如果你之前已经学过其他编程语言的话），但你真的了解C++吗？如果你只是一个初学者，你可能只能用C++的语法写出初级的程序，但你真的理解C++的精髓吗？Alan Perlis曾说：“一个不改变你编程思维的语言，是没必要学的（<strong>A language that doesn’t affect the way you think about programming, is not worth knowing</strong>）。”或许，你只是为了完成某个特定任务，需要学一点C++（或者是JavaScript或Processing）。但那样，你其实并没有真正学会编程，只是学会了如何完成那个任务。</li>
-<li>24小时：显然，这时间远远不够，下一部分会进一步说明。</li>
-</ul>
-<span id="more"></span>
-<h4 id="十年自学编程">十年自学编程</h4>
-<p>研究者（如Bloom (1985)、Bryan &amp; Harter (1899)、Hayes (1989)、Simmon &amp; Chase (1973)）已经证明，在许多领域，如下棋、音乐创作、电报操作、绘画、钢琴演奏、游泳、网球，以及神经心理学和拓扑学的研究中，要达到专家水平大约需要十年时间。关键是有目的的实践：不仅仅是重复做，而是给自己设定一个略超出当前能力的任务，尝试去做，做的时候和做完后分析自己的表现，并纠正错误。然后再重复。再重复。似乎没有真正的捷径：即使是4岁就展现出音乐天赋的莫扎特，也花了13年时间才开始创作世界级的音乐。披头士乐队似乎在1964年凭借一系列的热门歌曲和在Ed Sullivan秀上的表现一炮而红。但他们从1957年开始就在利物浦和汉堡的小俱乐部演出，尽管他们很早就受到大众的喜爱，但他们的第一个广受好评的作品，Sgt. Peppers，是在1967年发布的。  Malcolm Gladwell 推广了这个观点，尽管他更注重的是10,000小时，而不是10年。Henri Cartier-Bresson (1908-2004)有另一个标准：“你的前10,000张照片是最差的。”（他没想到在数字相机的时代，有些人一周内就能达到这个数字。）真正的专业水平可能需要一生的时间：Samuel Johnson (1709-1784)说：“任何领域的卓越都只能通过一生的努力来获得；它的价值不菲。”乔叟(1340-1400)抱怨说：“生命短暂，技艺学习之路漫长。”希波克拉底（公元前400年左右）因“ars longa, vita brevis”而著称，这是更长的引文“Ars longa, vita brevis”而著称，这是更长的引文“Ars longa, vita brevis, occasio praeceps, experimentum periculosum, iudicium difficile”的一部分，英文意为“生命短暂，技艺长久，机会稍纵即逝，实验充满风险，判断困难。”当然，没有一个固定的数字可以作为最终答案：认为所有技能（如编程、下棋、打跳棋和演奏音乐）都需要完全相同的时间来掌握，或者所有人都需要完全相同的时间，似乎都不合理。正如K. Anders Ericsson教授所说：“在大多数领域，即使是最有天赋的人也需要相当长的时间才能达到最高水平。10,000小时这个数字只是给你一个感觉，我们说的是每周10到20小时，连一些人认为最有天赋的人也需要这么长时间才能达到最高水平。”</p>
-<h4 id="你想成为一名程序员吗？">你想成为一名程序员吗？</h4>
-<p>以下是我为成功编程提供的建议：<br>
-对编程产生兴趣，并因为它有趣而去做。确保它始终足够有趣，这样你会愿意投入你的十年或10,000小时。<br>
-以下是我为成功编程提供的建议：</p>
-<ol>
-<li>对编程产生兴趣，并因为它有趣而去做。兴趣是任何长期承诺的重要驱动力，编程也不例外。如果你对编程感到兴趣，你会更愿意投入时间和努力去学习和提高。编程本身有很多有趣和挑战性的方面，从解决复杂问题，到实现创新的算法，再到构建引人入胜的应用程序。</li>
-<li>动手编程。最好的学习方式是实践中学习。更专业地说，“个体在某一领域的最大性能水平并不是随着经验的增长而自动获得的，但即使是经验丰富的个体，也可以通过有意识地努力提高来提高性能水平。”以及“最有效的学习需要一个为特定个体设定的具有适当难度的明确定义任务、有益的反馈以及重复和纠正错误的机会。”《实践中的认知：日常生活中的心智、数学和文化》这本书是这种观点的一个有趣的参考。</li>
-<li>与其他程序员交流；阅读其他人的程序。这比任何书籍或培训课程都更重要。</li>
-<li>如果你愿意，可以在大学度过四年（或在研究生院度过更长时间）。这将使你有机会获得一些需要资格证书的工作，并使你对这个领域有更深入的了解，但如果你不喜欢学校，你可以（只要有一些决心）自己或在工作中获得类似的经验。无论如何，仅仅通过书本学习是不够的。“计算机科学教育不能使任何人成为专家程序员，正如学习画笔和颜料不能使任何人成为专家画家一样。”《新黑客词典》的作者Eric Raymond如是说。我雇佣过的最好的程序员之一只有高中学历；他生产了很多优秀的软件，有自己的新闻组，并通过股票期权赚了足够的钱买下自己的夜总会。</li>
-<li>与其他程序员一起参与项目。在某些项目中成为最好的程序员；在其他一些项目中成为最差的。当你是最好的时候，你可以测试你领导项目的能力，并用你的动力激励他人。当你是最差的时候，你会学到高手们都做些什么，以及他们不喜欢做什么（因为他们让你帮他们做那些事）。</li>
-<li>至少学习六种编程语言。包括一种强调类抽象的语言（如Java或C++），一种强调函数抽象的语言（如Lisp或ML或Haskell），一种支持语法抽象的语言（如Lisp），一种支持声明式规范的语言（如Prolog或C++模板），以及一种强调并行性的语言（如Clojure或Go）。</li>
-<li>记住，“计算机科学”中有“计算机”这个词。了解你的计算机执行一条指令、从内存中取出一个字（有或没有缓存未命中）、从磁盘连续读取字、以及在磁盘上寻找新位置所需的时间。（<a href="http://norvig.com/21-days.html#answers">答案在这里</a>）</li>
-<li>参与一项语言标准化工作。可以是ANSI C++委员会，也可以是决定你们本地编码风格是否采用2个或4个空格缩进。无论如何，你都可以了解其他人对语言的喜好，他们对此有多深的感情，甚至可能了解他们为什么有这样的感情。</li>
-<li>明智地尽快退出语言标准化工作。</li>
-</ol>
-<p>考虑到这些，仅仅通过书本学习能走多远还是一个疑问。在我第一个孩子出生之前，我读了所有的育儿书，但仍然感觉自己像个毫无经验的新手。30个月后，当我第二个孩子即将出生时，我是否回到书本上进行复习？没有。相反，我依赖于我的亲身经验，这比专家写的数千页书籍对我来说更有用、更令人放心。<br>
-Fred Brooks在他的文章《No Silver Bullets》(没有银弹)中，为找到优秀的软件设计师提出了一个三部分的计划：</p>
-<ul>
-<li>尽早系统地识别顶级设计师。</li>
-<li>指派一位职业导师负责潜在人才的发展，并仔细维护其职业档案。</li>
-<li>为成长中的设计师提供互动和激励彼此的机会。</li>
-</ul>
-<p>这意味着有些人已经具备成为优秀设计师的必要品质；任务是适当地引导他们。Alan Perlis更简洁地说：“每个人都可以被教会雕塑：但米开朗基罗则需要被教如何不这样做。对于伟大的程序员也是如此。”Perlis的意思是，伟大的人有一种超越他们培训的内在品质。但这种品质从哪里来？是与生俱来的吗？还是他们通过勤奋发展出来的？正如《美食总动员》中的虚构厨师Auguste Gusteau所说：“人人都可以做饭，但只有无畏的人才能成为伟大的厨师。”我更认为这是愿意为刻意练习投入生活的大部分时间。但也许“无畏”是一种总结这种状态的方式。或者，正如Gusteau的评论家Anton Ego所说：“并不是每个人都可以成为伟大的艺术家，但伟大的艺术家可以来自任何地方。”  所以，放心去买那本Java/Ruby/Javascript/PHP的书；你可能会从中受益。但你的生活或你作为程序员的真正专业技能不会在24小时或21天内发生改变。如何努力在24个月内不断进步呢？好吧，现在你开始了。</p>
-]]></content>
-      <tags>
-        <tag>编程建议</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>智能指针shared_ptr的应用</title>
     <url>/2023/10/28/%E6%99%BA%E8%83%BD%E6%8C%87%E9%92%88shared-ptr%E7%9A%84%E5%BA%94%E7%94%A8/</url>
     <content><![CDATA[<p>与Java不同的是，C++程序员需要手动管理众多资源，典型的就是<strong>内存回收</strong>。通过使用智能指针 <code>shared_ptr </code>可以几乎消除内存泄漏的资源管理问题。这里我们分别以内存中的堆区和栈区为例，介绍 <code>shared_ptr </code>在资源管理方面的优势。</p>
@@ -189,6 +212,56 @@ Fred Brooks在他的文章《No Silver Bullets》(没有银弹)中，为找到�
 ]]></content>
       <tags>
         <tag>C++</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>用十年时间自学编程</title>
+    <url>/2023/09/28/%E7%94%A8%E5%8D%81%E5%B9%B4%E6%97%B6%E9%97%B4%E8%87%AA%E5%AD%A6%E7%BC%96%E7%A8%8B/</url>
+    <content><![CDATA[<p>在网上找到了一篇关于编程心得交流分享的文章《Teach Yourself Programming in Ten Years》，<a href="http://norvig.com/21-days.html#answers">原文链接</a>放到这里。下面是中文翻译版：</p>
+<center style="font-size: 27px; font-weight: bold;">
+  Teach Yourself Programming in Ten Years
+</center>
+<center style="font-size: 20px; font-weight: bold;">
+  Peter Norvig
+</center>
+<h4 id="为什么每个人都这么急切？">为什么每个人都这么急切？</h4>
+<p>走进任何一家书店，你都会看到《24小时自学Java》这样的书，以及无数教你几天或几小时内学会C、SQL、Ruby、算法等等。在亚马逊高级搜索中，搜索[title: teach, yourself, hours, since: 2000]，找到了512本这样的书。在前十名中，九本是编程书籍，另一本是关于记账的。用“learn”替换“teach yourself”或用“days”替换“hours”得到的结果也相似。</p>
+<p>这说明两种情况，要么大家都急着学编程，要么编程真的比其他技能容易得多。Felleisen等人在他们的书《如何设计程序》中也提到了这种现象，说：“写糟糕的代码很简单，21天就能学会，哪怕你是个门外汉。”还有一部Abtruse Goose的漫画也做了类似的描述。<br>
+那么，《24小时自学C++》这样的标题到底意味着什么呢？</p>
+<ul>
+<li>自学：在24小时里，你根本没办法写出几个有深度的程序，更别说从中吸取经验教训了。你也没机会与资深程序员合作，体验真正的C++编程是怎样的。简单说，你学不到多少。这本书只能教你一些皮毛，而不是真正的深入理解。就像亚历山大·教皇说的，浅尝辄止是很危险的（<strong>a little learning is a dangerous thing</strong>）。</li>
+<li>C++：你可能在24小时内学会一些C++的基础语法（如果你之前已经学过其他编程语言的话），但你真的了解C++吗？如果你只是一个初学者，你可能只能用C++的语法写出初级的程序，但你真的理解C++的精髓吗？Alan Perlis曾说：“一个不改变你编程思维的语言，是没必要学的（<strong>A language that doesn’t affect the way you think about programming, is not worth knowing</strong>）。”或许，你只是为了完成某个特定任务，需要学一点C++（或者是JavaScript或Processing）。但那样，你其实并没有真正学会编程，只是学会了如何完成那个任务。</li>
+<li>24小时：显然，这时间远远不够，下一部分会进一步说明。</li>
+</ul>
+<span id="more"></span>
+<h4 id="十年自学编程">十年自学编程</h4>
+<p>研究者（如Bloom (1985)、Bryan &amp; Harter (1899)、Hayes (1989)、Simmon &amp; Chase (1973)）已经证明，在许多领域，如下棋、音乐创作、电报操作、绘画、钢琴演奏、游泳、网球，以及神经心理学和拓扑学的研究中，要达到专家水平大约需要十年时间。关键是有目的的实践：不仅仅是重复做，而是给自己设定一个略超出当前能力的任务，尝试去做，做的时候和做完后分析自己的表现，并纠正错误。然后再重复。再重复。似乎没有真正的捷径：即使是4岁就展现出音乐天赋的莫扎特，也花了13年时间才开始创作世界级的音乐。披头士乐队似乎在1964年凭借一系列的热门歌曲和在Ed Sullivan秀上的表现一炮而红。但他们从1957年开始就在利物浦和汉堡的小俱乐部演出，尽管他们很早就受到大众的喜爱，但他们的第一个广受好评的作品，Sgt. Peppers，是在1967年发布的。  Malcolm Gladwell 推广了这个观点，尽管他更注重的是10,000小时，而不是10年。Henri Cartier-Bresson (1908-2004)有另一个标准：“你的前10,000张照片是最差的。”（他没想到在数字相机的时代，有些人一周内就能达到这个数字。）真正的专业水平可能需要一生的时间：Samuel Johnson (1709-1784)说：“任何领域的卓越都只能通过一生的努力来获得；它的价值不菲。”乔叟(1340-1400)抱怨说：“生命短暂，技艺学习之路漫长。”希波克拉底（公元前400年左右）因“ars longa, vita brevis”而著称，这是更长的引文“Ars longa, vita brevis”而著称，这是更长的引文“Ars longa, vita brevis, occasio praeceps, experimentum periculosum, iudicium difficile”的一部分，英文意为“生命短暂，技艺长久，机会稍纵即逝，实验充满风险，判断困难。”当然，没有一个固定的数字可以作为最终答案：认为所有技能（如编程、下棋、打跳棋和演奏音乐）都需要完全相同的时间来掌握，或者所有人都需要完全相同的时间，似乎都不合理。正如K. Anders Ericsson教授所说：“在大多数领域，即使是最有天赋的人也需要相当长的时间才能达到最高水平。10,000小时这个数字只是给你一个感觉，我们说的是每周10到20小时，连一些人认为最有天赋的人也需要这么长时间才能达到最高水平。”</p>
+<h4 id="你想成为一名程序员吗？">你想成为一名程序员吗？</h4>
+<p>以下是我为成功编程提供的建议：<br>
+对编程产生兴趣，并因为它有趣而去做。确保它始终足够有趣，这样你会愿意投入你的十年或10,000小时。<br>
+以下是我为成功编程提供的建议：</p>
+<ol>
+<li>对编程产生兴趣，并因为它有趣而去做。兴趣是任何长期承诺的重要驱动力，编程也不例外。如果你对编程感到兴趣，你会更愿意投入时间和努力去学习和提高。编程本身有很多有趣和挑战性的方面，从解决复杂问题，到实现创新的算法，再到构建引人入胜的应用程序。</li>
+<li>动手编程。最好的学习方式是实践中学习。更专业地说，“个体在某一领域的最大性能水平并不是随着经验的增长而自动获得的，但即使是经验丰富的个体，也可以通过有意识地努力提高来提高性能水平。”以及“最有效的学习需要一个为特定个体设定的具有适当难度的明确定义任务、有益的反馈以及重复和纠正错误的机会。”《实践中的认知：日常生活中的心智、数学和文化》这本书是这种观点的一个有趣的参考。</li>
+<li>与其他程序员交流；阅读其他人的程序。这比任何书籍或培训课程都更重要。</li>
+<li>如果你愿意，可以在大学度过四年（或在研究生院度过更长时间）。这将使你有机会获得一些需要资格证书的工作，并使你对这个领域有更深入的了解，但如果你不喜欢学校，你可以（只要有一些决心）自己或在工作中获得类似的经验。无论如何，仅仅通过书本学习是不够的。“计算机科学教育不能使任何人成为专家程序员，正如学习画笔和颜料不能使任何人成为专家画家一样。”《新黑客词典》的作者Eric Raymond如是说。我雇佣过的最好的程序员之一只有高中学历；他生产了很多优秀的软件，有自己的新闻组，并通过股票期权赚了足够的钱买下自己的夜总会。</li>
+<li>与其他程序员一起参与项目。在某些项目中成为最好的程序员；在其他一些项目中成为最差的。当你是最好的时候，你可以测试你领导项目的能力，并用你的动力激励他人。当你是最差的时候，你会学到高手们都做些什么，以及他们不喜欢做什么（因为他们让你帮他们做那些事）。</li>
+<li>至少学习六种编程语言。包括一种强调类抽象的语言（如Java或C++），一种强调函数抽象的语言（如Lisp或ML或Haskell），一种支持语法抽象的语言（如Lisp），一种支持声明式规范的语言（如Prolog或C++模板），以及一种强调并行性的语言（如Clojure或Go）。</li>
+<li>记住，“计算机科学”中有“计算机”这个词。了解你的计算机执行一条指令、从内存中取出一个字（有或没有缓存未命中）、从磁盘连续读取字、以及在磁盘上寻找新位置所需的时间。（<a href="http://norvig.com/21-days.html#answers">答案在这里</a>）</li>
+<li>参与一项语言标准化工作。可以是ANSI C++委员会，也可以是决定你们本地编码风格是否采用2个或4个空格缩进。无论如何，你都可以了解其他人对语言的喜好，他们对此有多深的感情，甚至可能了解他们为什么有这样的感情。</li>
+<li>明智地尽快退出语言标准化工作。</li>
+</ol>
+<p>考虑到这些，仅仅通过书本学习能走多远还是一个疑问。在我第一个孩子出生之前，我读了所有的育儿书，但仍然感觉自己像个毫无经验的新手。30个月后，当我第二个孩子即将出生时，我是否回到书本上进行复习？没有。相反，我依赖于我的亲身经验，这比专家写的数千页书籍对我来说更有用、更令人放心。<br>
+Fred Brooks在他的文章《No Silver Bullets》(没有银弹)中，为找到优秀的软件设计师提出了一个三部分的计划：</p>
+<ul>
+<li>尽早系统地识别顶级设计师。</li>
+<li>指派一位职业导师负责潜在人才的发展，并仔细维护其职业档案。</li>
+<li>为成长中的设计师提供互动和激励彼此的机会。</li>
+</ul>
+<p>这意味着有些人已经具备成为优秀设计师的必要品质；任务是适当地引导他们。Alan Perlis更简洁地说：“每个人都可以被教会雕塑：但米开朗基罗则需要被教如何不这样做。对于伟大的程序员也是如此。”Perlis的意思是，伟大的人有一种超越他们培训的内在品质。但这种品质从哪里来？是与生俱来的吗？还是他们通过勤奋发展出来的？正如《美食总动员》中的虚构厨师Auguste Gusteau所说：“人人都可以做饭，但只有无畏的人才能成为伟大的厨师。”我更认为这是愿意为刻意练习投入生活的大部分时间。但也许“无畏”是一种总结这种状态的方式。或者，正如Gusteau的评论家Anton Ego所说：“并不是每个人都可以成为伟大的艺术家，但伟大的艺术家可以来自任何地方。”  所以，放心去买那本Java/Ruby/Javascript/PHP的书；你可能会从中受益。但你的生活或你作为程序员的真正专业技能不会在24小时或21天内发生改变。如何努力在24个月内不断进步呢？好吧，现在你开始了。</p>
+]]></content>
+      <tags>
+        <tag>编程建议</tag>
       </tags>
   </entry>
 </search>
