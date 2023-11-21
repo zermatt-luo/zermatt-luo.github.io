@@ -20,19 +20,19 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="theme-color" content="#f8f8f8">
   
-  <title>智能指针shared_ptr的应用 - Xu Luo</title>
+  <title>智能指针shared_ptr的应用 - Zermatt</title>
 
   
-    <meta name="description" content="[TOC] 与Java不同的是，C++程序员需要手动管理众多资源，典型的就是内存回收。通过使用智能指针 shared_ptr 可以几乎消除内存泄漏的资源管理问题。这里我们分别以内存中的堆区和栈区为例，介绍 shared_ptr 在资源管理方面的优势。 堆区（heap-based) 假设有一个投资 class 的基类Investment，其余各种各样的投资类型继承它： 1class Investme">
+    <meta name="description" content="与Java不同的是，C++程序员需要手动管理众多资源，典型的就是内存回收。通过使用智能指针 shared_ptr 可以几乎消除内存泄漏的资源管理问题。这里我们分别以内存中的堆区和栈区为例，介绍 shared_ptr 在资源管理方面的优势。 堆区（heap-based) 假设有一个投资 class 的基类Investment，其余各种各样的投资类型继承它： 1class Investment &amp;#1">
 <meta property="og:type" content="article">
 <meta property="og:title" content="智能指针shared_ptr的应用">
 <meta property="og:url" content="https://zermatt-luo.github.io/2023/10/28/%E6%99%BA%E8%83%BD%E6%8C%87%E9%92%88shared-ptr%E7%9A%84%E5%BA%94%E7%94%A8/index.html">
-<meta property="og:site_name" content="Xu Luo">
-<meta property="og:description" content="[TOC] 与Java不同的是，C++程序员需要手动管理众多资源，典型的就是内存回收。通过使用智能指针 shared_ptr 可以几乎消除内存泄漏的资源管理问题。这里我们分别以内存中的堆区和栈区为例，介绍 shared_ptr 在资源管理方面的优势。 堆区（heap-based) 假设有一个投资 class 的基类Investment，其余各种各样的投资类型继承它： 1class Investme">
+<meta property="og:site_name" content="Zermatt">
+<meta property="og:description" content="与Java不同的是，C++程序员需要手动管理众多资源，典型的就是内存回收。通过使用智能指针 shared_ptr 可以几乎消除内存泄漏的资源管理问题。这里我们分别以内存中的堆区和栈区为例，介绍 shared_ptr 在资源管理方面的优势。 堆区（heap-based) 假设有一个投资 class 的基类Investment，其余各种各样的投资类型继承它： 1class Investment &amp;#1">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://cdn.jsdelivr.net/gh/zermatt-luo/MyBlog@main/img/static_1.png">
 <meta property="article:published_time" content="2023-10-28T08:53:28.000Z">
-<meta property="article:modified_time" content="2023-11-21T02:29:39.211Z">
+<meta property="article:modified_time" content="2023-11-21T02:38:14.773Z">
 <meta property="article:author" content="xluo">
 <meta property="article:tag" content="C++">
 <meta name="twitter:card" content="summary">
@@ -73,9 +73,9 @@
 
   
 
-<header class="header"><div class="logo-wrap"><a class="title" href="/"><div class="main" ff="title">Xu Luo</div></a></div>
+<header class="header"><div class="logo-wrap"><a class="title" href="/"><div class="main" ff="title">Zermatt</div></a></div>
 
-<nav class="menu dis-select"></nav>
+<nav class="menu dis-select"><a class="nav-item" href="/about/">关于</a></nav>
 </header>
 
 
@@ -83,7 +83,7 @@
 <widget class="widget-wrapper search"><div class="widget-body"><div class="search-wrapper" id="search"><form class="search-form"><input type="text" class="search-input" id="search-input" data-filter="/blog/" placeholder="文章搜索"><svg t="1670596976048" class="icon search-icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2676" width="200" height="200"><path d="M938.2 832.6L723.8 618.1c-2.5-2.5-5.3-4.4-7.9-6.4 36.2-55.6 57.3-121.8 57.3-193.1C773.3 222.8 614.6 64 418.7 64S64 222.8 64 418.6c0 195.9 158.8 354.6 354.6 354.6 71.3 0 137.5-21.2 193.2-57.4 2 2.7 3.9 5.4 6.3 7.8L832.5 938c14.6 14.6 33.7 21.9 52.8 21.9 19.1 0 38.2-7.3 52.8-21.8 29.2-29.1 29.2-76.4 0.1-105.5M418.7 661.3C284.9 661.3 176 552.4 176 418.6 176 284.9 284.9 176 418.7 176c133.8 0 242.6 108.9 242.6 242.7 0 133.7-108.9 242.6-242.6 242.6" p-id="2677"></path></svg></form><div id="search-result"></div><div class="search-no-result">没有找到内容！</div></div></div></widget>
 
 
-<widget class="widget-wrapper toc single" id="data-toc"><div class="widget-header cap dis-select"><span class="name">智能指针shared_ptr的应用</span></div><div class="widget-body fs14"><div class="doc-tree active"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A0%86%E5%8C%BA%EF%BC%88heap-based)"><span class="toc-text">堆区（heap-based)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A0%88%E5%8C%BA%EF%BC%88stack-based%EF%BC%89"><span class="toc-text">栈区（stack-based）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%86%85%E5%AD%98%E4%B8%BB%E8%A6%81%E5%88%86%E5%8C%BA"><span class="toc-text">内存主要分区</span></a></li></ol></div></div></widget>
+<widget class="widget-wrapper toc single" id="data-toc"><div class="widget-header cap dis-select"><span class="name">智能指针shared_ptr的应用</span></div><div class="widget-body fs14"><div class="doc-tree active"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A0%86%E5%8C%BA%EF%BC%88heap-based)"><span class="toc-text">堆区（heap-based)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A0%88%E5%8C%BA%EF%BC%88stack-based%EF%BC%89##"><span class="toc-text">栈区（stack-based）##</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%86%85%E5%AD%98%E4%B8%BB%E8%A6%81%E5%88%86%E5%8C%BA"><span class="toc-text">内存主要分区</span></a></li></ol></div></div></widget>
 
 
 
@@ -103,7 +103,6 @@
 
 <article class='md-text content post'>
 <h1 class="article-title"><span>智能指针shared_ptr的应用</span></h1>
-<p>[TOC]</p>
 <p>与Java不同的是，C++程序员需要手动管理众多资源，典型的就是<strong>内存回收</strong>。通过使用智能指针 <code>shared_ptr </code>可以几乎消除内存泄漏的资源管理问题。这里我们分别以内存中的堆区和栈区为例，介绍 <code>shared_ptr </code>在资源管理方面的优势。</p>
 <h2 id="堆区（heap-based)">堆区（heap-based)</h2>
 <p>假设有一个投资 class 的基类<code>Investment</code>，其余各种各样的投资类型继承它：</p>
@@ -123,11 +122,11 @@
 <p>为了确保 createInvestment 返回资源总是被释放，我们需要确保当控制流离开 f，该对象的析构函数会自动释放这些资源。这就引出了智能指针—<strong>shared_ptr</strong>。下面示范如何用 shared_ptr 以避免 f 函数潜在的资源泄漏的可能性：</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">f</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="function">std::shared_ptr&lt;Investment&gt; <span class="title">pInv</span><span class="params">(createInvestment())</span></span>;     <span class="comment">// 调用 factory 函数</span></span><br><span class="line">    </span><br><span class="line">    ...                                                       <span class="comment">// 一如既往使用 pInv</span></span><br><span class="line">&#125;                                                             <span class="comment">// 经由 shared_ptr 析构函数自动删除 pInv</span></span><br></pre></td></tr></table></figure>
 <p>当 shared_ptr 被销毁（例如一个局部的 shared_ptr 离开其作用域）时，计数器该 shared_ptr 关联的计数器会递减。一旦计数器变为0，它就会自动释放自己所管理的对象。</p>
-<p>在改进后的代码中，不论控制流如何离开区块，如过早 return 或抛出异常，一旦对象 pInv 被销毁（离开 f 作用域），其析构函数会被自动调用，于是资源被释放。<em>(需要补充的是，在某些情况下，即使使用 shared_ptr 仍可能出现资源泄漏的情况，详见<a href="">以独立语句初始化shared_ptr</a>)</em></p>
+<p>在改进后的代码中，不论控制流如何离开区块，如过早 return 或抛出异常，一旦对象 pInv 被销毁（离开 f 作用域），其析构函数会被自动调用，于是资源被释放。<em>(在某些情况下，即使使用 shared_ptr 仍可能出现资源泄漏的情况，详见<a target="_blank" rel="noopener" href="https://www.xuluo.online/2023/11/21/%E4%BB%A5%E7%8B%AC%E7%AB%8B%E8%AF%AD%E5%8F%A5%E5%88%9D%E5%A7%8B%E5%8C%96shared-ptr/">以独立语句初始化shared_ptr</a>)</em></p>
 <p>需要补充的是，shared_pte 在其析构函数内做 delete 而不是 delete[ ]动作，这就意味着在动态分配而得到的数组身上使用shared_ptr是个糟糕的行为，尽管它能通过编译：</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">std:: <span class="function">shared_pte&lt;std::string&gt; <span class="title">sps</span><span class="params">(<span class="keyword">new</span> std::string[<span class="number">10</span>])</span></span>;      <span class="comment">// 很糟糕！会用上错误的 delete 形式</span></span><br><span class="line">std:: <span class="function">shared_pte&lt;<span class="type">int</span>&gt; <span class="title">spi</span><span class="params">(<span class="keyword">new</span> <span class="type">int</span>[<span class="number">1024</span>])</span></span>;                    <span class="comment">// 同样问题</span></span><br></pre></td></tr></table></figure>
 <p>不必惊讶为什么C++工程师没有解决这个问题，即没有特别针对”C++动态分配数组“而设计的类型shared_ptr这样的东西，这是因为STL容器里的 vector 和 string 几乎可以取代动态数组，它们两个有自己的析构函数，可以避免这个问题。</p>
-<h2 id="栈区（stack-based）">栈区（stack-based）</h2>
+<h2 id="栈区（stack-based）##">栈区（stack-based）##</h2>
 <p>我们可以使用 shared_ptr 来建立自己的资源管理类。</p>
 <p>假设我们有一个 class Lock 以及它的两个成员函数 lock、unlock：</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">lock</span><span class="params">(Mutex* pm)</span></span>;                                        <span class="comment">// 锁定pm所指的互斥器</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">unlock</span><span class="params">(Mutex* pm)</span></span>;                                      <span class="comment">// 将互斥器解除锁定</span></span><br></pre></td></tr></table></figure>
