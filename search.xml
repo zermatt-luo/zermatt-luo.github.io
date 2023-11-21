@@ -110,45 +110,6 @@
       </tags>
   </entry>
   <entry>
-    <title>以独立语句初始化shared_ptr</title>
-    <url>/2023/11/21/%E4%BB%A5%E7%8B%AC%E7%AB%8B%E8%AF%AD%E5%8F%A5%E5%88%9D%E5%A7%8B%E5%8C%96shared-ptr/</url>
-    <content><![CDATA[<p>在<a href="https://www.xuluo.online/2023/10/28/%E6%99%BA%E8%83%BD%E6%8C%87%E9%92%88shared-ptr%E7%9A%84%E5%BA%94%E7%94%A8/">智能指针shared_ptr的应用</a>中，我们提到了可以利用智能指针 shared_ptr 以避免资源泄漏。尽管如此，在 C++中，某些情况下使用 shared_ptr 依然会泄漏资源，这可能与我们的初衷相违背。考虑下面的一种情况：</p>
-<p>假设我们有个函数用来表示程序优先执行的等级，另一个函数用来在某动态分配所得的 Widget 上进行某些带有优先权的处理。</p>
-<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="type">int</span> <span class="title">priority</span><span class="params">()</span></span>;</span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">processWidget</span><span class="params">(std::shared_ptr&lt;Widget&gt; pw, <span class="type">int</span> priority)</span></span>;</span><br></pre></td></tr></table></figure>
-<p>现考虑调用 processWidget :</p>
-<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="built_in">processWidget</span>(<span class="keyword">new</span> Widget, <span class="built_in">priority</span>());</span><br></pre></td></tr></table></figure>
-<p>但直接调用上面代码无法通过编译，这是因为上述代码暗含了从<code>new Widget</code>到<code>shared_ptr</code>的隐式转换，即：</p>
-<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line">std::shared_ptr&lt;Widget&gt; pw = <span class="keyword">new</span> Widget;</span><br></pre></td></tr></table></figure>
-<p>shared_ptr 的构造函数可以需要一个原始指针，但改构造函数是一个 <strong>explicit</strong> 的构造函数，不能进行隐式转换。因此可以为了通过编译，可以写成这样：</p>
-<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="built_in">processWidget</span>(std::<span class="built_in">shared_ptr</span>&lt;Widget&gt;(<span class="keyword">new</span> Widget), <span class="built_in">priority</span>());</span><br></pre></td></tr></table></figure>
-<p>这样似乎很完美，我们利用了 shared_ptr 来管理资源，但不幸的是，上述调用仍可能泄漏资源。</p>
-<p>processWidget 函数的第二实参只是一个单纯的对 priority 函数的调用，但是第一实参 std::shared_ptr&lt;Widget&gt;(new Widget) 由两部分组成：</p>
-<ul>
-<li>执行 “new Widget” 表达式</li>
-<li>调用 shared_ptr 构造函数</li>
-</ul>
-<p>于是在调用 precessWidget 之前，编译器必须做一下三件事：</p>
-<ul>
-<li>调用 priority</li>
-<li>执行 “new Widget”</li>
-<li>调用 shared_ptr 构造函数</li>
-</ul>
-<p>C++编译器以什么样的次序完成这些事情呢？<strong>弹性很大</strong>。这与Java、C# 不同，这两种语言总是以固定次序完成函数参数的初始化。可以确定的是，<code>new Widget</code>一定执行于  <code>shared_ptr</code> 构造函数之前，但对 priority 的调用可以排在第一或第二或第三执行。如果编译器选择以第二顺位执行它，最终获得这样的操作序列：</p>
-<ol>
-<li>执行 “new Widget”</li>
-<li>调用 priority</li>
-<li>调用 shared_ptr 构造函数</li>
-</ol>
-<p>考虑这样一种情况，如果 <strong>priority 的调用导致异常</strong>，会发生什么？在此情况下，“new Widget”返回的指针将会遗失，因为它尚未被放入 shared_ptr 内，后者是我们期待用来避免资源泄漏的武器。是的，在对 processWidget 的调用过程中可能引发了资源泄漏，因为在资源被创建（“new Widget”）和资源被转换为资源管理对象（shared_ptr 初始化）的两个时间点之间，<strong>可能发生异常干扰</strong>。</p>
-<p>避免发生这类问题很简单：<em>使用分离语句</em>，分别写出 （1）创建Widget，将它置入一个智能指针内，（2）将这个智能指针传给 processWidget：</p>
-<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="function">std::shared_ptr&lt;Widget&gt; <span class="title">pw</span><span class="params">(<span class="keyword">new</span> Widget)</span></span>;		<span class="comment">// 在单独语句内以指针指针存储 newed 所得对象</span></span><br><span class="line"><span class="built_in">processWidget</span>(pw, <span class="built_in">priority</span>());				<span class="comment">// 这样调用绝不会导致资源泄漏</span></span><br></pre></td></tr></table></figure>
-<p>编译器对于“跨越语句的各项操作”没有重新排列的自由（只有在一个语句内它才有自由度）。在上述修订后的代码内，“new Widget”表达式以及“对shared_ptr构造函数的调用“这两个动作，和”对priority的调用“是分隔开的，位于不同语句内，所以编译器不能在它们之间选择任意执行的次序。</p>
-]]></content>
-      <tags>
-        <tag>C++</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>尽可能使用const</title>
     <url>/2023/10/17/const/</url>
     <content><![CDATA[<h2 id="const-for pointer">const for pointer</h2>
@@ -185,6 +146,45 @@
 </li>
 </ol>
 </section>
+]]></content>
+      <tags>
+        <tag>C++</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>以独立语句初始化shared_ptr</title>
+    <url>/2023/11/21/%E4%BB%A5%E7%8B%AC%E7%AB%8B%E8%AF%AD%E5%8F%A5%E5%88%9D%E5%A7%8B%E5%8C%96shared-ptr/</url>
+    <content><![CDATA[<p>在<a href="https://www.xuluo.online/2023/10/28/%E6%99%BA%E8%83%BD%E6%8C%87%E9%92%88shared-ptr%E7%9A%84%E5%BA%94%E7%94%A8/">智能指针shared_ptr的应用</a>中，我们提到了可以利用智能指针 shared_ptr 以避免资源泄漏。尽管如此，在 C++中，某些情况下使用 shared_ptr 依然会泄漏资源，这可能与我们的初衷相违背。考虑下面的一种情况：</p>
+<p>假设我们有个函数用来表示程序优先执行的等级，另一个函数用来在某动态分配所得的 Widget 上进行某些带有优先权的处理。</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="type">int</span> <span class="title">priority</span><span class="params">()</span></span>;</span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">processWidget</span><span class="params">(std::shared_ptr&lt;Widget&gt; pw, <span class="type">int</span> priority)</span></span>;</span><br></pre></td></tr></table></figure>
+<p>现考虑调用 processWidget :</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="built_in">processWidget</span>(<span class="keyword">new</span> Widget, <span class="built_in">priority</span>());</span><br></pre></td></tr></table></figure>
+<p>但直接调用上面代码无法通过编译，这是因为上述代码暗含了从<code>new Widget</code>到<code>shared_ptr</code>的隐式转换，即：</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line">std::shared_ptr&lt;Widget&gt; pw = <span class="keyword">new</span> Widget;</span><br></pre></td></tr></table></figure>
+<p>shared_ptr 的构造函数可以需要一个原始指针，但改构造函数是一个 <strong>explicit</strong> 的构造函数，不能进行隐式转换。因此可以为了通过编译，可以写成这样：</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="built_in">processWidget</span>(std::<span class="built_in">shared_ptr</span>&lt;Widget&gt;(<span class="keyword">new</span> Widget), <span class="built_in">priority</span>());</span><br></pre></td></tr></table></figure>
+<p>这样似乎很完美，我们利用了 shared_ptr 来管理资源，但不幸的是，上述调用仍可能泄漏资源。</p>
+<p>processWidget 函数的第二实参只是一个单纯的对 priority 函数的调用，但是第一实参 std::shared_ptr&lt;Widget&gt;(new Widget) 由两部分组成：</p>
+<ul>
+<li>执行 “new Widget” 表达式</li>
+<li>调用 shared_ptr 构造函数</li>
+</ul>
+<p>于是在调用 precessWidget 之前，编译器必须做一下三件事：</p>
+<ul>
+<li>调用 priority</li>
+<li>执行 “new Widget”</li>
+<li>调用 shared_ptr 构造函数</li>
+</ul>
+<p>C++编译器以什么样的次序完成这些事情呢？<strong>弹性很大</strong>。这与Java、C# 不同，这两种语言总是以固定次序完成函数参数的初始化。可以确定的是，<code>new Widget</code>一定执行于  <code>shared_ptr</code> 构造函数之前，但对 priority 的调用可以排在第一或第二或第三执行。如果编译器选择以第二顺位执行它，最终获得这样的操作序列：</p>
+<ol>
+<li>执行 “new Widget”</li>
+<li>调用 priority</li>
+<li>调用 shared_ptr 构造函数</li>
+</ol>
+<p>考虑这样一种情况，如果 <strong>priority 的调用导致异常</strong>，会发生什么？在此情况下，“new Widget”返回的指针将会遗失，因为它尚未被放入 shared_ptr 内，后者是我们期待用来避免资源泄漏的武器。是的，在对 processWidget 的调用过程中可能引发了资源泄漏，因为在资源被创建（“new Widget”）和资源被转换为资源管理对象（shared_ptr 初始化）的两个时间点之间，<strong>可能发生异常干扰</strong>。</p>
+<p>避免发生这类问题很简单：<em>使用分离语句</em>，分别写出 （1）创建Widget，将它置入一个智能指针内，（2）将这个智能指针传给 processWidget：</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="function">std::shared_ptr&lt;Widget&gt; <span class="title">pw</span><span class="params">(<span class="keyword">new</span> Widget)</span></span>;		<span class="comment">// 在单独语句内以指针指针存储 newed 所得对象</span></span><br><span class="line"><span class="built_in">processWidget</span>(pw, <span class="built_in">priority</span>());				<span class="comment">// 这样调用绝不会导致资源泄漏</span></span><br></pre></td></tr></table></figure>
+<p>编译器对于“跨越语句的各项操作”没有重新排列的自由（只有在一个语句内它才有自由度）。在上述修订后的代码内，“new Widget”表达式以及“对shared_ptr构造函数的调用“这两个动作，和”对priority的调用“是分隔开的，位于不同语句内，所以编译器不能在它们之间选择任意执行的次序。</p>
 ]]></content>
       <tags>
         <tag>C++</tag>
