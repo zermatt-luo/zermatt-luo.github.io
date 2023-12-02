@@ -15,6 +15,42 @@
       </tags>
   </entry>
   <entry>
+    <title>const char*、const char[]与string</title>
+    <url>/2023/09/28/C-%E4%B8%AD%E7%9A%84const-char-%E3%80%81const-char-%E4%B8%8Estring/</url>
+    <content><![CDATA[<p>以下代码是基于gcc的vscode编译器编写的。首先导入运行示例的必要库，并指定标准命名空间std。</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;string&gt;</span> </span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br></pre></td></tr></table></figure>
+<h2 id="1-const char* 与 const char[ ]">1. const char* 与 const char[ ]</h2>
+<p>定义一个char型的指针p，指向字符串“now”；定义一个字符串数组p1，值为“now”。两者都属于<code>const</code>类型。</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="type">const</span> <span class="type">char</span> *p = <span class="string">&quot;now&quot;</span>;</span><br><span class="line"><span class="type">const</span> <span class="type">char</span> p1[<span class="number">4</span>] = <span class="string">&quot;now&quot;</span>;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>const char *  和 const char[ ] 都可以用于处理 C 风格的字符串。</p>
+<p>const char* 主要出现在早期旧版本的代码中。这个指针本身是可变的（即可以改变它所指向的位置），但通过这个指针不能修改所指向数组的内容。它比较灵活（可以重新指向其他位置），在某些情况下更为方便； const char[ ]更接近于 “准确” 的类型，因为它更明确地表示这是一个字符数组。但它没有const char* 灵活。</p>
+</blockquote>
+<p>数组有一个特性，在很多用到数组名字的地方，编译器都会自动地将其转换成一个指向该数组首元素的指针。所以const char p1[4] = “now” 中p1也是一个指针。</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line">cout &lt;&lt; <span class="string">&quot;p: &quot;</span> &lt;&lt; p &lt;&lt; endl;        <span class="comment">// p: now</span></span><br><span class="line">cout &lt;&lt; <span class="string">&quot;p1: &quot;</span> &lt;&lt; p1 &lt;&lt; endl;      <span class="comment">// p1: now</span></span><br><span class="line">cout &lt;&lt; <span class="string">&quot;*p: &quot;</span> &lt;&lt; *p &lt;&lt; endl;      <span class="comment">// *p: n</span></span><br><span class="line">cout &lt;&lt; <span class="string">&quot;*p1: &quot;</span> &lt;&lt; *p1 &lt;&lt; endl;    <span class="comment">// *p1: n</span></span><br></pre></td></tr></table></figure>
+<p>但是，当我们打印指针p和p1时并没有输出地址值，输出的反而是它们指向的字符串数组。</p>
+<p>这是因为cout有一个特殊的<strong>重载</strong>，当它看到一个 <code>const char[ ]</code> 或 <code>const char *</code> 类型，它会假定这是一个以空字符（即 ‘\0’）结尾的 C 风格字符串，并逐字符输出，直到遇到空字符为止。</p>
+<p>后面两行就容易理解了，p 和 p1都是指向字符串数组首元素的指针，解引用后代表首元素。</p>
+<h2 id="2其他类型数组-与 string">2.其他类型数组 与 string</h2>
+<span id="more"></span>
+<p>定义一个string对象s，它的内容是字符串字面值 “now”。</p>
+<p>为了说明其余类型的数组和const char类型的不同，我们这里定义一个int型数组，它有四个元素：0, 1, 2, 3。由上文，<code>int i[4] = &#123;0,1,2,3&#125;</code>中 i 也是一个指针，指向该数组的首元素0。</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line">string s = <span class="string">&quot;now&quot;</span>;</span><br><span class="line"><span class="type">int</span> i[<span class="number">4</span>] = &#123;<span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>&#125;;</span><br><span class="line">cout &lt;&lt; <span class="string">&quot;s: &quot;</span> &lt;&lt; s &lt;&lt; endl;        <span class="comment">// s: now</span></span><br><span class="line">cout &lt;&lt; <span class="string">&quot;i: &quot;</span> &lt;&lt; i &lt;&lt; endl;        <span class="comment">// i: 0x61fdd0</span></span><br><span class="line">cout &lt;&lt; <span class="string">&quot;*i: &quot;</span> &lt;&lt; *i &lt;&lt; endl;      <span class="comment">// *i: 0</span></span><br></pre></td></tr></table></figure>
+<p>s为string的一个对象，与<code>int i[4]</code>中指针 i 代表含义不同，直接打印其值为初始化的&quot;now&quot;。</p>
+<p>我们打印指针 i 时输出即为首元素0的地址，第一部分中特殊的重载并不适用。当解引用 i 时打印0。</p>
+<p>string对象可以使用下标运算符<code>([ ])</code>访问string对象中的单个字符，这是string类所定义的。</p>
+<p>与string类似，对于数组而言，只要指针指向的是数组里的元素，就可以执行下标运算。</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line">cout &lt;&lt; <span class="string">&quot;s[0]: &quot;</span> &lt;&lt; s[<span class="number">0</span>] &lt;&lt; endl;     <span class="comment">// s[0]: n</span></span><br><span class="line">cout &lt;&lt; <span class="string">&quot;p[1]: &quot;</span> &lt;&lt; p[<span class="number">1</span>] &lt;&lt; endl;     <span class="comment">// p[1]: o</span></span><br><span class="line">cout &lt;&lt; <span class="string">&quot;i[2]: &quot;</span> &lt;&lt; i[<span class="number">2</span>] &lt;&lt; endl;     <span class="comment">// i[2]: w</span></span><br></pre></td></tr></table></figure>
+<p>我们可以分别用<code>s[0]</code>、<code>p[1]</code>、<code>i[2]</code>得到 s 中第0个字符，p 中第1个字符，i 中第2个字符（计数从0算起）。</p>
+<p>对于数组而言，<code>p[1]</code>等价于<code>*(p + 1)</code>，<code>i[2]</code>等价于 <code>*(i + 2)</code>，其中p、i都是指向首元素的指针。</p>
+<p>由于p所指向的数组是const的，所以直接对其某一个元素重新赋值会报错。而这对于非const的string类而言并没有限制：</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line">s[<span class="number">2</span>] = <span class="string">&#x27;a&#x27;</span>;</span><br><span class="line">cout &lt;&lt; <span class="string">&quot;s: &quot;</span> &lt;&lt; s &lt;&lt; endl;          </span><br><span class="line"><span class="comment">// p[1] = &#x27;a&#x27;;             // error: assignment of read-only location &#x27;*(p + 1)&#x27;/</span></span><br></pre></td></tr></table></figure>
+]]></content>
+      <tags>
+        <tag>C++</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>CPU眼里的汇编语言</title>
     <url>/2023/10/30/CPU%E7%9C%BC%E9%87%8C%E7%9A%84%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%80/</url>
     <content><![CDATA[<p>打开 Compiler Explorer， 写一个简单的自加函数：</p>
@@ -88,42 +124,6 @@
       </tags>
   </entry>
   <entry>
-    <title>const char*、const char[]与string</title>
-    <url>/2023/09/28/C-%E4%B8%AD%E7%9A%84const-char-%E3%80%81const-char-%E4%B8%8Estring/</url>
-    <content><![CDATA[<p>以下代码是基于gcc的vscode编译器编写的。首先导入运行示例的必要库，并指定标准命名空间std。</p>
-<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;string&gt;</span> </span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br></pre></td></tr></table></figure>
-<h2 id="1-const char* 与 const char[ ]">1. const char* 与 const char[ ]</h2>
-<p>定义一个char型的指针p，指向字符串“now”；定义一个字符串数组p1，值为“now”。两者都属于<code>const</code>类型。</p>
-<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="type">const</span> <span class="type">char</span> *p = <span class="string">&quot;now&quot;</span>;</span><br><span class="line"><span class="type">const</span> <span class="type">char</span> p1[<span class="number">4</span>] = <span class="string">&quot;now&quot;</span>;</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>const char *  和 const char[ ] 都可以用于处理 C 风格的字符串。</p>
-<p>const char* 主要出现在早期旧版本的代码中。这个指针本身是可变的（即可以改变它所指向的位置），但通过这个指针不能修改所指向数组的内容。它比较灵活（可以重新指向其他位置），在某些情况下更为方便； const char[ ]更接近于 “准确” 的类型，因为它更明确地表示这是一个字符数组。但它没有const char* 灵活。</p>
-</blockquote>
-<p>数组有一个特性，在很多用到数组名字的地方，编译器都会自动地将其转换成一个指向该数组首元素的指针。所以const char p1[4] = “now” 中p1也是一个指针。</p>
-<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line">cout &lt;&lt; <span class="string">&quot;p: &quot;</span> &lt;&lt; p &lt;&lt; endl;        <span class="comment">// p: now</span></span><br><span class="line">cout &lt;&lt; <span class="string">&quot;p1: &quot;</span> &lt;&lt; p1 &lt;&lt; endl;      <span class="comment">// p1: now</span></span><br><span class="line">cout &lt;&lt; <span class="string">&quot;*p: &quot;</span> &lt;&lt; *p &lt;&lt; endl;      <span class="comment">// *p: n</span></span><br><span class="line">cout &lt;&lt; <span class="string">&quot;*p1: &quot;</span> &lt;&lt; *p1 &lt;&lt; endl;    <span class="comment">// *p1: n</span></span><br></pre></td></tr></table></figure>
-<p>但是，当我们打印指针p和p1时并没有输出地址值，输出的反而是它们指向的字符串数组。</p>
-<p>这是因为cout有一个特殊的<strong>重载</strong>，当它看到一个 <code>const char[ ]</code> 或 <code>const char *</code> 类型，它会假定这是一个以空字符（即 ‘\0’）结尾的 C 风格字符串，并逐字符输出，直到遇到空字符为止。</p>
-<p>后面两行就容易理解了，p 和 p1都是指向字符串数组首元素的指针，解引用后代表首元素。</p>
-<h2 id="2其他类型数组-与 string">2.其他类型数组 与 string</h2>
-<span id="more"></span>
-<p>定义一个string对象s，它的内容是字符串字面值 “now”。</p>
-<p>为了说明其余类型的数组和const char类型的不同，我们这里定义一个int型数组，它有四个元素：0, 1, 2, 3。由上文，<code>int i[4] = &#123;0,1,2,3&#125;</code>中 i 也是一个指针，指向该数组的首元素0。</p>
-<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line">string s = <span class="string">&quot;now&quot;</span>;</span><br><span class="line"><span class="type">int</span> i[<span class="number">4</span>] = &#123;<span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>&#125;;</span><br><span class="line">cout &lt;&lt; <span class="string">&quot;s: &quot;</span> &lt;&lt; s &lt;&lt; endl;        <span class="comment">// s: now</span></span><br><span class="line">cout &lt;&lt; <span class="string">&quot;i: &quot;</span> &lt;&lt; i &lt;&lt; endl;        <span class="comment">// i: 0x61fdd0</span></span><br><span class="line">cout &lt;&lt; <span class="string">&quot;*i: &quot;</span> &lt;&lt; *i &lt;&lt; endl;      <span class="comment">// *i: 0</span></span><br></pre></td></tr></table></figure>
-<p>s为string的一个对象，与<code>int i[4]</code>中指针 i 代表含义不同，直接打印其值为初始化的&quot;now&quot;。</p>
-<p>我们打印指针 i 时输出即为首元素0的地址，第一部分中特殊的重载并不适用。当解引用 i 时打印0。</p>
-<p>string对象可以使用下标运算符<code>([ ])</code>访问string对象中的单个字符，这是string类所定义的。</p>
-<p>与string类似，对于数组而言，只要指针指向的是数组里的元素，就可以执行下标运算。</p>
-<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line">cout &lt;&lt; <span class="string">&quot;s[0]: &quot;</span> &lt;&lt; s[<span class="number">0</span>] &lt;&lt; endl;     <span class="comment">// s[0]: n</span></span><br><span class="line">cout &lt;&lt; <span class="string">&quot;p[1]: &quot;</span> &lt;&lt; p[<span class="number">1</span>] &lt;&lt; endl;     <span class="comment">// p[1]: o</span></span><br><span class="line">cout &lt;&lt; <span class="string">&quot;i[2]: &quot;</span> &lt;&lt; i[<span class="number">2</span>] &lt;&lt; endl;     <span class="comment">// i[2]: w</span></span><br></pre></td></tr></table></figure>
-<p>我们可以分别用<code>s[0]</code>、<code>p[1]</code>、<code>i[2]</code>得到 s 中第0个字符，p 中第1个字符，i 中第2个字符（计数从0算起）。</p>
-<p>对于数组而言，<code>p[1]</code>等价于<code>*(p + 1)</code>，<code>i[2]</code>等价于 <code>*(i + 2)</code>，其中p、i都是指向首元素的指针。</p>
-<p>由于p所指向的数组是const的，所以直接对其某一个元素重新赋值会报错。而这对于非const的string类而言并没有限制：</p>
-<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line">s[<span class="number">2</span>] = <span class="string">&#x27;a&#x27;</span>;</span><br><span class="line">cout &lt;&lt; <span class="string">&quot;s: &quot;</span> &lt;&lt; s &lt;&lt; endl;          </span><br><span class="line"><span class="comment">// p[1] = &#x27;a&#x27;;             // error: assignment of read-only location &#x27;*(p + 1)&#x27;/</span></span><br></pre></td></tr></table></figure>
-]]></content>
-      <tags>
-        <tag>C++</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>以独立语句初始化shared_ptr</title>
     <url>/2023/11/21/%E4%BB%A5%E7%8B%AC%E7%AB%8B%E8%AF%AD%E5%8F%A5%E5%88%9D%E5%A7%8B%E5%8C%96shared-ptr/</url>
     <content><![CDATA[<p>在<a href="https://www.xuluo.online/2023/10/28/%E6%99%BA%E8%83%BD%E6%8C%87%E9%92%88shared-ptr%E7%9A%84%E5%BA%94%E7%94%A8/">智能指针shared_ptr的应用</a>中，我们提到了可以利用智能指针 shared_ptr 以避免资源泄漏。尽管如此，在 C++中，某些情况下使用 shared_ptr 依然会泄漏资源，这可能与我们的初衷相违背。考虑下面的一种情况：</p>
@@ -133,7 +133,9 @@
 <figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="built_in">processWidget</span>(<span class="keyword">new</span> Widget, <span class="built_in">priority</span>());</span><br></pre></td></tr></table></figure>
 <p>但直接调用上面代码无法通过编译，这是因为上述代码暗含了从<code>new Widget</code>到<code>shared_ptr</code>的隐式转换，即：</p>
 <figure class="highlight c++"><table><tr><td class="code"><pre><span class="line">std::shared_ptr&lt;Widget&gt; pw = <span class="keyword">new</span> Widget;</span><br></pre></td></tr></table></figure>
-<p>shared_ptr 的构造函数可以需要一个原始指针，但改构造函数是一个 <strong>explicit</strong> 的构造函数，不能进行隐式转换。因此可以为了通过编译，可以写成这样：</p>
+<p>shared_ptr 的构造函数可以需要一个原始指针，但该构造函数是一个 <strong>explicit</strong> 的构造函数，不能进行隐式转换，可见下图 shared_ptr 的源代码：</p>
+<div class="tag-plugin image"><div class="image-bg"><img src="https://cdn.jsdelivr.net/gh/zermatt-luo/MyBlog@main/img/image-20231202203738381.png"/></div></div>
+<p>因此可以为了通过编译，可以写成这样：</p>
 <figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="built_in">processWidget</span>(std::<span class="built_in">shared_ptr</span>&lt;Widget&gt;(<span class="keyword">new</span> Widget), <span class="built_in">priority</span>());</span><br></pre></td></tr></table></figure>
 <p>这样似乎很完美，我们利用了 shared_ptr 来管理资源，但不幸的是，上述调用仍可能泄漏资源。</p>
 <p>processWidget 函数的第二实参只是一个单纯的对 priority 函数的调用，但是第一实参 std::shared_ptr&lt;Widget&gt;(new Widget) 由两部分组成：</p>
