@@ -1,6 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>C/C++后端开发岗位技能</title>
+    <url>/2023/11/30/C-C-%E5%90%8E%E7%AB%AF%E5%BC%80%E5%8F%91%E5%B2%97%E4%BD%8D%E6%8A%80%E8%83%BD/</url>
+    <content><![CDATA[<p>经过搜集网上相关C++后端开发资料，整理了开发工程师所需的相关技能。</p>
+<div class="tag-plugin image"><div class="image-bg"><img src="https://cdn.jsdelivr.net/gh/zermatt-luo/MyBlog@main/img/CC%E5%90%8E%E7%AB%AF%E5%BC%80%E5%8F%91%E5%B2%97%E4%BD%8D%E6%8A%80%E8%83%BD.png"/></div></div>
+<p>开发工程师需要具备两种技能：<strong>硬技能</strong>和<strong>软技能</strong>。</p>
+<p>硬技能包括各种计算机基础知识及必备的开发能力，可以通过技术年限不断获得。硬技能决定了能否成为一名合格的开发工程师。</p>
+<p>软技能包括跨部门沟通能力，独立组织项目能力，此技能难以通过年限获得大量提升，它决定了工程师的上限。</p>
+<p>加油，祝你好运!</p>
+]]></content>
+      <tags>
+        <tag>C++</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>2023总结</title>
     <url>/2023/12/31/2023%E6%80%BB%E7%BB%93/</url>
     <content><![CDATA[<p>这几天给自己做个年终总结的想法越来越强烈，可惜荒废了多年的文笔，加上多年理工科文化的熏陶和自己有意避及写点东西的心情（我始终认为写作是需要特定环境下的特定心情的），却不知从何写起。江郎才尽的我早已忘记各类名人名言，或许10年前的我写这篇总结是会以诗、词结尾，但现在面对屏幕的我只能汗颜。同时觉得各大app的年终报告流水账似的总是从1月到12月记录让人看了厌烦。</p>
@@ -41,7 +55,7 @@
 <p><img src="https://cdn.jsdelivr.net/gh/zermatt-luo/MyBlog@main/img/CF992C7EBC6A63388AB619EDA2BEB1FC.png" alt="CF992C7EBC6A63388AB619EDA2BEB1FC" style="zoom: 33%;" /><img src="https://cdn.jsdelivr.net/gh/zermatt-luo/MyBlog@main/img/703045B4B07286BBECED0DC1C15C16CF.png" alt="703045B4B07286BBECED0DC1C15C16CF" style="zoom: 30%;" /></p>
 <p>还有一些零零散散的生活记录，比如杭州亚运会灯光秀、云栖大会…</p>
 <p><img src="https://cdn.jsdelivr.net/gh/zermatt-luo/MyBlog@main/img/IMG_7042.JPG" alt="IMG_7042" style="zoom: 13%;" /><img src="https://cdn.jsdelivr.net/gh/zermatt-luo/MyBlog@main/img/IMG_7984.JPG" alt="IMG_7984" style="zoom: 67%;" /></p>
-<p>明天就是2024年了，我相信时间具有连续性，23年的最后一秒与24年的第一秒并没有什么不同。人生不如意事，十之八九。但这些并不妨碍人们对新的一年的殷切期望，我仍然很感激这一年经历的一切，尽管我依然迷茫，尽管生活依旧不那么阳光。</p>
+<p>明天就是2024年了，我相信时间具有连续性，23年的最后一秒与24年的第一秒并没有什么不同。况且人生不如意事，十之八九。但这些并不妨碍人们对新的一年的殷切期望，我仍然很感激这一年经历的一切，尽管我依然迷茫，尽管生活依旧不那么阳光。</p>
 <p>2023年12月27日，我在b站许下了2024年新年愿望：</p>
 <img src="https://cdn.jsdelivr.net/gh/zermatt-luo/MyBlog@main/img/7d4441752c1f1778210966e97fca3d0.jpg" alt="7d4441752c1f1778210966e97fca3d0" style="zoom: 33%;" />
 <p>(虽然字挺丑…)</p>
@@ -54,20 +68,6 @@
 ]]></content>
       <tags>
         <tag>新年伊始</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>C/C++后端开发岗位技能</title>
-    <url>/2023/11/30/C-C-%E5%90%8E%E7%AB%AF%E5%BC%80%E5%8F%91%E5%B2%97%E4%BD%8D%E6%8A%80%E8%83%BD/</url>
-    <content><![CDATA[<p>经过搜集网上相关C++后端开发资料，整理了开发工程师所需的相关技能。</p>
-<div class="tag-plugin image"><div class="image-bg"><img src="https://cdn.jsdelivr.net/gh/zermatt-luo/MyBlog@main/img/CC%E5%90%8E%E7%AB%AF%E5%BC%80%E5%8F%91%E5%B2%97%E4%BD%8D%E6%8A%80%E8%83%BD.png"/></div></div>
-<p>开发工程师需要具备两种技能：<strong>硬技能</strong>和<strong>软技能</strong>。</p>
-<p>硬技能包括各种计算机基础知识及必备的开发能力，可以通过技术年限不断获得。硬技能决定了能否成为一名合格的开发工程师。</p>
-<p>软技能包括跨部门沟通能力，独立组织项目能力，此技能难以通过年限获得大量提升，它决定了工程师的上限。</p>
-<p>加油，祝你好运!</p>
-]]></content>
-      <tags>
-        <tag>C++</tag>
       </tags>
   </entry>
   <entry>
@@ -101,48 +101,6 @@
 <p>对于数组而言，<code>p[1]</code>等价于<code>*(p + 1)</code>，<code>i[2]</code>等价于 <code>*(i + 2)</code>，其中p、i都是指向首元素的指针。</p>
 <p>由于p所指向的数组是const的，所以直接对其某一个元素重新赋值会报错。而这对于非const的string类而言并没有限制：</p>
 <figure class="highlight c++"><table><tr><td class="code"><pre><span class="line">s[<span class="number">2</span>] = <span class="string">&#x27;a&#x27;</span>;</span><br><span class="line">cout &lt;&lt; <span class="string">&quot;s: &quot;</span> &lt;&lt; s &lt;&lt; endl;          </span><br><span class="line"><span class="comment">// p[1] = &#x27;a&#x27;;             // error: assignment of read-only location &#x27;*(p + 1)&#x27;/</span></span><br></pre></td></tr></table></figure>
-]]></content>
-      <tags>
-        <tag>C++</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>尽可能使用const</title>
-    <url>/2023/10/17/const/</url>
-    <content><![CDATA[<h2 id="const-for pointer">const for pointer</h2>
-<p>const 约束指针分为两种：常量指针（<strong>const pointer</strong>）<sup class="footnote-ref"><a href="#fn1" id="fnref1">[1]</a></sup>和指向常量的指针（<strong>pointer to const</strong>）<sup class="footnote-ref"><a href="#fn2" id="fnref2">[2]</a></sup>。</p>
-<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="type">char</span> greeting[] = <span class="string">&quot;Hello&quot;</span>;</span><br><span class="line"><span class="type">char</span> *p = greeting;                <span class="comment">//non-const pointer, non-const data</span></span><br><span class="line"><span class="type">const</span> <span class="type">char</span> *p = greeting;          <span class="comment">//non-const pointer, const data</span></span><br><span class="line"><span class="type">char</span>* <span class="type">const</span> p = greeting;          <span class="comment">//const pointer, non-const data</span></span><br><span class="line"><span class="type">const</span> <span class="type">char</span>* <span class="type">const</span> p = greeting;    <span class="comment">//const pointer, const data</span></span><br></pre></td></tr></table></figure>
-<p>对于<strong>pointer to const</strong>，关键字<code>const</code>可以放在类型之前，也可以放在类型之后、星号<code>*</code>之前。即：</p>
-<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="type">const</span> <span class="type">int</span> *p = &amp;i; </span><br></pre></td></tr></table></figure>
-<p>等价于</p>
-<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="type">int</span> <span class="type">const</span> *p = &amp;i;</span><br></pre></td></tr></table></figure>
-<h2 id="const-for stl iterator">const for STL iterator</h2>
-<p>STL迭代器的作用就像 <code>T*</code>指针。对应常量指针（const pointer）和指向常量的指针（pointer to const），STL迭代器也有不同的声明方式：</p>
-<ol>
-<li>
-<p>类似于<code>T* const</code>指针。在最前面声明<code>const</code>即可。</p>
-<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="function">vector&lt;<span class="type">int</span>&gt; <span class="title">vec</span><span class="params">(<span class="number">10</span>, <span class="number">5</span>)</span></span>;</span><br><span class="line"><span class="type">const</span> vector&lt;<span class="type">int</span>&gt;::iterator iter = vec.<span class="built_in">begin</span>();  <span class="comment">// iter类似于 T* const </span></span><br><span class="line">*iter = <span class="number">9</span>;                                       <span class="comment">// 正确，可以改变iter所指内容的值</span></span><br><span class="line">iter++;                                          <span class="comment">// 错误！iter本身是const的</span></span><br></pre></td></tr></table></figure>
-</li>
-<li>
-<p>类似于<code>const T*</code>指针。需要用<strong>const_iterator</strong>。</p>
-<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="function">vector&lt;<span class="type">int</span>&gt; <span class="title">vec</span><span class="params">(<span class="number">10</span>, <span class="number">5</span>)</span></span>;</span><br><span class="line">vector&lt;<span class="type">int</span>&gt;::const_iterator iter1 = vec.<span class="built_in">begin</span>(); <span class="comment">// iter1类似于 const T*</span></span><br><span class="line">*iter1 = <span class="number">99</span>;                                     <span class="comment">// 错误！*iter1是const</span></span><br><span class="line">iter1++;                                         <span class="comment">// 正确，可以改变iter1自身的值</span></span><br></pre></td></tr></table></figure>
-</li>
-</ol>
-<h2 id="const-for function return value">const for function return value</h2>
-<p>令函数返回一个常量值，往往可以降低因客户错误而造成的意外，又不至于放弃安全性和高效性。考虑下面一个例子，定义有理数<code>Rational</code>类的<code>operator*</code>:</p>
-<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Rational</span> &#123; ... &#125;;</span><br><span class="line"><span class="type">const</span> Rational <span class="keyword">operator</span>* (<span class="type">const</span> Rational&amp; lhs, <span class="type">const</span> Rational&amp; rhs);</span><br></pre></td></tr></table></figure>
-<p>这里返回一个<code>const</code>对象是为了避免出现错误造成的意外情况：</p>
-<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line">Rational a, b, c;</span><br><span class="line">...</span><br><span class="line"><span class="keyword">if</span> (a * b = c) ...                                   <span class="comment">// 其实是想做一个比较动作</span></span><br></pre></td></tr></table></figure>
-<p>如果a和b都是内置类型，这样的代码直截了当就是不合法。将<code>operator*</code>的返回值声明为<code>const</code>可以防止出现上面的错误。这样做与内置类型恰好兼容。</p>
-<hr class="footnotes-sep">
-<section class="footnotes">
-<ol class="footnotes-list">
-<li id="fn1" class="footnote-item"><p>顶层const <a href="#fnref1" class="footnote-backref">↩︎</a></p>
-</li>
-<li id="fn2" class="footnote-item"><p>底层const <a href="#fnref2" class="footnote-backref">↩︎</a></p>
-</li>
-</ol>
-</section>
 ]]></content>
       <tags>
         <tag>C++</tag>
@@ -370,6 +328,48 @@ Fred Brooks在他的文章《No Silver Bullets》(没有银弹)中，为找到�
 <p>避免发生这类问题很简单：<em>使用分离语句</em>，分别写出 （1）创建Widget，将它置入一个智能指针内，（2）将这个智能指针传给 processWidget：</p>
 <figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="function">std::shared_ptr&lt;Widget&gt; <span class="title">pw</span><span class="params">(<span class="keyword">new</span> Widget)</span></span>;		<span class="comment">// 在单独语句内以指针指针存储 newed 所得对象</span></span><br><span class="line"><span class="built_in">processWidget</span>(pw, <span class="built_in">priority</span>());				<span class="comment">// 这样调用绝不会导致资源泄漏</span></span><br></pre></td></tr></table></figure>
 <p>编译器对于“跨越语句的各项操作”没有重新排列的自由（只有在一个语句内它才有自由度）。在上述修订后的代码内，“new Widget”表达式以及“对shared_ptr构造函数的调用“这两个动作，和”对priority的调用“是分隔开的，位于不同语句内，所以编译器不能在它们之间选择任意执行的次序。</p>
+]]></content>
+      <tags>
+        <tag>C++</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>尽可能使用const</title>
+    <url>/2023/10/17/const/</url>
+    <content><![CDATA[<h2 id="const-for pointer">const for pointer</h2>
+<p>const 约束指针分为两种：常量指针（<strong>const pointer</strong>）<sup class="footnote-ref"><a href="#fn1" id="fnref1">[1]</a></sup>和指向常量的指针（<strong>pointer to const</strong>）<sup class="footnote-ref"><a href="#fn2" id="fnref2">[2]</a></sup>。</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="type">char</span> greeting[] = <span class="string">&quot;Hello&quot;</span>;</span><br><span class="line"><span class="type">char</span> *p = greeting;                <span class="comment">//non-const pointer, non-const data</span></span><br><span class="line"><span class="type">const</span> <span class="type">char</span> *p = greeting;          <span class="comment">//non-const pointer, const data</span></span><br><span class="line"><span class="type">char</span>* <span class="type">const</span> p = greeting;          <span class="comment">//const pointer, non-const data</span></span><br><span class="line"><span class="type">const</span> <span class="type">char</span>* <span class="type">const</span> p = greeting;    <span class="comment">//const pointer, const data</span></span><br></pre></td></tr></table></figure>
+<p>对于<strong>pointer to const</strong>，关键字<code>const</code>可以放在类型之前，也可以放在类型之后、星号<code>*</code>之前。即：</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="type">const</span> <span class="type">int</span> *p = &amp;i; </span><br></pre></td></tr></table></figure>
+<p>等价于</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="type">int</span> <span class="type">const</span> *p = &amp;i;</span><br></pre></td></tr></table></figure>
+<h2 id="const-for stl iterator">const for STL iterator</h2>
+<p>STL迭代器的作用就像 <code>T*</code>指针。对应常量指针（const pointer）和指向常量的指针（pointer to const），STL迭代器也有不同的声明方式：</p>
+<ol>
+<li>
+<p>类似于<code>T* const</code>指针。在最前面声明<code>const</code>即可。</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="function">vector&lt;<span class="type">int</span>&gt; <span class="title">vec</span><span class="params">(<span class="number">10</span>, <span class="number">5</span>)</span></span>;</span><br><span class="line"><span class="type">const</span> vector&lt;<span class="type">int</span>&gt;::iterator iter = vec.<span class="built_in">begin</span>();  <span class="comment">// iter类似于 T* const </span></span><br><span class="line">*iter = <span class="number">9</span>;                                       <span class="comment">// 正确，可以改变iter所指内容的值</span></span><br><span class="line">iter++;                                          <span class="comment">// 错误！iter本身是const的</span></span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p>类似于<code>const T*</code>指针。需要用<strong>const_iterator</strong>。</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="function">vector&lt;<span class="type">int</span>&gt; <span class="title">vec</span><span class="params">(<span class="number">10</span>, <span class="number">5</span>)</span></span>;</span><br><span class="line">vector&lt;<span class="type">int</span>&gt;::const_iterator iter1 = vec.<span class="built_in">begin</span>(); <span class="comment">// iter1类似于 const T*</span></span><br><span class="line">*iter1 = <span class="number">99</span>;                                     <span class="comment">// 错误！*iter1是const</span></span><br><span class="line">iter1++;                                         <span class="comment">// 正确，可以改变iter1自身的值</span></span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h2 id="const-for function return value">const for function return value</h2>
+<p>令函数返回一个常量值，往往可以降低因客户错误而造成的意外，又不至于放弃安全性和高效性。考虑下面一个例子，定义有理数<code>Rational</code>类的<code>operator*</code>:</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Rational</span> &#123; ... &#125;;</span><br><span class="line"><span class="type">const</span> Rational <span class="keyword">operator</span>* (<span class="type">const</span> Rational&amp; lhs, <span class="type">const</span> Rational&amp; rhs);</span><br></pre></td></tr></table></figure>
+<p>这里返回一个<code>const</code>对象是为了避免出现错误造成的意外情况：</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line">Rational a, b, c;</span><br><span class="line">...</span><br><span class="line"><span class="keyword">if</span> (a * b = c) ...                                   <span class="comment">// 其实是想做一个比较动作</span></span><br></pre></td></tr></table></figure>
+<p>如果a和b都是内置类型，这样的代码直截了当就是不合法。将<code>operator*</code>的返回值声明为<code>const</code>可以防止出现上面的错误。这样做与内置类型恰好兼容。</p>
+<hr class="footnotes-sep">
+<section class="footnotes">
+<ol class="footnotes-list">
+<li id="fn1" class="footnote-item"><p>顶层const <a href="#fnref1" class="footnote-backref">↩︎</a></p>
+</li>
+<li id="fn2" class="footnote-item"><p>底层const <a href="#fnref2" class="footnote-backref">↩︎</a></p>
+</li>
+</ol>
+</section>
 ]]></content>
       <tags>
         <tag>C++</tag>
