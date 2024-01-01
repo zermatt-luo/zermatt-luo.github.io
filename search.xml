@@ -1,20 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>C/C++后端开发岗位技能</title>
-    <url>/2023/11/30/C-C-%E5%90%8E%E7%AB%AF%E5%BC%80%E5%8F%91%E5%B2%97%E4%BD%8D%E6%8A%80%E8%83%BD/</url>
-    <content><![CDATA[<p>经过搜集网上相关C++后端开发资料，整理了开发工程师所需的相关技能。</p>
-<div class="tag-plugin image"><div class="image-bg"><img src="https://cdn.jsdelivr.net/gh/zermatt-luo/MyBlog@main/img/CC%E5%90%8E%E7%AB%AF%E5%BC%80%E5%8F%91%E5%B2%97%E4%BD%8D%E6%8A%80%E8%83%BD.png"/></div></div>
-<p>开发工程师需要具备两种技能：<strong>硬技能</strong>和<strong>软技能</strong>。</p>
-<p>硬技能包括各种计算机基础知识及必备的开发能力，可以通过技术年限不断获得。硬技能决定了能否成为一名合格的开发工程师。</p>
-<p>软技能包括跨部门沟通能力，独立组织项目能力，此技能难以通过年限获得大量提升，它决定了工程师的上限。</p>
-<p>加油，祝你好运!</p>
-]]></content>
-      <tags>
-        <tag>C++</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>2023总结</title>
     <url>/2023/12/31/2023%E6%80%BB%E7%BB%93/</url>
     <content><![CDATA[<p>这几天给自己做个年终总结的想法越来越强烈，可惜荒废了多年的文笔，加上多年理工科文化的熏陶和自己有意避及写点东西的心情（我始终认为写作是需要特定环境下的特定心情的），却不知从何写起。江郎才尽的我早已忘记各类名人名言，或许10年前的我写这篇总结是会以诗、词结尾，但现在面对屏幕的我只能汗颜。同时觉得各大app的年终报告流水账似的总是从1月到12月记录让人看了厌烦。</p>
@@ -49,7 +35,7 @@
 <p>人总是在不断地得到与失去，尽管我知道悲欢离合是常态，但我依旧很讨厌旧人的离去。是三年舍友生活只能一年结束，好不容易摸清每个人秉性，四个人却再也没办法在夜里一块侃山；是两年和师姐的同门生涯相处地却不到一年；也是因轨迹不同和本科同学无可避免地渐行渐远。</p>
 <p>所幸，今年也见了不少旧友，在西安和本科好哥们一起去大唐不夜城、爬华山、滑雪，在杭州和小班同学登宝石山、打卡钱塘江。还有和本科组员的匆匆碰面。“人面不知何处去，桃花依旧笑春风”。</p>
 <p><img src="https://cdn.jsdelivr.net/gh/zermatt-luo/MyBlog@main/img/IMG_6280.JPG" alt="IMG_6280" style="zoom:7%;" /><img src="https://cdn.jsdelivr.net/gh/zermatt-luo/MyBlog@main/img/IMG_5981.JPG" alt="IMG_5981" style="zoom:7%;" /><img src="https://cdn.jsdelivr.net/gh/zermatt-luo/MyBlog@main/img/IMG_8133.JPG" alt="IMG_8133" style="zoom:7%;" /><img src="https://cdn.jsdelivr.net/gh/zermatt-luo/MyBlog@main/img/IMG_8237.JPG" alt="IMG_8237" style="zoom:7%;" /></p>
-<p>这一年去的城市还有无锡和香港。无锡给我的印象是典型的南方城市，园林式的建筑和高绿植化的街道似一婉转优雅的女生，静静地坐在那里。香港则更加包容，处处带有人文关怀，带有电铃的红绿灯和随处可见的残疾人通道真的体现了**“以人为本”**的理念。就是吃的略微不惯和走在中环高楼大厦处稍显压抑。</p>
+<p>这一年去的城市还有无锡和香港。无锡给我的印象是典型的南方城市，园林式的建筑和高绿植化的街道似一婉转优雅的女生，静静地坐在那里。香港则更加包容，处处带有人文关怀，带有电铃的红绿灯和随处可见的残疾人通道真的体现了**“以人为本” **的理念。就是吃的略微不惯和走在中环高楼大厦处稍显压抑。</p>
 <p><img src="https://cdn.jsdelivr.net/gh/zermatt-luo/MyBlog@main/img/IMG_7126.JPG" alt="IMG_7126" style="zoom:7%;" /><img src="https://cdn.jsdelivr.net/gh/zermatt-luo/MyBlog@main/img/IMG_7667.JPG" alt="IMG_7667" style="zoom:7%;" /><img src="https://cdn.jsdelivr.net/gh/zermatt-luo/MyBlog@main/img/IMG_7314.JPG" alt="IMG_7314" style="zoom:7%;" /><img src="https://cdn.jsdelivr.net/gh/zermatt-luo/MyBlog@main/img/IMG_7546.JPG" alt="IMG_7546" style="zoom:7%;" /></p>
 <p>除此之外，23年读完了4本课外书，写下了一段书评。读书，可以使我暂且逃离繁杂的科研现实世界，沉浸在另一片天地。“莫向外求”：</p>
 <p><img src="https://cdn.jsdelivr.net/gh/zermatt-luo/MyBlog@main/img/CF992C7EBC6A63388AB619EDA2BEB1FC.png" alt="CF992C7EBC6A63388AB619EDA2BEB1FC" style="zoom: 33%;" /><img src="https://cdn.jsdelivr.net/gh/zermatt-luo/MyBlog@main/img/703045B4B07286BBECED0DC1C15C16CF.png" alt="703045B4B07286BBECED0DC1C15C16CF" style="zoom: 30%;" /></p>
@@ -68,6 +54,20 @@
 ]]></content>
       <tags>
         <tag>新年伊始</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>C/C++后端开发岗位技能</title>
+    <url>/2023/11/30/C-C-%E5%90%8E%E7%AB%AF%E5%BC%80%E5%8F%91%E5%B2%97%E4%BD%8D%E6%8A%80%E8%83%BD/</url>
+    <content><![CDATA[<p>经过搜集网上相关C++后端开发资料，整理了开发工程师所需的相关技能。</p>
+<div class="tag-plugin image"><div class="image-bg"><img src="https://cdn.jsdelivr.net/gh/zermatt-luo/MyBlog@main/img/CC%E5%90%8E%E7%AB%AF%E5%BC%80%E5%8F%91%E5%B2%97%E4%BD%8D%E6%8A%80%E8%83%BD.png"/></div></div>
+<p>开发工程师需要具备两种技能：<strong>硬技能</strong>和<strong>软技能</strong>。</p>
+<p>硬技能包括各种计算机基础知识及必备的开发能力，可以通过技术年限不断获得。硬技能决定了能否成为一名合格的开发工程师。</p>
+<p>软技能包括跨部门沟通能力，独立组织项目能力，此技能难以通过年限获得大量提升，它决定了工程师的上限。</p>
+<p>加油，祝你好运!</p>
+]]></content>
+      <tags>
+        <tag>C++</tag>
       </tags>
   </entry>
   <entry>
@@ -101,6 +101,48 @@
 <p>对于数组而言，<code>p[1]</code>等价于<code>*(p + 1)</code>，<code>i[2]</code>等价于 <code>*(i + 2)</code>，其中p、i都是指向首元素的指针。</p>
 <p>由于p所指向的数组是const的，所以直接对其某一个元素重新赋值会报错。而这对于非const的string类而言并没有限制：</p>
 <figure class="highlight c++"><table><tr><td class="code"><pre><span class="line">s[<span class="number">2</span>] = <span class="string">&#x27;a&#x27;</span>;</span><br><span class="line">cout &lt;&lt; <span class="string">&quot;s: &quot;</span> &lt;&lt; s &lt;&lt; endl;          </span><br><span class="line"><span class="comment">// p[1] = &#x27;a&#x27;;             // error: assignment of read-only location &#x27;*(p + 1)&#x27;/</span></span><br></pre></td></tr></table></figure>
+]]></content>
+      <tags>
+        <tag>C++</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>尽可能使用const</title>
+    <url>/2023/10/17/const/</url>
+    <content><![CDATA[<h2 id="const-for pointer">const for pointer</h2>
+<p>const 约束指针分为两种：常量指针（<strong>const pointer</strong>）<sup class="footnote-ref"><a href="#fn1" id="fnref1">[1]</a></sup>和指向常量的指针（<strong>pointer to const</strong>）<sup class="footnote-ref"><a href="#fn2" id="fnref2">[2]</a></sup>。</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="type">char</span> greeting[] = <span class="string">&quot;Hello&quot;</span>;</span><br><span class="line"><span class="type">char</span> *p = greeting;                <span class="comment">//non-const pointer, non-const data</span></span><br><span class="line"><span class="type">const</span> <span class="type">char</span> *p = greeting;          <span class="comment">//non-const pointer, const data</span></span><br><span class="line"><span class="type">char</span>* <span class="type">const</span> p = greeting;          <span class="comment">//const pointer, non-const data</span></span><br><span class="line"><span class="type">const</span> <span class="type">char</span>* <span class="type">const</span> p = greeting;    <span class="comment">//const pointer, const data</span></span><br></pre></td></tr></table></figure>
+<p>对于<strong>pointer to const</strong>，关键字<code>const</code>可以放在类型之前，也可以放在类型之后、星号<code>*</code>之前。即：</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="type">const</span> <span class="type">int</span> *p = &amp;i; </span><br></pre></td></tr></table></figure>
+<p>等价于</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="type">int</span> <span class="type">const</span> *p = &amp;i;</span><br></pre></td></tr></table></figure>
+<h2 id="const-for stl iterator">const for STL iterator</h2>
+<p>STL迭代器的作用就像 <code>T*</code>指针。对应常量指针（const pointer）和指向常量的指针（pointer to const），STL迭代器也有不同的声明方式：</p>
+<ol>
+<li>
+<p>类似于<code>T* const</code>指针。在最前面声明<code>const</code>即可。</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="function">vector&lt;<span class="type">int</span>&gt; <span class="title">vec</span><span class="params">(<span class="number">10</span>, <span class="number">5</span>)</span></span>;</span><br><span class="line"><span class="type">const</span> vector&lt;<span class="type">int</span>&gt;::iterator iter = vec.<span class="built_in">begin</span>();  <span class="comment">// iter类似于 T* const </span></span><br><span class="line">*iter = <span class="number">9</span>;                                       <span class="comment">// 正确，可以改变iter所指内容的值</span></span><br><span class="line">iter++;                                          <span class="comment">// 错误！iter本身是const的</span></span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p>类似于<code>const T*</code>指针。需要用<strong>const_iterator</strong>。</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="function">vector&lt;<span class="type">int</span>&gt; <span class="title">vec</span><span class="params">(<span class="number">10</span>, <span class="number">5</span>)</span></span>;</span><br><span class="line">vector&lt;<span class="type">int</span>&gt;::const_iterator iter1 = vec.<span class="built_in">begin</span>(); <span class="comment">// iter1类似于 const T*</span></span><br><span class="line">*iter1 = <span class="number">99</span>;                                     <span class="comment">// 错误！*iter1是const</span></span><br><span class="line">iter1++;                                         <span class="comment">// 正确，可以改变iter1自身的值</span></span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h2 id="const-for function return value">const for function return value</h2>
+<p>令函数返回一个常量值，往往可以降低因客户错误而造成的意外，又不至于放弃安全性和高效性。考虑下面一个例子，定义有理数<code>Rational</code>类的<code>operator*</code>:</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Rational</span> &#123; ... &#125;;</span><br><span class="line"><span class="type">const</span> Rational <span class="keyword">operator</span>* (<span class="type">const</span> Rational&amp; lhs, <span class="type">const</span> Rational&amp; rhs);</span><br></pre></td></tr></table></figure>
+<p>这里返回一个<code>const</code>对象是为了避免出现错误造成的意外情况：</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line">Rational a, b, c;</span><br><span class="line">...</span><br><span class="line"><span class="keyword">if</span> (a * b = c) ...                                   <span class="comment">// 其实是想做一个比较动作</span></span><br></pre></td></tr></table></figure>
+<p>如果a和b都是内置类型，这样的代码直截了当就是不合法。将<code>operator*</code>的返回值声明为<code>const</code>可以防止出现上面的错误。这样做与内置类型恰好兼容。</p>
+<hr class="footnotes-sep">
+<section class="footnotes">
+<ol class="footnotes-list">
+<li id="fn1" class="footnote-item"><p>顶层const <a href="#fnref1" class="footnote-backref">↩︎</a></p>
+</li>
+<li id="fn2" class="footnote-item"><p>底层const <a href="#fnref2" class="footnote-backref">↩︎</a></p>
+</li>
+</ol>
+</section>
 ]]></content>
       <tags>
         <tag>C++</tag>
@@ -180,48 +222,6 @@
       </tags>
   </entry>
   <entry>
-    <title>尽可能使用const</title>
-    <url>/2023/10/17/const/</url>
-    <content><![CDATA[<h2 id="const-for pointer">const for pointer</h2>
-<p>const 约束指针分为两种：常量指针（<strong>const pointer</strong>）<sup class="footnote-ref"><a href="#fn1" id="fnref1">[1]</a></sup>和指向常量的指针（<strong>pointer to const</strong>）<sup class="footnote-ref"><a href="#fn2" id="fnref2">[2]</a></sup>。</p>
-<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="type">char</span> greeting[] = <span class="string">&quot;Hello&quot;</span>;</span><br><span class="line"><span class="type">char</span> *p = greeting;                <span class="comment">//non-const pointer, non-const data</span></span><br><span class="line"><span class="type">const</span> <span class="type">char</span> *p = greeting;          <span class="comment">//non-const pointer, const data</span></span><br><span class="line"><span class="type">char</span>* <span class="type">const</span> p = greeting;          <span class="comment">//const pointer, non-const data</span></span><br><span class="line"><span class="type">const</span> <span class="type">char</span>* <span class="type">const</span> p = greeting;    <span class="comment">//const pointer, const data</span></span><br></pre></td></tr></table></figure>
-<p>对于<strong>pointer to const</strong>，关键字<code>const</code>可以放在类型之前，也可以放在类型之后、星号<code>*</code>之前。即：</p>
-<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="type">const</span> <span class="type">int</span> *p = &amp;i; </span><br></pre></td></tr></table></figure>
-<p>等价于</p>
-<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="type">int</span> <span class="type">const</span> *p = &amp;i;</span><br></pre></td></tr></table></figure>
-<h2 id="const-for stl iterator">const for STL iterator</h2>
-<p>STL迭代器的作用就像 <code>T*</code>指针。对应常量指针（const pointer）和指向常量的指针（pointer to const），STL迭代器也有不同的声明方式：</p>
-<ol>
-<li>
-<p>类似于<code>T* const</code>指针。在最前面声明<code>const</code>即可。</p>
-<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="function">vector&lt;<span class="type">int</span>&gt; <span class="title">vec</span><span class="params">(<span class="number">10</span>, <span class="number">5</span>)</span></span>;</span><br><span class="line"><span class="type">const</span> vector&lt;<span class="type">int</span>&gt;::iterator iter = vec.<span class="built_in">begin</span>();  <span class="comment">// iter类似于 T* const </span></span><br><span class="line">*iter = <span class="number">9</span>;                                       <span class="comment">// 正确，可以改变iter所指内容的值</span></span><br><span class="line">iter++;                                          <span class="comment">// 错误！iter本身是const的</span></span><br></pre></td></tr></table></figure>
-</li>
-<li>
-<p>类似于<code>const T*</code>指针。需要用<strong>const_iterator</strong>。</p>
-<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="function">vector&lt;<span class="type">int</span>&gt; <span class="title">vec</span><span class="params">(<span class="number">10</span>, <span class="number">5</span>)</span></span>;</span><br><span class="line">vector&lt;<span class="type">int</span>&gt;::const_iterator iter1 = vec.<span class="built_in">begin</span>(); <span class="comment">// iter1类似于 const T*</span></span><br><span class="line">*iter1 = <span class="number">99</span>;                                     <span class="comment">// 错误！*iter1是const</span></span><br><span class="line">iter1++;                                         <span class="comment">// 正确，可以改变iter1自身的值</span></span><br></pre></td></tr></table></figure>
-</li>
-</ol>
-<h2 id="const-for function return value">const for function return value</h2>
-<p>令函数返回一个常量值，往往可以降低因客户错误而造成的意外，又不至于放弃安全性和高效性。考虑下面一个例子，定义有理数<code>Rational</code>类的<code>operator*</code>:</p>
-<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Rational</span> &#123; ... &#125;;</span><br><span class="line"><span class="type">const</span> Rational <span class="keyword">operator</span>* (<span class="type">const</span> Rational&amp; lhs, <span class="type">const</span> Rational&amp; rhs);</span><br></pre></td></tr></table></figure>
-<p>这里返回一个<code>const</code>对象是为了避免出现错误造成的意外情况：</p>
-<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line">Rational a, b, c;</span><br><span class="line">...</span><br><span class="line"><span class="keyword">if</span> (a * b = c) ...                                   <span class="comment">// 其实是想做一个比较动作</span></span><br></pre></td></tr></table></figure>
-<p>如果a和b都是内置类型，这样的代码直截了当就是不合法。将<code>operator*</code>的返回值声明为<code>const</code>可以防止出现上面的错误。这样做与内置类型恰好兼容。</p>
-<hr class="footnotes-sep">
-<section class="footnotes">
-<ol class="footnotes-list">
-<li id="fn1" class="footnote-item"><p>顶层const <a href="#fnref1" class="footnote-backref">↩︎</a></p>
-</li>
-<li id="fn2" class="footnote-item"><p>底层const <a href="#fnref2" class="footnote-backref">↩︎</a></p>
-</li>
-</ol>
-</section>
-]]></content>
-      <tags>
-        <tag>C++</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>智能指针shared_ptr的应用</title>
     <url>/2023/10/28/%E6%99%BA%E8%83%BD%E6%8C%87%E9%92%88shared-ptr%E7%9A%84%E5%BA%94%E7%94%A8/</url>
     <content><![CDATA[<p>与Java不同的是，C++程序员需要手动管理众多资源，典型的就是<strong>内存回收</strong>。通过使用智能指针 <code>shared_ptr </code>可以几乎消除内存泄漏的资源管理问题。这里我们分别以内存中的堆区和栈区为例，介绍 <code>shared_ptr </code>在资源管理方面的优势。</p>
@@ -285,47 +285,6 @@
       </tags>
   </entry>
   <entry>
-    <title>以独立语句初始化shared_ptr</title>
-    <url>/2023/11/21/%E4%BB%A5%E7%8B%AC%E7%AB%8B%E8%AF%AD%E5%8F%A5%E5%88%9D%E5%A7%8B%E5%8C%96shared-ptr/</url>
-    <content><![CDATA[<p>在<a href="https://www.xuluo.online/2023/10/28/%E6%99%BA%E8%83%BD%E6%8C%87%E9%92%88shared-ptr%E7%9A%84%E5%BA%94%E7%94%A8/">智能指针shared_ptr的应用</a>中，我们提到了可以利用智能指针 shared_ptr 以避免资源泄漏。尽管如此，在 C++中，某些情况下使用 shared_ptr 依然会泄漏资源，这可能与我们的初衷相违背。考虑下面的一种情况：</p>
-<p>假设我们有个函数用来表示程序优先执行的等级，另一个函数用来在某动态分配所得的 Widget 上进行某些带有优先权的处理。</p>
-<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="type">int</span> <span class="title">priority</span><span class="params">()</span></span>;</span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">processWidget</span><span class="params">(std::shared_ptr&lt;Widget&gt; pw, <span class="type">int</span> priority)</span></span>;</span><br></pre></td></tr></table></figure>
-<p>现考虑调用 processWidget :</p>
-<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="built_in">processWidget</span>(<span class="keyword">new</span> Widget, <span class="built_in">priority</span>());</span><br></pre></td></tr></table></figure>
-<p>但直接调用上面代码无法通过编译，这是因为上述代码暗含了从<code>new Widget</code>到<code>shared_ptr</code>的隐式转换，即：</p>
-<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line">std::shared_ptr&lt;Widget&gt; pw = <span class="keyword">new</span> Widget;</span><br></pre></td></tr></table></figure>
-<p>shared_ptr 的构造函数可以需要一个原始指针，但该构造函数是一个 <strong>explicit</strong> 的构造函数，不能进行隐式转换，可见下图 shared_ptr 的源代码：</p>
-<div class="tag-plugin image"><div class="image-bg"><img src="https://cdn.jsdelivr.net/gh/zermatt-luo/MyBlog@main/img/image-20231202203738381.png"/></div></div>
-<p>因此可以为了通过编译，可以写成这样：</p>
-<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="built_in">processWidget</span>(std::<span class="built_in">shared_ptr</span>&lt;Widget&gt;(<span class="keyword">new</span> Widget), <span class="built_in">priority</span>());</span><br></pre></td></tr></table></figure>
-<p>这样似乎很完美，我们利用了 shared_ptr 来管理资源，但不幸的是，上述调用仍可能泄漏资源。</p>
-<p>processWidget 函数的第二实参只是一个单纯的对 priority 函数的调用，但是第一实参 std::shared_ptr&lt;Widget&gt;(new Widget) 由两部分组成：</p>
-<ul>
-<li>执行 “new Widget” 表达式</li>
-<li>调用 shared_ptr 构造函数</li>
-</ul>
-<p>于是在调用 precessWidget 之前，编译器必须做一下三件事：</p>
-<ul>
-<li>调用 priority</li>
-<li>执行 “new Widget”</li>
-<li>调用 shared_ptr 构造函数</li>
-</ul>
-<p>C++编译器以什么样的次序完成这些事情呢？<strong>弹性很大</strong>。这与Java、C# 不同，这两种语言总是以固定次序完成函数参数的初始化。可以确定的是，<code>new Widget</code>一定执行于  <code>shared_ptr</code> 构造函数之前，但对 priority 的调用可以排在第一或第二或第三执行。如果编译器选择以第二顺位执行它，最终获得这样的操作序列：</p>
-<ol>
-<li>执行 “new Widget”</li>
-<li>调用 priority</li>
-<li>调用 shared_ptr 构造函数</li>
-</ol>
-<p>考虑这样一种情况，如果 <strong>priority 的调用导致异常</strong>，会发生什么？在此情况下，“new Widget”返回的指针将会遗失，因为它尚未被放入 shared_ptr 内，后者是我们期待用来避免资源泄漏的武器。是的，在对 processWidget 的调用过程中可能引发了资源泄漏，因为在资源被创建（“new Widget”）和资源被转换为资源管理对象（shared_ptr 初始化）的两个时间点之间，<strong>可能发生异常干扰</strong>。</p>
-<p>避免发生这类问题很简单：<em>使用分离语句</em>，分别写出 （1）创建Widget，将它置入一个智能指针内，（2）将这个智能指针传给 processWidget：</p>
-<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="function">std::shared_ptr&lt;Widget&gt; <span class="title">pw</span><span class="params">(<span class="keyword">new</span> Widget)</span></span>;		<span class="comment">// 在单独语句内以指针指针存储 newed 所得对象</span></span><br><span class="line"><span class="built_in">processWidget</span>(pw, <span class="built_in">priority</span>());				<span class="comment">// 这样调用绝不会导致资源泄漏</span></span><br></pre></td></tr></table></figure>
-<p>编译器对于“跨越语句的各项操作”没有重新排列的自由（只有在一个语句内它才有自由度）。在上述修订后的代码内，“new Widget”表达式以及“对shared_ptr构造函数的调用“这两个动作，和”对priority的调用“是分隔开的，位于不同语句内，所以编译器不能在它们之间选择任意执行的次序。</p>
-]]></content>
-      <tags>
-        <tag>C++</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>用十年时间自学编程</title>
     <url>/2023/09/28/%E7%94%A8%E5%8D%81%E5%B9%B4%E6%97%B6%E9%97%B4%E8%87%AA%E5%AD%A6%E7%BC%96%E7%A8%8B/</url>
     <content><![CDATA[<p>在网上找到了一篇关于编程心得交流分享的文章《Teach Yourself Programming in Ten Years》，<a href="http://norvig.com/21-days.html#answers">原文链接</a>放到这里。下面是中文翻译版：</p>
@@ -373,6 +332,47 @@ Fred Brooks在他的文章《No Silver Bullets》(没有银弹)中，为找到�
 ]]></content>
       <tags>
         <tag>编程建议</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>以独立语句初始化shared_ptr</title>
+    <url>/2023/11/21/%E4%BB%A5%E7%8B%AC%E7%AB%8B%E8%AF%AD%E5%8F%A5%E5%88%9D%E5%A7%8B%E5%8C%96shared-ptr/</url>
+    <content><![CDATA[<p>在<a href="https://www.xuluo.online/2023/10/28/%E6%99%BA%E8%83%BD%E6%8C%87%E9%92%88shared-ptr%E7%9A%84%E5%BA%94%E7%94%A8/">智能指针shared_ptr的应用</a>中，我们提到了可以利用智能指针 shared_ptr 以避免资源泄漏。尽管如此，在 C++中，某些情况下使用 shared_ptr 依然会泄漏资源，这可能与我们的初衷相违背。考虑下面的一种情况：</p>
+<p>假设我们有个函数用来表示程序优先执行的等级，另一个函数用来在某动态分配所得的 Widget 上进行某些带有优先权的处理。</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="type">int</span> <span class="title">priority</span><span class="params">()</span></span>;</span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">processWidget</span><span class="params">(std::shared_ptr&lt;Widget&gt; pw, <span class="type">int</span> priority)</span></span>;</span><br></pre></td></tr></table></figure>
+<p>现考虑调用 processWidget :</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="built_in">processWidget</span>(<span class="keyword">new</span> Widget, <span class="built_in">priority</span>());</span><br></pre></td></tr></table></figure>
+<p>但直接调用上面代码无法通过编译，这是因为上述代码暗含了从<code>new Widget</code>到<code>shared_ptr</code>的隐式转换，即：</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line">std::shared_ptr&lt;Widget&gt; pw = <span class="keyword">new</span> Widget;</span><br></pre></td></tr></table></figure>
+<p>shared_ptr 的构造函数可以需要一个原始指针，但该构造函数是一个 <strong>explicit</strong> 的构造函数，不能进行隐式转换，可见下图 shared_ptr 的源代码：</p>
+<div class="tag-plugin image"><div class="image-bg"><img src="https://cdn.jsdelivr.net/gh/zermatt-luo/MyBlog@main/img/image-20231202203738381.png"/></div></div>
+<p>因此可以为了通过编译，可以写成这样：</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="built_in">processWidget</span>(std::<span class="built_in">shared_ptr</span>&lt;Widget&gt;(<span class="keyword">new</span> Widget), <span class="built_in">priority</span>());</span><br></pre></td></tr></table></figure>
+<p>这样似乎很完美，我们利用了 shared_ptr 来管理资源，但不幸的是，上述调用仍可能泄漏资源。</p>
+<p>processWidget 函数的第二实参只是一个单纯的对 priority 函数的调用，但是第一实参 std::shared_ptr&lt;Widget&gt;(new Widget) 由两部分组成：</p>
+<ul>
+<li>执行 “new Widget” 表达式</li>
+<li>调用 shared_ptr 构造函数</li>
+</ul>
+<p>于是在调用 precessWidget 之前，编译器必须做一下三件事：</p>
+<ul>
+<li>调用 priority</li>
+<li>执行 “new Widget”</li>
+<li>调用 shared_ptr 构造函数</li>
+</ul>
+<p>C++编译器以什么样的次序完成这些事情呢？<strong>弹性很大</strong>。这与Java、C# 不同，这两种语言总是以固定次序完成函数参数的初始化。可以确定的是，<code>new Widget</code>一定执行于  <code>shared_ptr</code> 构造函数之前，但对 priority 的调用可以排在第一或第二或第三执行。如果编译器选择以第二顺位执行它，最终获得这样的操作序列：</p>
+<ol>
+<li>执行 “new Widget”</li>
+<li>调用 priority</li>
+<li>调用 shared_ptr 构造函数</li>
+</ol>
+<p>考虑这样一种情况，如果 <strong>priority 的调用导致异常</strong>，会发生什么？在此情况下，“new Widget”返回的指针将会遗失，因为它尚未被放入 shared_ptr 内，后者是我们期待用来避免资源泄漏的武器。是的，在对 processWidget 的调用过程中可能引发了资源泄漏，因为在资源被创建（“new Widget”）和资源被转换为资源管理对象（shared_ptr 初始化）的两个时间点之间，<strong>可能发生异常干扰</strong>。</p>
+<p>避免发生这类问题很简单：<em>使用分离语句</em>，分别写出 （1）创建Widget，将它置入一个智能指针内，（2）将这个智能指针传给 processWidget：</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="function">std::shared_ptr&lt;Widget&gt; <span class="title">pw</span><span class="params">(<span class="keyword">new</span> Widget)</span></span>;		<span class="comment">// 在单独语句内以指针指针存储 newed 所得对象</span></span><br><span class="line"><span class="built_in">processWidget</span>(pw, <span class="built_in">priority</span>());				<span class="comment">// 这样调用绝不会导致资源泄漏</span></span><br></pre></td></tr></table></figure>
+<p>编译器对于“跨越语句的各项操作”没有重新排列的自由（只有在一个语句内它才有自由度）。在上述修订后的代码内，“new Widget”表达式以及“对shared_ptr构造函数的调用“这两个动作，和”对priority的调用“是分隔开的，位于不同语句内，所以编译器不能在它们之间选择任意执行的次序。</p>
+]]></content>
+      <tags>
+        <tag>C++</tag>
       </tags>
   </entry>
 </search>
