@@ -1,6 +1,93 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>C/C++后端开发岗位技能</title>
+    <url>/2023/11/30/C-C-%E5%90%8E%E7%AB%AF%E5%BC%80%E5%8F%91%E5%B2%97%E4%BD%8D%E6%8A%80%E8%83%BD/</url>
+    <content><![CDATA[<p>经过搜集网上相关C++后端开发资料，整理了开发工程师所需的相关技能。</p>
+<div class="tag-plugin image"><div class="image-bg"><img src="https://cdn.jsdelivr.net/gh/zermatt-luo/MyBlog@main/img/CC%E5%90%8E%E7%AB%AF%E5%BC%80%E5%8F%91%E5%B2%97%E4%BD%8D%E6%8A%80%E8%83%BD.png"/></div></div>
+<p>开发工程师需要具备两种技能：<strong>硬技能</strong>和<strong>软技能</strong>。</p>
+<p>硬技能包括各种计算机基础知识及必备的开发能力，可以通过技术年限不断获得。硬技能决定了能否成为一名合格的开发工程师。</p>
+<p>软技能包括跨部门沟通能力，独立组织项目能力，此技能难以通过年限获得大量提升，它决定了工程师的上限。</p>
+<p>加油，祝你好运!</p>
+]]></content>
+      <tags>
+        <tag>C++</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>CPU眼里的汇编语言</title>
+    <url>/2023/10/30/CPU%E7%9C%BC%E9%87%8C%E7%9A%84%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%80/</url>
+    <content><![CDATA[<p>打开 Compiler Explorer， 写一个简单的自加函数：</p>
+<img src="https://cdn.jsdelivr.net/gh/zermatt-luo/MyBlog@main/img/image-20231030210847368.png" alt="image-20231030210847368" style="zoom:150%;" />
+<h2 id="代码分析">代码分析</h2>
+<div class="tag-plugin image"><div class="image-bg"><img src="https://cdn.jsdelivr.net/gh/zermatt-luo/MyBlog@main/img/%25E6%25B1%2587%25E7%25BC%2596%25E8%25AF%25AD%25E8%25A8%2580-%25E7%25AC%25AC%25201%2520%25E9%25A1%25B5.drawio.png"/></div></div>
+<p>该函数涉及到三个CPU寄存器：<strong>eax/rax</strong>、<strong>rbp</strong> 、<strong>rsp</strong>：</p>
+<p><strong>eax/rax</strong><sup class="footnote-ref"><a href="#fn1" id="fnref1">[1]</a></sup>：一般用来存放数值，类似于C/C++里面的普通变量；</p>
+<p><strong>rbp</strong> 、<strong>rsp</strong>：一般用来存放内存地址，类似于C/C++里面的指针变量。用来管理、读写内存的栈区（stack）。</p>
+<p>初始状态寄存器的值均为 0x100。</p>
+<p>首先看函数对应的汇编指令：push。</p>
+<img src="https://cdn.jsdelivr.net/gh/zermatt-luo/MyBlog@main/img/image-20231030204311218.png" alt="image-20231030204311218" style="zoom:150%;" />
+<div class="tag-plugin image"><div class="image-bg"><img src="https://cdn.jsdelivr.net/gh/zermatt-luo/MyBlog@main/img/2.png"/></div></div>
+<p>push对应了两个微操作：</p>
+<ol>
+<li>将寄存器 rbp 的值，存放在“栈顶”寄存器 rsp 指向的内存下方（rsp 所指内存的Value值为 rbp 的地址）。</li>
+<li>随着“栈顶”向低生长，也就是让 rsp 寄存器的值减 4。</li>
+</ol>
+<p>随后是简单的 mov 指令，把寄存器 rsp 的值赋给 rbp，如下图所示：</p>
+<img src="https://cdn.jsdelivr.net/gh/zermatt-luo/MyBlog@main/img/image-20231030204515184.png" alt="image-20231030204515184" style="zoom:150%;" />
+<div class="tag-plugin image"><div class="image-bg"><img src="https://cdn.jsdelivr.net/gh/zermatt-luo/MyBlog@main/img/3.png"/></div></div>
+<p>接着是一个较为复杂的 mov 指令<sup class="footnote-ref"><a href="#fn2" id="fnref2">[2]</a></sup>。但通过参考源代码，我们很容易猜出它是要把数值 1，写入到变量 a 所在的内存。</p>
+<img src="https://cdn.jsdelivr.net/gh/zermatt-luo/MyBlog@main/img/image-20231030204607840.png" alt="image-20231030204607840" style="zoom:150%;" />
+<div class="tag-plugin image"><div class="image-bg"><img src="https://cdn.jsdelivr.net/gh/zermatt-luo/MyBlog@main/img/4.png"/></div></div>
+<p>mov 指令和数值 1 都很容易找到，但变量 a 的内存地址就颇为复杂。不过关键字 PTR 提示我们：这是一个指针操作，这也恰好对应了 rbp 本身就是类似于指针变量的寄存器。</p>
+<p>所以，这行汇编代码对应C/C++代码类似于：</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line">*(rbp - <span class="number">4</span>) = <span class="number">1</span>;</span><br></pre></td></tr></table></figure>
+<p>变量 a 的内存地址等于寄存器 rbp 的值减4；而中括号<code>[ ]</code>就相当于指针变量的解引用<code>*</code>操作；DWORD是指针类型，表明数值 1 将占用 4 个字节的长度。</p>
+<blockquote>
+<p>这里说个题外话：对比 C/C++ 和汇编语言可以看出，C/C++语言是最接近底层的高级语言。</p>
+</blockquote>
+<p>接着进行自加运算。</p>
+<img src="https://cdn.jsdelivr.net/gh/zermatt-luo/MyBlog@main/img/image-20231030200848432.png" alt="image-20231030200848432" style="zoom:150%;" />
+<div class="tag-plugin image"><div class="image-bg"><img src="https://cdn.jsdelivr.net/gh/zermatt-luo/MyBlog@main/img/5.png"/></div></div>
+<p>带 PTR 和 [ ] 的 add 指令也有两个微操作：</p>
+<ol>
+<li>首先，用指针的<code>*</code>操作获得变量 a 的值，并与 2 做加法运算；</li>
+<li>把加法运算得到的结果，通过指针的<code>*</code>写入到变量 a 所在的内存。</li>
+</ol>
+<p>随后的 mov 指令与上文的相似，即将变量 a 的值从内存中读出来，写入到寄存器 eax 里面。</p>
+<img src="https://cdn.jsdelivr.net/gh/zermatt-luo/MyBlog@main/img/image-20231030201610873.png" alt="image-20231030201610873" style="zoom:150%;" />
+<div class="tag-plugin image"><div class="image-bg"><img src="https://cdn.jsdelivr.net/gh/zermatt-luo/MyBlog@main/img/6.png"/></div></div>
+<p>这里对应的C/C++ 语言类似于：</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line">eax = *(rbp - <span class="number">4</span>)</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>即使是普通变量操作，背后的实现原理也跟“指针”脱不了干系。因为在 CPU 眼里，万物皆有地址，万物皆可指针。</p>
+</blockquote>
+<p>最后，就是 push 的反向操作 pop。</p>
+<p>它也对应了两个微操作：</p>
+<ol>
+<li>把寄存器 rsp 指向的“栈顶”内存的值 0x100，写入到寄存器 rbp。</li>
+<li>随着“栈顶”的升高， rsp 寄存器的值也随之加 4。</li>
+</ol>
+<img src="https://cdn.jsdelivr.net/gh/zermatt-luo/MyBlog@main/img/image-20231030202453405.png" alt="image-20231030202453405" style="zoom:150%;" />
+<div class="tag-plugin image"><div class="image-bg"><img src="https://cdn.jsdelivr.net/gh/zermatt-luo/MyBlog@main/img/test.png"/></div></div>
+<h2 id="总结">总结</h2>
+<p>再宏伟、壮观的房子，真正施工的时候，不过是在重复搭钢筋、倒水泥；再搭钢筋、再倒水泥的过程。CPU 也是如此，我们不过是把数据，在寄存器和内存之间搬来搬去。</p>
+<p>通过上文的代码分析我们发现，为了做 1 次简单的 +2 运算，居然产生了（至少）5 次内存读写，内存读写占比高达 83%。据有些机构统计指出，CPU 的内存读写，占据了 CPU 90%的工作负荷。</p>
+<hr class="footnotes-sep">
+<section class="footnotes">
+<ol class="footnotes-list">
+<li id="fn1" class="footnote-item"><p>寄存器 eax 和寄存器 rax 的区别：寄存器 eax 是 32 位的 x86 CPU的寄存器，如今的 x86 CPU多是 64 位的，其对应的寄存器是 rax，eax 只是 rax 的低 32 位而已。 <a href="#fnref1" class="footnote-backref">↩︎</a></p>
+</li>
+<li id="fn2" class="footnote-item"><p>汇编语言中，mov 指令用于写入。 <a href="#fnref2" class="footnote-backref">↩︎</a></p>
+</li>
+</ol>
+</section>
+]]></content>
+      <tags>
+        <tag>CPU</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>const char*、const char[]与string</title>
     <url>/2023/09/28/C-%E4%B8%AD%E7%9A%84const-char-%E3%80%81const-char-%E4%B8%8Estring/</url>
     <content><![CDATA[<p>以下代码是基于gcc的vscode编译器编写的。首先导入运行示例的必要库，并指定标准命名空间std。</p>
@@ -90,20 +177,6 @@
 ]]></content>
       <tags>
         <tag>新年伊始</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>C/C++后端开发岗位技能</title>
-    <url>/2023/11/30/C-C-%E5%90%8E%E7%AB%AF%E5%BC%80%E5%8F%91%E5%B2%97%E4%BD%8D%E6%8A%80%E8%83%BD/</url>
-    <content><![CDATA[<p>经过搜集网上相关C++后端开发资料，整理了开发工程师所需的相关技能。</p>
-<div class="tag-plugin image"><div class="image-bg"><img src="https://cdn.jsdelivr.net/gh/zermatt-luo/MyBlog@main/img/CC%E5%90%8E%E7%AB%AF%E5%BC%80%E5%8F%91%E5%B2%97%E4%BD%8D%E6%8A%80%E8%83%BD.png"/></div></div>
-<p>开发工程师需要具备两种技能：<strong>硬技能</strong>和<strong>软技能</strong>。</p>
-<p>硬技能包括各种计算机基础知识及必备的开发能力，可以通过技术年限不断获得。硬技能决定了能否成为一名合格的开发工程师。</p>
-<p>软技能包括跨部门沟通能力，独立组织项目能力，此技能难以通过年限获得大量提升，它决定了工程师的上限。</p>
-<p>加油，祝你好运!</p>
-]]></content>
-      <tags>
-        <tag>C++</tag>
       </tags>
   </entry>
   <entry>
@@ -253,79 +326,6 @@
       </tags>
   </entry>
   <entry>
-    <title>CPU眼里的汇编语言</title>
-    <url>/2023/10/30/CPU%E7%9C%BC%E9%87%8C%E7%9A%84%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%80/</url>
-    <content><![CDATA[<p>打开 Compiler Explorer， 写一个简单的自加函数：</p>
-<img src="https://cdn.jsdelivr.net/gh/zermatt-luo/MyBlog@main/img/image-20231030210847368.png" alt="image-20231030210847368" style="zoom:150%;" />
-<h2 id="代码分析">代码分析</h2>
-<div class="tag-plugin image"><div class="image-bg"><img src="https://cdn.jsdelivr.net/gh/zermatt-luo/MyBlog@main/img/%25E6%25B1%2587%25E7%25BC%2596%25E8%25AF%25AD%25E8%25A8%2580-%25E7%25AC%25AC%25201%2520%25E9%25A1%25B5.drawio.png"/></div></div>
-<p>该函数涉及到三个CPU寄存器：<strong>eax/rax</strong>、<strong>rbp</strong> 、<strong>rsp</strong>：</p>
-<p><strong>eax/rax</strong><sup class="footnote-ref"><a href="#fn1" id="fnref1">[1]</a></sup>：一般用来存放数值，类似于C/C++里面的普通变量；</p>
-<p><strong>rbp</strong> 、<strong>rsp</strong>：一般用来存放内存地址，类似于C/C++里面的指针变量。用来管理、读写内存的栈区（stack）。</p>
-<p>初始状态寄存器的值均为 0x100。</p>
-<p>首先看函数对应的汇编指令：push。</p>
-<img src="https://cdn.jsdelivr.net/gh/zermatt-luo/MyBlog@main/img/image-20231030204311218.png" alt="image-20231030204311218" style="zoom:150%;" />
-<div class="tag-plugin image"><div class="image-bg"><img src="https://cdn.jsdelivr.net/gh/zermatt-luo/MyBlog@main/img/2.png"/></div></div>
-<p>push对应了两个微操作：</p>
-<ol>
-<li>将寄存器 rbp 的值，存放在“栈顶”寄存器 rsp 指向的内存下方（rsp 所指内存的Value值为 rbp 的地址）。</li>
-<li>随着“栈顶”向低生长，也就是让 rsp 寄存器的值减 4。</li>
-</ol>
-<p>随后是简单的 mov 指令，把寄存器 rsp 的值赋给 rbp，如下图所示：</p>
-<img src="https://cdn.jsdelivr.net/gh/zermatt-luo/MyBlog@main/img/image-20231030204515184.png" alt="image-20231030204515184" style="zoom:150%;" />
-<div class="tag-plugin image"><div class="image-bg"><img src="https://cdn.jsdelivr.net/gh/zermatt-luo/MyBlog@main/img/3.png"/></div></div>
-<p>接着是一个较为复杂的 mov 指令<sup class="footnote-ref"><a href="#fn2" id="fnref2">[2]</a></sup>。但通过参考源代码，我们很容易猜出它是要把数值 1，写入到变量 a 所在的内存。</p>
-<img src="https://cdn.jsdelivr.net/gh/zermatt-luo/MyBlog@main/img/image-20231030204607840.png" alt="image-20231030204607840" style="zoom:150%;" />
-<div class="tag-plugin image"><div class="image-bg"><img src="https://cdn.jsdelivr.net/gh/zermatt-luo/MyBlog@main/img/4.png"/></div></div>
-<p>mov 指令和数值 1 都很容易找到，但变量 a 的内存地址就颇为复杂。不过关键字 PTR 提示我们：这是一个指针操作，这也恰好对应了 rbp 本身就是类似于指针变量的寄存器。</p>
-<p>所以，这行汇编代码对应C/C++代码类似于：</p>
-<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line">*(rbp - <span class="number">4</span>) = <span class="number">1</span>;</span><br></pre></td></tr></table></figure>
-<p>变量 a 的内存地址等于寄存器 rbp 的值减4；而中括号<code>[ ]</code>就相当于指针变量的解引用<code>*</code>操作；DWORD是指针类型，表明数值 1 将占用 4 个字节的长度。</p>
-<blockquote>
-<p>这里说个题外话：对比 C/C++ 和汇编语言可以看出，C/C++语言是最接近底层的高级语言。</p>
-</blockquote>
-<p>接着进行自加运算。</p>
-<img src="https://cdn.jsdelivr.net/gh/zermatt-luo/MyBlog@main/img/image-20231030200848432.png" alt="image-20231030200848432" style="zoom:150%;" />
-<div class="tag-plugin image"><div class="image-bg"><img src="https://cdn.jsdelivr.net/gh/zermatt-luo/MyBlog@main/img/5.png"/></div></div>
-<p>带 PTR 和 [ ] 的 add 指令也有两个微操作：</p>
-<ol>
-<li>首先，用指针的<code>*</code>操作获得变量 a 的值，并与 2 做加法运算；</li>
-<li>把加法运算得到的结果，通过指针的<code>*</code>写入到变量 a 所在的内存。</li>
-</ol>
-<p>随后的 mov 指令与上文的相似，即将变量 a 的值从内存中读出来，写入到寄存器 eax 里面。</p>
-<img src="https://cdn.jsdelivr.net/gh/zermatt-luo/MyBlog@main/img/image-20231030201610873.png" alt="image-20231030201610873" style="zoom:150%;" />
-<div class="tag-plugin image"><div class="image-bg"><img src="https://cdn.jsdelivr.net/gh/zermatt-luo/MyBlog@main/img/6.png"/></div></div>
-<p>这里对应的C/C++ 语言类似于：</p>
-<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line">eax = *(rbp - <span class="number">4</span>)</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>即使是普通变量操作，背后的实现原理也跟“指针”脱不了干系。因为在 CPU 眼里，万物皆有地址，万物皆可指针。</p>
-</blockquote>
-<p>最后，就是 push 的反向操作 pop。</p>
-<p>它也对应了两个微操作：</p>
-<ol>
-<li>把寄存器 rsp 指向的“栈顶”内存的值 0x100，写入到寄存器 rbp。</li>
-<li>随着“栈顶”的升高， rsp 寄存器的值也随之加 4。</li>
-</ol>
-<img src="https://cdn.jsdelivr.net/gh/zermatt-luo/MyBlog@main/img/image-20231030202453405.png" alt="image-20231030202453405" style="zoom:150%;" />
-<div class="tag-plugin image"><div class="image-bg"><img src="https://cdn.jsdelivr.net/gh/zermatt-luo/MyBlog@main/img/test.png"/></div></div>
-<h2 id="总结">总结</h2>
-<p>再宏伟、壮观的房子，真正施工的时候，不过是在重复搭钢筋、倒水泥；再搭钢筋、再倒水泥的过程。CPU 也是如此，我们不过是把数据，在寄存器和内存之间搬来搬去。</p>
-<p>通过上文的代码分析我们发现，为了做 1 次简单的 +2 运算，居然产生了（至少）5 次内存读写，内存读写占比高达 83%。据有些机构统计指出，CPU 的内存读写，占据了 CPU 90%的工作负荷。</p>
-<hr class="footnotes-sep">
-<section class="footnotes">
-<ol class="footnotes-list">
-<li id="fn1" class="footnote-item"><p>寄存器 eax 和寄存器 rax 的区别：寄存器 eax 是 32 位的 x86 CPU的寄存器，如今的 x86 CPU多是 64 位的，其对应的寄存器是 rax，eax 只是 rax 的低 32 位而已。 <a href="#fnref1" class="footnote-backref">↩︎</a></p>
-</li>
-<li id="fn2" class="footnote-item"><p>汇编语言中，mov 指令用于写入。 <a href="#fnref2" class="footnote-backref">↩︎</a></p>
-</li>
-</ol>
-</section>
-]]></content>
-      <tags>
-        <tag>CPU</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>用十年时间自学编程</title>
     <url>/2023/09/28/%E7%94%A8%E5%8D%81%E5%B9%B4%E6%97%B6%E9%97%B4%E8%87%AA%E5%AD%A6%E7%BC%96%E7%A8%8B/</url>
     <content><![CDATA[<p>在网上找到了一篇关于编程心得交流分享的文章《Teach Yourself Programming in Ten Years》，<a href="http://norvig.com/21-days.html#answers">原文链接</a>放到这里。下面是中文翻译版：</p>
@@ -374,11 +374,5 @@ Fred Brooks在他的文章《No Silver Bullets》(没有银弹)中，为找到�
       <tags>
         <tag>编程建议</tag>
       </tags>
-  </entry>
-  <entry>
-    <title>test for video</title>
-    <url>/2024/01/03/test-for-video/</url>
-    <content><![CDATA[<p><video width="100%" height="100%"  src="..//video/demo.mp4"  autoplay controls loop></video></p>
-]]></content>
   </entry>
 </search>
