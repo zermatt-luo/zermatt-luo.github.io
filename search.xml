@@ -61,24 +61,6 @@
       </tags>
   </entry>
   <entry>
-    <title>C/C++后端开发岗位技能</title>
-    <url>/2023/11/30/C-C-%E5%90%8E%E7%AB%AF%E5%BC%80%E5%8F%91%E5%B2%97%E4%BD%8D%E6%8A%80%E8%83%BD/</url>
-    <content><![CDATA[<p>经过搜集网上相关C++后端开发资料，整理了开发工程师所需的相关技能。</p>
-<p><img src="https://cdn.jsdelivr.net/gh/zermatt-luo/MyBlog@main/img/CC%E5%90%8E%E7%AB%AF%E5%BC%80%E5%8F%91%E5%B2%97%E4%BD%8D%E6%8A%80%E8%83%BD.png" alt="CC后端开发岗位技能"></p>
-<p>开发工程师需要具备两种技能：<strong>硬技能</strong>和<strong>软技能</strong>。</p>
-<p>硬技能包括各种计算机基础知识及必备的开发能力，可以通过技术年限不断获得。硬技能决定了能否成为一名合格的开发工程师。</p>
-<p>软技能包括跨部门沟通能力，独立组织项目能力，此技能难以通过年限获得大量提升，它决定了工程师的上限。</p>
-<p>加油，祝你好运!</p>
-]]></content>
-      <categories>
-        <category>编程</category>
-        <category>后台开发路线</category>
-      </categories>
-      <tags>
-        <tag>C++</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>const char*、const char[]与string</title>
     <url>/2023/09/28/C-%E4%B8%AD%E7%9A%84const-char-%E3%80%81const-char-%E4%B8%8Estring/</url>
     <content><![CDATA[<p>以下代码是基于gcc的vscode编译器编写的。首先导入运行示例的必要库，并指定标准命名空间std。</p>
@@ -121,70 +103,98 @@
       </tags>
   </entry>
   <entry>
-    <title>智能指针shared_ptr的应用</title>
-    <url>/2023/10/28/%E6%99%BA%E8%83%BD%E6%8C%87%E9%92%88shared-ptr%E7%9A%84%E5%BA%94%E7%94%A8/</url>
-    <content><![CDATA[<p>与Java不同的是，C++程序员需要手动管理众多资源，典型的就是<strong>内存回收</strong>。通过使用智能指针 <code>shared_ptr </code>可以几乎消除内存泄漏的资源管理问题。这里我们分别以内存中的堆区和栈区为例，介绍 <code>shared_ptr </code>在资源管理方面的优势。</p>
-<h2 id="堆区（heap-based)">堆区（heap-based)</h2>
-<p>假设有一个投资 class 的基类<code>Investment</code>，其余各种各样的投资类型继承它：</p>
-<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Investment</span> &#123;...&#125;                        <span class="comment">// “投资类型”继承体系中的基类</span></span><br></pre></td></tr></table></figure>
-<p>现有一个工厂（factory）函数<sup class="footnote-ref"><a href="#fn1" id="fnref1">[1]</a></sup>供应我们某一个特定的 Investment 对象：</p>
-<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="function">Investment* <span class="title">createInvestment</span><span class="params">()</span></span>;              <span class="comment">// 返回指针，指向Investment继承体系内的动态分配对象</span></span><br></pre></td></tr></table></figure>
-<p>为了避免泄露内存和其他资源，将 factory 函数返回的每一个对象适当地 delete 掉很重要：</p>
-<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line">Investment* pInv = <span class="built_in">createInvestment</span>();      <span class="comment">// 调用 factory 函数 </span></span><br><span class="line"></span><br><span class="line">...                                         <span class="comment">// 使用它</span></span><br><span class="line"><span class="keyword">delete</span> pInv;                                <span class="comment">// 释放它，避免内存泄漏</span></span><br></pre></td></tr></table></figure>
-<p>现考虑有个 f 函数履行了这个责任：</p>
-<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">f</span><span class="params">()</span></span>&#123;</span><br><span class="line">    Investment* pInv = <span class="built_in">createInvestment</span>();      <span class="comment">// 调用 factory 函数 </span></span><br><span class="line"></span><br><span class="line">	...                                         </span><br><span class="line">	<span class="keyword">delete</span> pInv;                                <span class="comment">// 释放pInv所指的对象，避免内存泄漏</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>目前看起来似乎没什么问题，但在某些情况下，f 可能无法履行删除 pInv 所指的对象的责任。如：</p>
-<ul>
-<li>“ … ”区域内有一个过早的 return 语句，导致控制流不会触及到 delete 语句</li>
-<li>“ … ”区域内的语句抛出异常</li>
-</ul>
-<p>上面代码可能在初期版本没什么问题，但是随着时间渐渐过去可能会被修改、维护，如果有些人添加 return 语句或者 f 的区域有可能调用一个“过去从未抛出异常，却在被 ‘改善后’ 开始出现异常“时，那么这就背离了函数的资源管理策略的初衷。</p>
-<p>为了确保 createInvestment 返回资源总是被释放，我们需要确保当控制流离开 f，该对象的析构函数会自动释放这些资源。这就引出了智能指针—<strong>shared_ptr</strong>。下面示范如何用 shared_ptr 以避免 f 函数潜在的资源泄漏的可能性：</p>
-<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">f</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="function">std::shared_ptr&lt;Investment&gt; <span class="title">pInv</span><span class="params">(createInvestment())</span></span>;     <span class="comment">// 调用 factory 函数</span></span><br><span class="line">    </span><br><span class="line">    ...                                                       <span class="comment">// 一如既往使用 pInv</span></span><br><span class="line">&#125;                                                             <span class="comment">// 经由 shared_ptr 析构函数自动删除 pInv</span></span><br></pre></td></tr></table></figure>
-<p>当 shared_ptr 被销毁（例如一个局部的 shared_ptr 离开其作用域）时，计数器该 shared_ptr 关联的计数器会递减。一旦计数器变为0，它就会自动释放自己所管理的对象。</p>
-<p>在改进后的代码中，不论控制流如何离开区块，如过早 return 或抛出异常，一旦对象 pInv 被销毁（离开 f 作用域），其析构函数会被自动调用，于是资源被释放。<em>(在某些情况下，即使使用 shared_ptr 仍可能出现资源泄漏的情况，详见<a href="https://www.xuluo.online/2023/11/21/%E4%BB%A5%E7%8B%AC%E7%AB%8B%E8%AF%AD%E5%8F%A5%E5%88%9D%E5%A7%8B%E5%8C%96shared-ptr/">以独立语句初始化shared_ptr</a>)</em></p>
-<p>需要补充的是，shared_pte 在其析构函数内做 delete 而不是 delete[ ]动作，这就意味着在动态分配而得到的数组身上使用shared_ptr是个糟糕的行为，尽管它能通过编译：</p>
-<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line">std:: <span class="function">shared_pte&lt;std::string&gt; <span class="title">sps</span><span class="params">(<span class="keyword">new</span> std::string[<span class="number">10</span>])</span></span>;      <span class="comment">// 很糟糕！会用上错误的 delete 形式</span></span><br><span class="line">std:: <span class="function">shared_pte&lt;<span class="type">int</span>&gt; <span class="title">spi</span><span class="params">(<span class="keyword">new</span> <span class="type">int</span>[<span class="number">1024</span>])</span></span>;                    <span class="comment">// 同样问题</span></span><br></pre></td></tr></table></figure>
-<p>不必惊讶为什么C++工程师没有解决这个问题，即没有特别针对”C++动态分配数组“而设计的类型shared_ptr这样的东西，这是因为STL容器里的 vector 和 string 几乎可以取代动态数组，它们两个有自己的析构函数，可以避免这个问题。</p>
-<h2 id="栈区（stack-based）##">栈区（stack-based）##</h2>
-<p>我们可以使用 shared_ptr 来建立自己的资源管理类。</p>
-<p>假设我们有一个 class Lock 以及它的两个成员函数 lock、unlock：</p>
-<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">lock</span><span class="params">(Mutex* pm)</span></span>;                                        <span class="comment">// 锁定pm所指的互斥器</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">unlock</span><span class="params">(Mutex* pm)</span></span>;                                      <span class="comment">// 将互斥器解除锁定</span></span><br></pre></td></tr></table></figure>
-<p>为确保不会忘记将一个被锁住的Mutex解锁，可以通过建立一个 class  Lock 来管理机锁：</p>
-<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Lock</span>&#123;</span><br><span class="line">    <span class="keyword">public</span>:</span><br><span class="line">    	<span class="function">explict <span class="title">Lock</span><span class="params">(Mutex* pm)</span> : mutexPtr(pm)&#123;</span></span><br><span class="line">            <span class="built_in">lock</span>(mutexPtr);</span><br><span class="line">        &#125;                                                    <span class="comment">// 获得资源</span></span><br><span class="line">    ~<span class="built_in">Lock</span>() &#123; <span class="built_in">unlock</span>(mutexPtr); &#125;                            <span class="comment">// 释放资源</span></span><br><span class="line">    <span class="keyword">private</span>：</span><br><span class="line">        Mutex *mutexPtr;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>用户对 Lock 的用法类似于 shared_ptr 的方式：</p>
-<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line">Mutex m;                                                     <span class="comment">// 定义你需要的互斥器</span></span><br><span class="line">...</span><br><span class="line">&#123;                                                            <span class="comment">// 建立一个区块用来定义 critical section</span></span><br><span class="line">    <span class="function">Lock <span class="title">m1</span><span class="params">(&amp;m)</span></span>;                                             <span class="comment">// 锁定互斥器</span></span><br><span class="line">    ...                                                      <span class="comment">// 执行 critical section 内的操作</span></span><br><span class="line">&#125;                                                            <span class="comment">// 执行析构函数</span></span><br></pre></td></tr></table></figure>
-<p>目前看起来没什么问题，但是如果 Lock 对象被复制：</p>
-<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="function">Lock <span class="title">ml1</span><span class="params">(&amp;m)</span></span>;                                                <span class="comment">// 锁定m</span></span><br><span class="line"><span class="function">Lock <span class="title">ml2</span><span class="params">(ml1)</span></span>;                                               <span class="comment">// 复制ml1到ml2上，会出现问题</span></span><br></pre></td></tr></table></figure>
-<p>当我们将 ml1 复制到 ml2 上时，我们希望保留 ml2的资源 <code>mutexPtr</code>，但如果 ml1 离开区块，其析构函数执行，那么经过复制后的 ml2 里的资源也会被释放，这可能与我们的初衷不符。我们希望保留资源，直到它的最后一个使用者（某对象）被销毁，而中间其余对象被销毁不受影响。为此，我们可以引入 shared_ptr。</p>
-<p>如果简单地将 Mutex*  改为 shared_ptr&lt;Mutex&gt;，那么其析构函数行为是”当引用计数为0时删除所指之物“，而不是执行函数 unlock 。幸运的是，shared_ptr 允许指定所谓的”删除器“，即一个函数或函数对象，当引用计数为0时被调用。下面是更新后的代码：</p>
-<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Lock</span>&#123;</span><br><span class="line">    <span class="keyword">public</span>:</span><br><span class="line">    	<span class="function">explict <span class="title">Lock</span><span class="params">(Mutex* pm)</span> : mutexPtr(pm， unlock)&#123;</span>     <span class="comment">// 以某个 Mutex 初始化 shared_ptr 并以 unlock 函数作为删除器</span></span><br><span class="line">            <span class="built_in">lock</span>(mutexPtr.<span class="built_in">get</span>());</span><br><span class="line">        &#125;                                                    <span class="comment">// 获得资源</span></span><br><span class="line">    <span class="keyword">private</span>：</span><br><span class="line">        std::shared_ptr&lt;Mutex&gt; mutexPtr;                     <span class="comment">// 使用 shared_ptr 代替 raw pointer</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>注意，本例中的 Lock class 不再声明析构函数，因为没有必要。<strong>class</strong>的析构函数（无论是编译器生成的还是用户自定的）会自动调用其 <strong>non-static</strong>成员变量（本例为 mutexPtr）的析构函数。而 mutexPtr 的析构函数会在互斥器引用计数为0时自动调用 shared_ptr 的删除器（本例为 unlock）。</p>
-<h2 id="内存主要分区">内存主要分区</h2>
-<p>最后简要介绍下内存主要的分区。</p>
+    <title>C/C++后端开发岗位技能</title>
+    <url>/2023/11/30/C-C-%E5%90%8E%E7%AB%AF%E5%BC%80%E5%8F%91%E5%B2%97%E4%BD%8D%E6%8A%80%E8%83%BD/</url>
+    <content><![CDATA[<p>经过搜集网上相关C++后端开发资料，整理了开发工程师所需的相关技能。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/zermatt-luo/MyBlog@main/img/CC%E5%90%8E%E7%AB%AF%E5%BC%80%E5%8F%91%E5%B2%97%E4%BD%8D%E6%8A%80%E8%83%BD.png" alt="CC后端开发岗位技能"></p>
+<p>开发工程师需要具备两种技能：<strong>硬技能</strong>和<strong>软技能</strong>。</p>
+<p>硬技能包括各种计算机基础知识及必备的开发能力，可以通过技术年限不断获得。硬技能决定了能否成为一名合格的开发工程师。</p>
+<p>软技能包括跨部门沟通能力，独立组织项目能力，此技能难以通过年限获得大量提升，它决定了工程师的上限。</p>
+<p>加油，祝你好运!</p>
+]]></content>
+      <categories>
+        <category>编程</category>
+        <category>后台开发路线</category>
+      </categories>
+      <tags>
+        <tag>C++</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>CPU眼里的汇编语言</title>
+    <url>/2023/10/30/CPU%E7%9C%BC%E9%87%8C%E7%9A%84%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%80/</url>
+    <content><![CDATA[<p>打开 Compiler Explorer， 写一个简单的自加函数：</p>
+<img src="https://cdn.jsdelivr.net/gh/zermatt-luo/MyBlog@main/img/image-20231030210847368.png" alt="image-20231030210847368" style="zoom:150%;" />
+<h2 id="代码分析">代码分析</h2>
+<p><img src="https://cdn.jsdelivr.net/gh/zermatt-luo/MyBlog@main/img/%25E6%25B1%2587%25E7%25BC%2596%25E8%25AF%25AD%25E8%25A8%2580-%25E7%25AC%25AC%25201%2520%25E9%25A1%25B5.drawio.png" alt="汇编语言-第 1 页.drawio"></p>
+<p>该函数涉及到三个CPU寄存器：<strong>eax/rax</strong>、<strong>rbp</strong> 、<strong>rsp</strong>：</p>
+<p><strong>eax/rax</strong><sup class="footnote-ref"><a href="#fn1" id="fnref1">[1]</a></sup>：一般用来存放数值，类似于C/C++里面的普通变量；</p>
+<p><strong>rbp</strong> 、<strong>rsp</strong>：一般用来存放内存地址，类似于C/C++里面的指针变量。用来管理、读写内存的栈区（stack）。</p>
+<p>初始状态寄存器的值均为 0x100。</p>
+<p>首先看函数对应的汇编指令：push。</p>
+<img src="https://cdn.jsdelivr.net/gh/zermatt-luo/MyBlog@main/img/image-20231030204311218.png" alt="image-20231030204311218" style="zoom:150%;" />
+<p><img src="https://cdn.jsdelivr.net/gh/zermatt-luo/MyBlog@main/img/2.png" alt="2"></p>
+<p>push对应了两个微操作：</p>
 <ol>
-<li>堆区（heap）：用来储存<strong>动态分配</strong>的对象，即由 malloc/new 分配的内存块。这是在程序运行时分配的对象，当其不再使用时，我们的代码必须显示地销毁它们。</li>
-<li>栈区（stack）：用来保存定义在函数内的非 static 对象。</li>
-<li>静态内存：用来保存局部 static 对象<sup class="footnote-ref"><a href="#fn2" id="fnref2">[2]</a></sup>、类 static 数据成员以及定义在任何函数之外的变量（全局变量）。</li>
+<li>将寄存器 rbp 的值，存放在“栈顶”寄存器 rsp 指向的内存下方（rsp 所指内存的Value值为 rbp 的地址）。</li>
+<li>随着“栈顶”向低生长，也就是让 rsp 寄存器的值减 4。</li>
 </ol>
-<p>分配在栈区或者静态内存中的对象由编译器自动创建和销毁。</p>
-<img src="https://cdn.jsdelivr.net/gh/zermatt-luo/MyBlog@main/img/static_1.png" alt="static_1" style="zoom:80%;" />
+<p>随后是简单的 mov 指令，把寄存器 rsp 的值赋给 rbp，如下图所示：</p>
+<img src="https://cdn.jsdelivr.net/gh/zermatt-luo/MyBlog@main/img/image-20231030204515184.png" alt="image-20231030204515184" style="zoom:150%;" />
+<p><img src="https://cdn.jsdelivr.net/gh/zermatt-luo/MyBlog@main/img/3.png" alt="3"></p>
+<p>接着是一个较为复杂的 mov 指令<sup class="footnote-ref"><a href="#fn2" id="fnref2">[2]</a></sup>。但通过参考源代码，我们很容易猜出它是要把数值 1，写入到变量 a 所在的内存。</p>
+<img src="https://cdn.jsdelivr.net/gh/zermatt-luo/MyBlog@main/img/image-20231030204607840.png" alt="image-20231030204607840" style="zoom:150%;" />
+<p><img src="https://cdn.jsdelivr.net/gh/zermatt-luo/MyBlog@main/img/4.png" alt="4"></p>
+<p>mov 指令和数值 1 都很容易找到，但变量 a 的内存地址就颇为复杂。不过关键字 PTR 提示我们：这是一个指针操作，这也恰好对应了 rbp 本身就是类似于指针变量的寄存器。</p>
+<p>所以，这行汇编代码对应C/C++代码类似于：</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line">*(rbp - <span class="number">4</span>) = <span class="number">1</span>;</span><br></pre></td></tr></table></figure>
+<p>变量 a 的内存地址等于寄存器 rbp 的值减4；而中括号<code>[ ]</code>就相当于指针变量的解引用<code>*</code>操作；DWORD是指针类型，表明数值 1 将占用 4 个字节的长度。</p>
+<blockquote>
+<p>这里说个题外话：对比 C/C++ 和汇编语言可以看出，C/C++语言是最接近底层的高级语言。</p>
+</blockquote>
+<p>接着进行自加运算。</p>
+<img src="https://cdn.jsdelivr.net/gh/zermatt-luo/MyBlog@main/img/image-20231030200848432.png" alt="image-20231030200848432" style="zoom:150%;" />
+<p><img src="https://cdn.jsdelivr.net/gh/zermatt-luo/MyBlog@main/img/5.png" alt="5"></p>
+<p>带 PTR 和 [ ] 的 add 指令也有两个微操作：</p>
+<ol>
+<li>首先，用指针的<code>*</code>操作获得变量 a 的值，并与 2 做加法运算；</li>
+<li>把加法运算得到的结果，通过指针的<code>*</code>写入到变量 a 所在的内存。</li>
+</ol>
+<p>随后的 mov 指令与上文的相似，即将变量 a 的值从内存中读出来，写入到寄存器 eax 里面。</p>
+<img src="https://cdn.jsdelivr.net/gh/zermatt-luo/MyBlog@main/img/image-20231030201610873.png" alt="image-20231030201610873" style="zoom:150%;" />
+<p><img src="https://cdn.jsdelivr.net/gh/zermatt-luo/MyBlog@main/img/6.png" alt="6"></p>
+<p>这里对应的C/C++ 语言类似于：</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line">eax = *(rbp - <span class="number">4</span>)</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>即使是普通变量操作，背后的实现原理也跟“指针”脱不了干系。因为在 CPU 眼里，万物皆有地址，万物皆可指针。</p>
+</blockquote>
+<p>最后，就是 push 的反向操作 pop。</p>
+<p>它也对应了两个微操作：</p>
+<ol>
+<li>把寄存器 rsp 指向的“栈顶”内存的值 0x100，写入到寄存器 rbp。</li>
+<li>随着“栈顶”的升高， rsp 寄存器的值也随之加 4。</li>
+</ol>
+<img src="https://cdn.jsdelivr.net/gh/zermatt-luo/MyBlog@main/img/image-20231030202453405.png" alt="image-20231030202453405" style="zoom:150%;" />
+<p><img src="https://cdn.jsdelivr.net/gh/zermatt-luo/MyBlog@main/img/test.png" alt="test"></p>
+<h2 id="总结">总结</h2>
+<p>再宏伟、壮观的房子，真正施工的时候，不过是在重复搭钢筋、倒水泥；再搭钢筋、再倒水泥的过程。CPU 也是如此，我们不过是把数据，在寄存器和内存之间搬来搬去。</p>
+<p>通过上文的代码分析我们发现，为了做 1 次简单的 +2 运算，居然产生了（至少）5 次内存读写，内存读写占比高达 83%。据有些机构统计指出，CPU 的内存读写，占据了 CPU 90%的工作负荷。</p>
 <hr class="footnotes-sep">
 <section class="footnotes">
 <ol class="footnotes-list">
-<li id="fn1" class="footnote-item"><p>factory（工厂）函数屏蔽了实现细节，返回一个<strong>base class</strong>指针，指向新生成的<strong>derived class</strong>对象。 <a href="#fnref1" class="footnote-backref">↩︎</a></p>
+<li id="fn1" class="footnote-item"><p>寄存器 eax 和寄存器 rax 的区别：寄存器 eax 是 32 位的 x86 CPU的寄存器，如今的 x86 CPU多是 64 位的，其对应的寄存器是 rax，eax 只是 rax 的低 32 位而已。 <a href="#fnref1" class="footnote-backref">↩︎</a></p>
 </li>
-<li id="fn2" class="footnote-item"><p>函数内的 static 对象是局部  static 对象（local static 对象，因为它们对函数而言是 local 的），其他 static 对象称为全局  static 对象。 <a href="#fnref2" class="footnote-backref">↩︎</a></p>
+<li id="fn2" class="footnote-item"><p>汇编语言中，mov 指令用于写入。 <a href="#fnref2" class="footnote-backref">↩︎</a></p>
 </li>
 </ol>
 </section>
 ]]></content>
       <categories>
         <category>编程</category>
-        <category>C++</category>
+        <category>汇编</category>
       </categories>
       <tags>
-        <tag>C++</tag>
+        <tag>CPU</tag>
       </tags>
   </entry>
   <entry>
@@ -279,83 +289,6 @@
       </tags>
   </entry>
   <entry>
-    <title>CPU眼里的汇编语言</title>
-    <url>/2023/10/30/CPU%E7%9C%BC%E9%87%8C%E7%9A%84%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%80/</url>
-    <content><![CDATA[<p>打开 Compiler Explorer， 写一个简单的自加函数：</p>
-<img src="https://cdn.jsdelivr.net/gh/zermatt-luo/MyBlog@main/img/image-20231030210847368.png" alt="image-20231030210847368" style="zoom:150%;" />
-<h2 id="代码分析">代码分析</h2>
-<p><img src="https://cdn.jsdelivr.net/gh/zermatt-luo/MyBlog@main/img/%25E6%25B1%2587%25E7%25BC%2596%25E8%25AF%25AD%25E8%25A8%2580-%25E7%25AC%25AC%25201%2520%25E9%25A1%25B5.drawio.png" alt="汇编语言-第 1 页.drawio"></p>
-<p>该函数涉及到三个CPU寄存器：<strong>eax/rax</strong>、<strong>rbp</strong> 、<strong>rsp</strong>：</p>
-<p><strong>eax/rax</strong><sup class="footnote-ref"><a href="#fn1" id="fnref1">[1]</a></sup>：一般用来存放数值，类似于C/C++里面的普通变量；</p>
-<p><strong>rbp</strong> 、<strong>rsp</strong>：一般用来存放内存地址，类似于C/C++里面的指针变量。用来管理、读写内存的栈区（stack）。</p>
-<p>初始状态寄存器的值均为 0x100。</p>
-<p>首先看函数对应的汇编指令：push。</p>
-<img src="https://cdn.jsdelivr.net/gh/zermatt-luo/MyBlog@main/img/image-20231030204311218.png" alt="image-20231030204311218" style="zoom:150%;" />
-<p><img src="https://cdn.jsdelivr.net/gh/zermatt-luo/MyBlog@main/img/2.png" alt="2"></p>
-<p>push对应了两个微操作：</p>
-<ol>
-<li>将寄存器 rbp 的值，存放在“栈顶”寄存器 rsp 指向的内存下方（rsp 所指内存的Value值为 rbp 的地址）。</li>
-<li>随着“栈顶”向低生长，也就是让 rsp 寄存器的值减 4。</li>
-</ol>
-<p>随后是简单的 mov 指令，把寄存器 rsp 的值赋给 rbp，如下图所示：</p>
-<img src="https://cdn.jsdelivr.net/gh/zermatt-luo/MyBlog@main/img/image-20231030204515184.png" alt="image-20231030204515184" style="zoom:150%;" />
-<p><img src="https://cdn.jsdelivr.net/gh/zermatt-luo/MyBlog@main/img/3.png" alt="3"></p>
-<p>接着是一个较为复杂的 mov 指令<sup class="footnote-ref"><a href="#fn2" id="fnref2">[2]</a></sup>。但通过参考源代码，我们很容易猜出它是要把数值 1，写入到变量 a 所在的内存。</p>
-<img src="https://cdn.jsdelivr.net/gh/zermatt-luo/MyBlog@main/img/image-20231030204607840.png" alt="image-20231030204607840" style="zoom:150%;" />
-<p><img src="https://cdn.jsdelivr.net/gh/zermatt-luo/MyBlog@main/img/4.png" alt="4"></p>
-<p>mov 指令和数值 1 都很容易找到，但变量 a 的内存地址就颇为复杂。不过关键字 PTR 提示我们：这是一个指针操作，这也恰好对应了 rbp 本身就是类似于指针变量的寄存器。</p>
-<p>所以，这行汇编代码对应C/C++代码类似于：</p>
-<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line">*(rbp - <span class="number">4</span>) = <span class="number">1</span>;</span><br></pre></td></tr></table></figure>
-<p>变量 a 的内存地址等于寄存器 rbp 的值减4；而中括号<code>[ ]</code>就相当于指针变量的解引用<code>*</code>操作；DWORD是指针类型，表明数值 1 将占用 4 个字节的长度。</p>
-<blockquote>
-<p>这里说个题外话：对比 C/C++ 和汇编语言可以看出，C/C++语言是最接近底层的高级语言。</p>
-</blockquote>
-<p>接着进行自加运算。</p>
-<img src="https://cdn.jsdelivr.net/gh/zermatt-luo/MyBlog@main/img/image-20231030200848432.png" alt="image-20231030200848432" style="zoom:150%;" />
-<p><img src="https://cdn.jsdelivr.net/gh/zermatt-luo/MyBlog@main/img/5.png" alt="5"></p>
-<p>带 PTR 和 [ ] 的 add 指令也有两个微操作：</p>
-<ol>
-<li>首先，用指针的<code>*</code>操作获得变量 a 的值，并与 2 做加法运算；</li>
-<li>把加法运算得到的结果，通过指针的<code>*</code>写入到变量 a 所在的内存。</li>
-</ol>
-<p>随后的 mov 指令与上文的相似，即将变量 a 的值从内存中读出来，写入到寄存器 eax 里面。</p>
-<img src="https://cdn.jsdelivr.net/gh/zermatt-luo/MyBlog@main/img/image-20231030201610873.png" alt="image-20231030201610873" style="zoom:150%;" />
-<p><img src="https://cdn.jsdelivr.net/gh/zermatt-luo/MyBlog@main/img/6.png" alt="6"></p>
-<p>这里对应的C/C++ 语言类似于：</p>
-<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line">eax = *(rbp - <span class="number">4</span>)</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>即使是普通变量操作，背后的实现原理也跟“指针”脱不了干系。因为在 CPU 眼里，万物皆有地址，万物皆可指针。</p>
-</blockquote>
-<p>最后，就是 push 的反向操作 pop。</p>
-<p>它也对应了两个微操作：</p>
-<ol>
-<li>把寄存器 rsp 指向的“栈顶”内存的值 0x100，写入到寄存器 rbp。</li>
-<li>随着“栈顶”的升高， rsp 寄存器的值也随之加 4。</li>
-</ol>
-<img src="https://cdn.jsdelivr.net/gh/zermatt-luo/MyBlog@main/img/image-20231030202453405.png" alt="image-20231030202453405" style="zoom:150%;" />
-<p><img src="https://cdn.jsdelivr.net/gh/zermatt-luo/MyBlog@main/img/test.png" alt="test"></p>
-<h2 id="总结">总结</h2>
-<p>再宏伟、壮观的房子，真正施工的时候，不过是在重复搭钢筋、倒水泥；再搭钢筋、再倒水泥的过程。CPU 也是如此，我们不过是把数据，在寄存器和内存之间搬来搬去。</p>
-<p>通过上文的代码分析我们发现，为了做 1 次简单的 +2 运算，居然产生了（至少）5 次内存读写，内存读写占比高达 83%。据有些机构统计指出，CPU 的内存读写，占据了 CPU 90%的工作负荷。</p>
-<hr class="footnotes-sep">
-<section class="footnotes">
-<ol class="footnotes-list">
-<li id="fn1" class="footnote-item"><p>寄存器 eax 和寄存器 rax 的区别：寄存器 eax 是 32 位的 x86 CPU的寄存器，如今的 x86 CPU多是 64 位的，其对应的寄存器是 rax，eax 只是 rax 的低 32 位而已。 <a href="#fnref1" class="footnote-backref">↩︎</a></p>
-</li>
-<li id="fn2" class="footnote-item"><p>汇编语言中，mov 指令用于写入。 <a href="#fnref2" class="footnote-backref">↩︎</a></p>
-</li>
-</ol>
-</section>
-]]></content>
-      <categories>
-        <category>编程</category>
-        <category>汇编</category>
-      </categories>
-      <tags>
-        <tag>CPU</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>用十年时间自学编程</title>
     <url>/2023/09/28/%E7%94%A8%E5%8D%81%E5%B9%B4%E6%97%B6%E9%97%B4%E8%87%AA%E5%AD%A6%E7%BC%96%E7%A8%8B/</url>
     <content><![CDATA[<p>在网上找到了一篇关于编程心得交流分享的文章《Teach Yourself Programming in Ten Years》，<a href="http://norvig.com/21-days.html#answers">原文链接</a>放到这里。下面是中文翻译版：</p>
@@ -407,6 +340,73 @@ Fred Brooks在他的文章《No Silver Bullets》(没有银弹)中，为找到�
       </categories>
       <tags>
         <tag>编程建议</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>智能指针shared_ptr的应用</title>
+    <url>/2023/10/28/%E6%99%BA%E8%83%BD%E6%8C%87%E9%92%88shared-ptr%E7%9A%84%E5%BA%94%E7%94%A8/</url>
+    <content><![CDATA[<p>与Java不同的是，C++程序员需要手动管理众多资源，典型的就是<strong>内存回收</strong>。通过使用智能指针 <code>shared_ptr </code>可以几乎消除内存泄漏的资源管理问题。这里我们分别以内存中的堆区和栈区为例，介绍 <code>shared_ptr </code>在资源管理方面的优势。</p>
+<h2 id="堆区（heap-based)">堆区（heap-based)</h2>
+<p>假设有一个投资 class 的基类<code>Investment</code>，其余各种各样的投资类型继承它：</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Investment</span> &#123;...&#125;                        <span class="comment">// “投资类型”继承体系中的基类</span></span><br></pre></td></tr></table></figure>
+<p>现有一个工厂（factory）函数<sup class="footnote-ref"><a href="#fn1" id="fnref1">[1]</a></sup>供应我们某一个特定的 Investment 对象：</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="function">Investment* <span class="title">createInvestment</span><span class="params">()</span></span>;              <span class="comment">// 返回指针，指向Investment继承体系内的动态分配对象</span></span><br></pre></td></tr></table></figure>
+<p>为了避免泄露内存和其他资源，将 factory 函数返回的每一个对象适当地 delete 掉很重要：</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line">Investment* pInv = <span class="built_in">createInvestment</span>();      <span class="comment">// 调用 factory 函数 </span></span><br><span class="line"></span><br><span class="line">...                                         <span class="comment">// 使用它</span></span><br><span class="line"><span class="keyword">delete</span> pInv;                                <span class="comment">// 释放它，避免内存泄漏</span></span><br></pre></td></tr></table></figure>
+<p>现考虑有个 f 函数履行了这个责任：</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">f</span><span class="params">()</span></span>&#123;</span><br><span class="line">    Investment* pInv = <span class="built_in">createInvestment</span>();      <span class="comment">// 调用 factory 函数 </span></span><br><span class="line"></span><br><span class="line">	...                                         </span><br><span class="line">	<span class="keyword">delete</span> pInv;                                <span class="comment">// 释放pInv所指的对象，避免内存泄漏</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>目前看起来似乎没什么问题，但在某些情况下，f 可能无法履行删除 pInv 所指的对象的责任。如：</p>
+<ul>
+<li>“ … ”区域内有一个过早的 return 语句，导致控制流不会触及到 delete 语句</li>
+<li>“ … ”区域内的语句抛出异常</li>
+</ul>
+<p>上面代码可能在初期版本没什么问题，但是随着时间渐渐过去可能会被修改、维护，如果有些人添加 return 语句或者 f 的区域有可能调用一个“过去从未抛出异常，却在被 ‘改善后’ 开始出现异常“时，那么这就背离了函数的资源管理策略的初衷。</p>
+<p>为了确保 createInvestment 返回资源总是被释放，我们需要确保当控制流离开 f，该对象的析构函数会自动释放这些资源。这就引出了智能指针—<strong>shared_ptr</strong>。下面示范如何用 shared_ptr 以避免 f 函数潜在的资源泄漏的可能性：</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">f</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="function">std::shared_ptr&lt;Investment&gt; <span class="title">pInv</span><span class="params">(createInvestment())</span></span>;     <span class="comment">// 调用 factory 函数</span></span><br><span class="line">    </span><br><span class="line">    ...                                                       <span class="comment">// 一如既往使用 pInv</span></span><br><span class="line">&#125;                                                             <span class="comment">// 经由 shared_ptr 析构函数自动删除 pInv</span></span><br></pre></td></tr></table></figure>
+<p>当 shared_ptr 被销毁（例如一个局部的 shared_ptr 离开其作用域）时，计数器该 shared_ptr 关联的计数器会递减。一旦计数器变为0，它就会自动释放自己所管理的对象。</p>
+<p>在改进后的代码中，不论控制流如何离开区块，如过早 return 或抛出异常，一旦对象 pInv 被销毁（离开 f 作用域），其析构函数会被自动调用，于是资源被释放。<em>(在某些情况下，即使使用 shared_ptr 仍可能出现资源泄漏的情况，详见<a href="https://www.xuluo.online/2023/11/21/%E4%BB%A5%E7%8B%AC%E7%AB%8B%E8%AF%AD%E5%8F%A5%E5%88%9D%E5%A7%8B%E5%8C%96shared-ptr/">以独立语句初始化shared_ptr</a>)</em></p>
+<p>需要补充的是，shared_pte 在其析构函数内做 delete 而不是 delete[ ]动作，这就意味着在动态分配而得到的数组身上使用shared_ptr是个糟糕的行为，尽管它能通过编译：</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line">std:: <span class="function">shared_pte&lt;std::string&gt; <span class="title">sps</span><span class="params">(<span class="keyword">new</span> std::string[<span class="number">10</span>])</span></span>;      <span class="comment">// 很糟糕！会用上错误的 delete 形式</span></span><br><span class="line">std:: <span class="function">shared_pte&lt;<span class="type">int</span>&gt; <span class="title">spi</span><span class="params">(<span class="keyword">new</span> <span class="type">int</span>[<span class="number">1024</span>])</span></span>;                    <span class="comment">// 同样问题</span></span><br></pre></td></tr></table></figure>
+<p>不必惊讶为什么C++工程师没有解决这个问题，即没有特别针对”C++动态分配数组“而设计的类型shared_ptr这样的东西，这是因为STL容器里的 vector 和 string 几乎可以取代动态数组，它们两个有自己的析构函数，可以避免这个问题。</p>
+<h2 id="栈区（stack-based）##">栈区（stack-based）##</h2>
+<p>我们可以使用 shared_ptr 来建立自己的资源管理类。</p>
+<p>假设我们有一个 class Lock 以及它的两个成员函数 lock、unlock：</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">lock</span><span class="params">(Mutex* pm)</span></span>;                                        <span class="comment">// 锁定pm所指的互斥器</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">unlock</span><span class="params">(Mutex* pm)</span></span>;                                      <span class="comment">// 将互斥器解除锁定</span></span><br></pre></td></tr></table></figure>
+<p>为确保不会忘记将一个被锁住的Mutex解锁，可以通过建立一个 class  Lock 来管理机锁：</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Lock</span>&#123;</span><br><span class="line">    <span class="keyword">public</span>:</span><br><span class="line">    	<span class="function">explict <span class="title">Lock</span><span class="params">(Mutex* pm)</span> : mutexPtr(pm)&#123;</span></span><br><span class="line">            <span class="built_in">lock</span>(mutexPtr);</span><br><span class="line">        &#125;                                                    <span class="comment">// 获得资源</span></span><br><span class="line">    ~<span class="built_in">Lock</span>() &#123; <span class="built_in">unlock</span>(mutexPtr); &#125;                            <span class="comment">// 释放资源</span></span><br><span class="line">    <span class="keyword">private</span>：</span><br><span class="line">        Mutex *mutexPtr;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>用户对 Lock 的用法类似于 shared_ptr 的方式：</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line">Mutex m;                                                     <span class="comment">// 定义你需要的互斥器</span></span><br><span class="line">...</span><br><span class="line">&#123;                                                            <span class="comment">// 建立一个区块用来定义 critical section</span></span><br><span class="line">    <span class="function">Lock <span class="title">m1</span><span class="params">(&amp;m)</span></span>;                                             <span class="comment">// 锁定互斥器</span></span><br><span class="line">    ...                                                      <span class="comment">// 执行 critical section 内的操作</span></span><br><span class="line">&#125;                                                            <span class="comment">// 执行析构函数</span></span><br></pre></td></tr></table></figure>
+<p>目前看起来没什么问题，但是如果 Lock 对象被复制：</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="function">Lock <span class="title">ml1</span><span class="params">(&amp;m)</span></span>;                                                <span class="comment">// 锁定m</span></span><br><span class="line"><span class="function">Lock <span class="title">ml2</span><span class="params">(ml1)</span></span>;                                               <span class="comment">// 复制ml1到ml2上，会出现问题</span></span><br></pre></td></tr></table></figure>
+<p>当我们将 ml1 复制到 ml2 上时，我们希望保留 ml2的资源 <code>mutexPtr</code>，但如果 ml1 离开区块，其析构函数执行，那么经过复制后的 ml2 里的资源也会被释放，这可能与我们的初衷不符。我们希望保留资源，直到它的最后一个使用者（某对象）被销毁，而中间其余对象被销毁不受影响。为此，我们可以引入 shared_ptr。</p>
+<p>如果简单地将 Mutex*  改为 shared_ptr&lt;Mutex&gt;，那么其析构函数行为是”当引用计数为0时删除所指之物“，而不是执行函数 unlock 。幸运的是，shared_ptr 允许指定所谓的”删除器“，即一个函数或函数对象，当引用计数为0时被调用。下面是更新后的代码：</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Lock</span>&#123;</span><br><span class="line">    <span class="keyword">public</span>:</span><br><span class="line">    	<span class="function">explict <span class="title">Lock</span><span class="params">(Mutex* pm)</span> : mutexPtr(pm， unlock)&#123;</span>     <span class="comment">// 以某个 Mutex 初始化 shared_ptr 并以 unlock 函数作为删除器</span></span><br><span class="line">            <span class="built_in">lock</span>(mutexPtr.<span class="built_in">get</span>());</span><br><span class="line">        &#125;                                                    <span class="comment">// 获得资源</span></span><br><span class="line">    <span class="keyword">private</span>：</span><br><span class="line">        std::shared_ptr&lt;Mutex&gt; mutexPtr;                     <span class="comment">// 使用 shared_ptr 代替 raw pointer</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>注意，本例中的 Lock class 不再声明析构函数，因为没有必要。<strong>class</strong>的析构函数（无论是编译器生成的还是用户自定的）会自动调用其 <strong>non-static</strong>成员变量（本例为 mutexPtr）的析构函数。而 mutexPtr 的析构函数会在互斥器引用计数为0时自动调用 shared_ptr 的删除器（本例为 unlock）。</p>
+<h2 id="内存主要分区">内存主要分区</h2>
+<p>最后简要介绍下内存主要的分区。</p>
+<ol>
+<li>堆区（heap）：用来储存<strong>动态分配</strong>的对象，即由 malloc/new 分配的内存块。这是在程序运行时分配的对象，当其不再使用时，我们的代码必须显示地销毁它们。</li>
+<li>栈区（stack）：用来保存定义在函数内的非 static 对象。</li>
+<li>静态内存：用来保存局部 static 对象<sup class="footnote-ref"><a href="#fn2" id="fnref2">[2]</a></sup>、类 static 数据成员以及定义在任何函数之外的变量（全局变量）。</li>
+</ol>
+<p>分配在栈区或者静态内存中的对象由编译器自动创建和销毁。</p>
+<img src="https://cdn.jsdelivr.net/gh/zermatt-luo/MyBlog@main/img/static_1.png" alt="static_1" style="zoom:80%;" />
+<hr class="footnotes-sep">
+<section class="footnotes">
+<ol class="footnotes-list">
+<li id="fn1" class="footnote-item"><p>factory（工厂）函数屏蔽了实现细节，返回一个<strong>base class</strong>指针，指向新生成的<strong>derived class</strong>对象。 <a href="#fnref1" class="footnote-backref">↩︎</a></p>
+</li>
+<li id="fn2" class="footnote-item"><p>函数内的 static 对象是局部  static 对象（local static 对象，因为它们对函数而言是 local 的），其他 static 对象称为全局  static 对象。 <a href="#fnref2" class="footnote-backref">↩︎</a></p>
+</li>
+</ol>
+</section>
+]]></content>
+      <categories>
+        <category>编程</category>
+        <category>C++</category>
+      </categories>
+      <tags>
+        <tag>C++</tag>
       </tags>
   </entry>
 </search>
